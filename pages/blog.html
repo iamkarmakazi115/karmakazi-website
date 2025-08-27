@@ -245,48 +245,117 @@
         })();
     </script>
     
-    <!-- Facebook SDK with Error Suppression -->
+    <!-- Enhanced Facebook SDK with Diagnostics -->
     <div id="fb-root"></div>
     <script>
-        // Facebook SDK initialization with error handling
+        // Enhanced Facebook debugging and initialization
         window.fbAsyncInit = function() {
+            console.log('Initializing Facebook SDK...');
             FB.init({
                 xfbml: true,
                 version: 'v18.0'
             });
             
-            // Hide Facebook errors from console
-            if (window.FB && window.FB.Event) {
-                window.FB.Event.subscribe('xfbml.render', function() {
-                    // Facebook widget rendered successfully
-                    console.log('✅ Facebook feed loaded successfully');
-                });
-            }
+            FB.Event.subscribe('xfbml.render', function(response) {
+                console.log('Facebook XFBML render event:', response);
+                console.log('Facebook feed should be visible now');
+                
+                // Check if the widget actually rendered content
+                setTimeout(() => {
+                    const fbPage = document.querySelector('.fb-page');
+                    const fbIframe = fbPage ? fbPage.querySelector('iframe') : null;
+                    
+                    if (fbIframe && fbIframe.offsetHeight > 100) {
+                        console.log('Facebook widget rendered successfully - Height:', fbIframe.offsetHeight + 'px');
+                        updateFacebookStatus('connected', 'Facebook feed loaded successfully');
+                    } else {
+                        console.log('Facebook widget failed to render content');
+                        console.log('Possible causes: Personal profile used instead of Page, privacy restrictions, or page not found');
+                        showFacebookFallback('Page not available for embedding');
+                    }
+                }, 3000);
+            });
+            
+            FB.Event.subscribe('xfbml.error', function(error) {
+                console.log('Facebook XFBML error:', error);
+                showFacebookFallback('Facebook API error');
+            });
         };
 
-        // Load Facebook SDK asynchronously with error suppression
+        function updateFacebookStatus(status, message) {
+            const statusIndicator = document.querySelector('.status-indicator');
+            if (statusIndicator) {
+                const color = status === 'connected' ? '#4ecdc4' : '#ff6b6b';
+                statusIndicator.innerHTML = `
+                    <span style="color: ${color};">●</span>
+                    <span>${message}</span>
+                `;
+            }
+        }
+
+        function showFacebookFallback(reason = 'Connection issue') {
+            console.log('Showing Facebook fallback content...');
+            const fallback = document.querySelector('.facebook-fallback');
+            const embed = document.querySelector('.facebook-embed-container');
+            
+            if (fallback) {
+                fallback.style.display = 'block';
+                console.log('Fallback content displayed');
+            }
+            
+            updateFacebookStatus('error', reason);
+        }
+
+        // Load Facebook SDK with enhanced error handling
         (function(d, s, id) {
+            console.log('Loading Facebook SDK...');
             var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) return;
+            if (d.getElementById(id)) {
+                console.log('Facebook SDK already loaded');
+                return;
+            }
             js = d.createElement(s); js.id = id;
             js.async = true;
             js.defer = true;
             js.crossOrigin = 'anonymous';
             js.src = 'https://connect.facebook.net/en_US/sdk.js';
-            js.onerror = function() {
-                console.log('Facebook SDK failed to load - fallback content will be shown');
-                // Show fallback content if Facebook fails
-                var fallback = document.querySelector('.facebook-fallback');
-                if (fallback) {
-                    fallback.style.display = 'block';
-                }
-                var embed = document.querySelector('.facebook-embed-container');
-                if (embed) {
-                    embed.style.display = 'none';
-                }
+            
+            js.onload = function() {
+                console.log('Facebook SDK loaded successfully');
             };
+            
+            js.onerror = function(error) {
+                console.log('Facebook SDK failed to load:', error);
+                showFacebookFallback('SDK loading failed');
+            };
+            
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));
+
+        // Diagnostic timeout check
+        setTimeout(() => {
+            console.log('Running Facebook diagnostic check...');
+            
+            if (typeof FB === 'undefined') {
+                console.log('Facebook SDK not loaded after 8 seconds');
+                showFacebookFallback('SDK timeout');
+                return;
+            }
+            
+            const fbPage = document.querySelector('.fb-page');
+            if (fbPage) {
+                console.log('Facebook widget status:');
+                console.log('- Target URL:', fbPage.getAttribute('data-href'));
+                console.log('- Widget dimensions:', fbPage.offsetWidth + 'x' + fbPage.offsetHeight + 'px');
+                
+                // Force re-parse if needed
+                if (window.FB && FB.XFBML && fbPage.offsetHeight <= 50) {
+                    console.log('Re-parsing Facebook elements...');
+                    FB.XFBML.parse();
+                }
+            }
+            
+        }, 8000);
     </script>
 
     <script src="../js/main.js"></script>

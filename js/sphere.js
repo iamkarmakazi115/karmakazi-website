@@ -1,12 +1,13 @@
-// Horizontal Carousel Navigation System
+// Enhanced Navigation System for Both Carousel and Sidebar Layouts
 class SphereNavigation {
     constructor() {
         this.spheres = document.querySelectorAll('.sphere');
-        this.carousel = document.getElementById('sphere-carousel');
+        this.carousel = document.querySelector('.sphere-carousel');
         this.prevBtn = document.getElementById('carousel-prev');
         this.nextBtn = document.getElementById('carousel-next');
         this.currentIndex = 0;
         this.totalSpheres = this.spheres.length;
+        this.isSidebarLayout = document.querySelector('.sidebar-nav') !== null;
         
         this.init();
     }
@@ -15,8 +16,12 @@ class SphereNavigation {
         this.addEventListeners();
         this.setupHoverEffects();
         this.setupClickHandlers();
-        this.setupCarouselNavigation();
-        this.updateCarousel();
+        
+        // Only setup carousel navigation for homepage (not sidebar layout)
+        if (!this.isSidebarLayout) {
+            this.setupCarouselNavigation();
+            this.updateCarousel();
+        }
     }
 
     setupCarouselNavigation() {
@@ -45,13 +50,15 @@ class SphereNavigation {
                     this.nextBtn.click();
                 }
             });
-        }
 
-        // Touch/Swipe support for mobile
-        this.setupTouchNavigation();
+            // Touch/Swipe support for mobile
+            this.setupTouchNavigation();
+        }
     }
 
     updateCarousel() {
+        if (this.isSidebarLayout) return; // Skip for sidebar layout
+        
         this.spheres.forEach((sphere, index) => {
             sphere.classList.remove('center', 'side');
             
@@ -63,9 +70,9 @@ class SphereNavigation {
         });
 
         // Update carousel position (smooth scroll for mobile)
-        if (window.innerWidth <= 768) {
+        if (window.innerWidth <= 768 && this.carousel && this.carousel.scrollTo) {
             const centerSphere = this.spheres[this.currentIndex];
-            if (centerSphere && this.carousel.scrollTo) {
+            if (centerSphere) {
                 const sphereWidth = centerSphere.offsetWidth;
                 const scrollPosition = this.currentIndex * (sphereWidth + 20) - (this.carousel.offsetWidth - sphereWidth) / 2;
                 this.carousel.scrollTo({
@@ -77,6 +84,8 @@ class SphereNavigation {
     }
 
     setupTouchNavigation() {
+        if (!this.carousel || this.isSidebarLayout) return; // Skip if no carousel or sidebar layout
+        
         let startX = 0;
         let startY = 0;
         let isDragging = false;
@@ -102,10 +111,10 @@ class SphereNavigation {
             
             // Check if horizontal swipe is greater than vertical
             if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
-                if (diffX > 0) {
+                if (diffX > 0 && this.nextBtn) {
                     // Swipe left - next
                     this.nextBtn.click();
-                } else {
+                } else if (this.prevBtn) {
                     // Swipe right - prev
                     this.prevBtn.click();
                 }
@@ -123,11 +132,15 @@ class SphereNavigation {
             });
 
             sphere.addEventListener('mouseenter', () => {
-                this.pauseAutoRotation();
+                if (!this.isSidebarLayout) {
+                    this.pauseAutoRotation();
+                }
             });
 
             sphere.addEventListener('mouseleave', () => {
-                this.resumeAutoRotation();
+                if (!this.isSidebarLayout) {
+                    this.resumeAutoRotation();
+                }
             });
         });
     }
@@ -135,7 +148,7 @@ class SphereNavigation {
     setupHoverEffects() {
         this.spheres.forEach(sphere => {
             sphere.addEventListener('mouseenter', () => {
-                if (!sphere.classList.contains('center')) {
+                if (!sphere.classList.contains('center') && !this.isSidebarLayout) {
                     sphere.style.transform = 'scale(1.05) translateY(-5px)';
                 }
                 sphere.style.filter = 'brightness(1.2) contrast(1.1)';
