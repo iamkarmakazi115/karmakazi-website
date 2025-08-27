@@ -165,15 +165,9 @@ class SphereNavigation {
     setupClickHandlers() {
         this.spheres.forEach((sphere, index) => {
             sphere.addEventListener('click', () => {
-                // If clicking on a side card, center it first
-                if (!sphere.classList.contains('center')) {
-                    this.currentIndex = index;
-                    this.updateCarousel();
-                    return;
-                }
-                
-                // If clicking on center card, navigate to page
                 const page = sphere.getAttribute('data-page');
+                
+                // Always navigate immediately when clicked, regardless of center/side status
                 if (page) {
                     this.navigateToPage(page, sphere);
                 }
@@ -220,27 +214,65 @@ class SphereNavigation {
     }
 
     navigateToPage(page, sphere) {
+        console.log('Navigating to page:', page); // Debug log
+        
         // Show loading state
         this.showLoadingState(sphere);
         
-        // Determine the correct path based on current location
-        const currentPath = window.location.pathname;
+        // Simple navigation paths - try multiple approaches
         let targetPath = '';
+        let fallbackPath = '';
         
-        // Check if we're currently in a subdirectory (pages folder)
-        const isInPagesFolder = currentPath.includes('/pages/');
-        
-        // Set correct navigation paths
+        // Determine paths
         if (page === 'home') {
-            targetPath = isInPagesFolder ? '../index.html' : 'index.html';
+            targetPath = 'index.html';
+            fallbackPath = '../index.html';
         } else {
-            targetPath = isInPagesFolder ? `${page}.html` : `pages/${page}.html`;
+            targetPath = `pages/${page}.html`;
+            fallbackPath = `${page}.html`;
         }
         
-        // Simulate page transition delay
+        console.log('Trying primary path:', targetPath);
+        
+        // Try primary navigation
+        const tryNavigation = (path) => {
+            console.log('Attempting navigation to:', path);
+            
+            // Check if it's a relative path that needs the current origin
+            if (!path.startsWith('http') && !path.startsWith('/')) {
+                // For GitHub Pages, construct the full path
+                const currentOrigin = window.location.origin;
+                const currentRepo = window.location.pathname.split('/')[1]; // Gets 'karmakazi-website' or similar
+                
+                if (currentRepo && !window.location.pathname.includes('/pages/')) {
+                    // We're on the root, going to pages
+                    window.location.href = `${currentOrigin}/${currentRepo}/${path}`;
+                } else if (currentRepo && window.location.pathname.includes('/pages/')) {
+                    // We're in pages folder
+                    if (page === 'home') {
+                        window.location.href = `${currentOrigin}/${currentRepo}/index.html`;
+                    } else {
+                        window.location.href = `${currentOrigin}/${currentRepo}/pages/${page}.html`;
+                    }
+                } else {
+                    // Local development or custom domain
+                    window.location.href = path;
+                }
+            } else {
+                window.location.href = path;
+            }
+        };
+        
+        // Navigate after a short delay
         setTimeout(() => {
-            window.location.href = targetPath;
-        }, 500);
+            tryNavigation(targetPath);
+        }, 200);
+        
+        // Fallback navigation if first attempt fails
+        setTimeout(() => {
+            console.log('Fallback navigation to:', fallbackPath);
+            tryNavigation(fallbackPath);
+        }, 1500);
     }
 
     showLoadingState(sphere) {
