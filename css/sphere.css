@@ -1,13 +1,14 @@
-/* Horizontal Carousel Navigation Styles - National Geographic Style */
+/* Horizontal Carousel Navigation Styles - Pentagon Shape */
 .sphere-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 400px;
+    height: 450px; /* Increased height to prevent cutoff */
     perspective: 1000px;
     margin: 50px 0;
     position: relative;
-    overflow: hidden;
+    overflow: visible; /* Changed from hidden to visible */
+    padding: 30px 0; /* Added padding for pentagon overflow */
 }
 
 .sphere-carousel {
@@ -19,6 +20,8 @@
     position: relative;
     width: 100%;
     justify-content: center;
+    min-height: 380px; /* Ensure minimum height for pentagons */
+    padding: 20px 0; /* Additional padding */
 }
 
 /* Navigation Arrows */
@@ -180,13 +183,37 @@
     background-color: #2d1b69;
 }
 
-/* Ensure texture loads properly */
+/* Ensure texture loads properly with multiple fallback paths */
 .sphere-face {
     background-image: 
         url('../assets/images/Nebula-texture.jpg'),
         url('./assets/images/Nebula-texture.jpg'),
+        url('/assets/images/Nebula-texture.jpg'),
+        url('assets/images/Nebula-texture.jpg'),
         linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
     background-blend-mode: normal;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Additional fallback for texture loading */
+.sphere-face::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        url('../assets/images/Nebula-texture.jpg'),
+        url('./assets/images/Nebula-texture.jpg'),
+        linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 50%, #45b7d1 100%);
+    background-size: cover;
+    background-position: center;
+    clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+    z-index: -1;
+    opacity: 0.9;
 }
 
 .sphere-face.front {
@@ -306,34 +333,52 @@
     }
 }
 
-/* Four Pentagon Layout (for other pages) */
+/* Four Pentagon Layout (for other pages) - Fixed Cutoff */
+.four-sphere-layout .sphere-container {
+    height: 500px; /* Increased height for four pentagons */
+    padding: 40px 0; /* More padding to prevent cutoff */
+    overflow: visible; /* Ensure pentagons aren't clipped */
+}
+
 .four-sphere-layout .sphere-carousel {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    gap: 30px;
+    gap: 40px; /* Increased gap */
     max-width: 900px;
     margin: 0 auto;
+    min-height: 420px; /* Minimum height to contain pentagons */
+    padding: 30px 20px; /* Padding on all sides */
 }
 
 .four-sphere-layout .sphere {
     width: 180px;
     height: 250px;
+    margin: 20px; /* Additional margin to prevent cutoff */
 }
 
 @media (max-width: 768px) {
+    .four-sphere-layout .sphere-container {
+        height: auto; /* Auto height for mobile */
+        min-height: 600px; /* Minimum height for mobile grid */
+        padding: 30px 10px; /* Mobile padding */
+    }
+    
     .four-sphere-layout .sphere-carousel {
         display: grid;
         grid-template-columns: 1fr 1fr;
         grid-template-rows: 1fr 1fr;
-        gap: 20px;
+        gap: 30px;
         max-width: 400px;
+        min-height: 500px; /* Ensure mobile grid has enough height */
+        padding: 20px;
     }
     
     .four-sphere-layout .sphere {
         width: 140px;
         height: 200px;
+        margin: 10px; /* Reduced margin for mobile */
     }
 }
 
