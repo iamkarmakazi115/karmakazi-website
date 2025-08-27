@@ -3,12 +3,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 450px; /* Increased height to prevent cutoff */
+    height: 450px;
     perspective: 1000px;
     margin: 50px 0;
     position: relative;
-    overflow: visible; /* Changed from hidden to visible */
-    padding: 30px 0; /* Added padding for pentagon overflow */
+    overflow: visible;
+    padding: 30px 0;
 }
 
 .sphere-carousel {
@@ -20,8 +20,8 @@
     position: relative;
     width: 100%;
     justify-content: center;
-    min-height: 380px; /* Ensure minimum height for pentagons */
-    padding: 20px 0; /* Additional padding */
+    min-height: 380px;
+    padding: 20px 0;
 }
 
 /* Navigation Arrows */
@@ -66,53 +66,8 @@
     cursor: pointer;
     transform-style: preserve-3d;
     transition: transform 0.3s ease, filter 0.3s ease;
-    border-radius: 15px;
-    overflow: hidden;
     flex-shrink: 0;
-}
-
-/* Center card is larger and focused */
-.sphere.center {
-    width: 250px;
-    height: 350px;
-    transform: scale(1.1);
-    z-index: 5;
-    filter: brightness(1.2) contrast(1.1);
-    box-shadow: 0 20px 40px rgba(78, 205, 196, 0.3);
-}
-
-/* Side cards are slightly dimmed */
-.sphere.side {
-    filter: brightness(0.8) contrast(0.9);
-    transform: scale(0.95);
-}
-
-.sphere:hover {
-    transform: scale(1.05) translateY(-10px);
-    box-shadow: 0 15px 30px rgba(78, 205, 196, 0.4);
-    filter: brightness(1.2) contrast(1.1);
-}
-
-.sphere-inner {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    transform-style: preserve-3d;
-    border-radius: 15px;
-    overflow: hidden;
-    animation: gentleFloat 6s ease-in-out infinite;
-}
-
-/* Pentagon Card Styling */
-.sphere {
-    width: 200px;
-    height: 280px;
-    position: relative;
-    cursor: pointer;
-    transform-style: preserve-3d;
-    transition: transform 0.3s ease, filter 0.3s ease;
-    flex-shrink: 0;
-    margin: 20px 0; /* Add margin for pentagon shape */
+    margin: 20px 0;
 }
 
 /* Center card is larger and focused */
@@ -164,8 +119,14 @@
     /* Pentagon shape using clip-path */
     clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
     
-    /* Nebula texture background */
-    background-image: url('../assets/images/Nebula-texture.jpg');
+    /* Multiple fallback backgrounds for nebula texture */
+    background-image: 
+        url('assets/images/Nebula-texture.jpg'),
+        url('./assets/images/Nebula-texture.jpg'),
+        url('/assets/images/Nebula-texture.jpg'),
+        url('assets/images/nebula-texture.jpg'),
+        url('./assets/images/nebula-texture.jpg'),
+        linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -181,39 +142,6 @@
     
     /* Fallback gradient if texture fails to load */
     background-color: #2d1b69;
-}
-
-/* Ensure texture loads properly with multiple fallback paths */
-.sphere-face {
-    background-image: 
-        url('../assets/images/Nebula-texture.jpg'),
-        url('./assets/images/Nebula-texture.jpg'),
-        url('/assets/images/Nebula-texture.jpg'),
-        url('assets/images/Nebula-texture.jpg'),
-        linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
-    background-blend-mode: normal;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-}
-
-/* Additional fallback for texture loading */
-.sphere-face::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: 
-        url('../assets/images/Nebula-texture.jpg'),
-        url('./assets/images/Nebula-texture.jpg'),
-        linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 50%, #45b7d1 100%);
-    background-size: cover;
-    background-position: center;
-    clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
-    z-index: -1;
-    opacity: 0.9;
 }
 
 .sphere-face.front {
@@ -335,9 +263,9 @@
 
 /* Four Pentagon Layout (for other pages) - Fixed Cutoff */
 .four-sphere-layout .sphere-container {
-    height: 500px; /* Increased height for four pentagons */
-    padding: 40px 0; /* More padding to prevent cutoff */
-    overflow: visible; /* Ensure pentagons aren't clipped */
+    height: 500px;
+    padding: 40px 0;
+    overflow: visible;
 }
 
 .four-sphere-layout .sphere-carousel {
@@ -345,24 +273,24 @@
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    gap: 40px; /* Increased gap */
+    gap: 40px;
     max-width: 900px;
     margin: 0 auto;
-    min-height: 420px; /* Minimum height to contain pentagons */
-    padding: 30px 20px; /* Padding on all sides */
+    min-height: 420px;
+    padding: 30px 20px;
 }
 
 .four-sphere-layout .sphere {
     width: 180px;
     height: 250px;
-    margin: 20px; /* Additional margin to prevent cutoff */
+    margin: 20px;
 }
 
 @media (max-width: 768px) {
     .four-sphere-layout .sphere-container {
-        height: auto; /* Auto height for mobile */
-        min-height: 600px; /* Minimum height for mobile grid */
-        padding: 30px 10px; /* Mobile padding */
+        height: auto;
+        min-height: 600px;
+        padding: 30px 10px;
     }
     
     .four-sphere-layout .sphere-carousel {
@@ -371,14 +299,14 @@
         grid-template-rows: 1fr 1fr;
         gap: 30px;
         max-width: 400px;
-        min-height: 500px; /* Ensure mobile grid has enough height */
+        min-height: 500px;
         padding: 20px;
     }
     
     .four-sphere-layout .sphere {
         width: 140px;
         height: 200px;
-        margin: 10px; /* Reduced margin for mobile */
+        margin: 10px;
     }
 }
 
@@ -423,118 +351,5 @@
     50% {
         transform: scale(1.05);
         filter: brightness(1.3);
-    }
-}
-
-/* Gentle floating animation */
-@keyframes gentleFloat {
-    0%, 100% {
-        transform: translateY(0px);
-    }
-    50% {
-        transform: translateY(-10px);
-    }
-}
-
-/* Hover effects */
-.sphere:hover .sphere-face {
-    box-shadow: 
-        inset 0 -50px 100px rgba(0,0,0,0.4),
-        0 20px 40px rgba(78, 205, 196, 0.4);
-    filter: brightness(1.1) saturate(1.2);
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .sphere-carousel {
-        flex-direction: row;
-        gap: 20px;
-        overflow-x: auto;
-        scrollbar-width: none;
-        -ms-overflow-style: none;
-    }
-    
-    .sphere-carousel::-webkit-scrollbar {
-        display: none;
-    }
-    
-    .sphere {
-        width: 160px;
-        height: 220px;
-        flex-shrink: 0;
-    }
-    
-    .sphere.center {
-        width: 180px;
-        height: 250px;
-    }
-    
-    .carousel-nav {
-        width: 40px;
-        height: 40px;
-        font-size: 16px;
-    }
-    
-    .carousel-nav.prev {
-        left: 10px;
-    }
-    
-    .carousel-nav.next {
-        right: 10px;
-    }
-}
-
-/* Four Card Layout (for other pages) */
-.four-sphere-layout .sphere-carousel {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    gap: 30px;
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-.four-sphere-layout .sphere {
-    width: 180px;
-    height: 250px;
-}
-
-@media (max-width: 768px) {
-    .four-sphere-layout .sphere-carousel {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: 1fr 1fr;
-        gap: 20px;
-        max-width: 400px;
-    }
-    
-    .four-sphere-layout .sphere {
-        width: 160px;
-        height: 220px;
-    }
-}
-
-/* Current page indicator */
-.current-page .sphere-face {
-    box-shadow: 
-        inset 0 -50px 100px rgba(0,0,0,0.4),
-        0 0 60px rgba(78, 205, 196, 1),
-        0 0 100px rgba(78, 205, 196, 0.5);
-    animation: pulseGlow 2s ease-in-out infinite alternate;
-}
-
-@keyframes pulseGlow {
-    0% {
-        box-shadow: 
-            inset 0 -50px 100px rgba(0,0,0,0.4),
-            0 0 60px rgba(78, 205, 196, 1),
-            0 0 100px rgba(78, 205, 196, 0.5);
-    }
-    100% {
-        box-shadow: 
-            inset 0 -50px 100px rgba(0,0,0,0.4),
-            0 0 80px rgba(78, 205, 196, 1),
-            0 0 120px rgba(78, 205, 196, 0.7);
     }
 }

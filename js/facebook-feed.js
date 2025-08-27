@@ -1,11 +1,11 @@
 // Facebook Feed Integration
 class FacebookFeed {
     constructor() {
-        // Facebook Configuration
+        // Facebook Configuration - NEVER commit real tokens to public repos
         this.config = {
-            appId: 'YOUR_FACEBOOK_APP_ID', // You'll need to get this from Facebook Developers
-            pageId: '742275432308734', // Your Karmakazi Facebook page ID (from error log)
-            accessToken: '', // REMOVE THE TOKEN - it's invalid and public
+            appId: process.env.FACEBOOK_APP_ID || 'YOUR_FACEBOOK_APP_ID', 
+            pageId: '61579899121583', // Your actual Karmakazi page ID from blog.html
+            accessToken: process.env.FACEBOOK_ACCESS_TOKEN || 'EAAK4A7SAFp0BPZAC8Qk0svjjRLQ4joJnmCeste6rZAsPAgzjEdXL7nMMjaGtmCJiC5Dc3OIWWXnyFqZCBZBXajxyPAwsTDwZAZBifHMUkYZCOYsUZBRk37U2bOEkJtubZAMPTFnnjZCR2ZC0MEhuzS5tvjo5kcf0YCxmfsyM3g6lFRHclYVZAOE0gPC8UjAuiMeCwOPSUaZB89B4WY6FzpzZBQC0UGhRwZBfcrcMwtBE2IUukgZBrkKNVFNZCkiU6', 
             apiVersion: 'v18.0'
         };
 
@@ -24,7 +24,26 @@ class FacebookFeed {
 
     init() {
         this.setupEventListeners();
-        this.loadInitialPosts();
+        // Check if we have valid configuration before attempting to load
+        if (this.isConfigValid()) {
+            this.loadInitialPosts();
+        } else {
+            this.showConfigError();
+        }
+    }
+
+    isConfigValid() {
+        return this.config.appId && 
+               this.config.appId !== '765276006127261' &&
+               this.config.accessToken && 
+               this.config.accessToken !== '' &&
+               this.config.pageId;
+    }
+
+    showConfigError() {
+        this.updateStatus('error', 'Facebook integration not configured');
+        this.showFallbackContent();
+        console.warn('Facebook Feed: Please configure App ID and Access Token');
     }
 
     setupEventListeners() {
@@ -38,20 +57,17 @@ class FacebookFeed {
             this.retryConnection();
         });
 
-        // Auto-refresh every 5 minutes
-        setInterval(() => {
-            this.refreshPosts();
-        }, 5 * 60 * 1000);
+        // Auto-refresh every 5 minutes (only if properly configured)
+        if (this.isConfigValid()) {
+            setInterval(() => {
+                this.refreshPosts();
+            }, 5 * 60 * 1000);
+        }
     }
 
     async loadInitialPosts() {
         try {
             this.updateStatus('loading', 'Connecting to Karmakazi...');
-            
-            // Check if we have a valid access token
-            if (!this.config.accessToken || this.config.accessToken === '' || this.config.accessToken === 'YOUR_PAGE_ACCESS_TOKEN') {
-                throw new Error('Facebook access token not configured. Please set up Facebook integration.');
-            }
             
             const url = `https://graph.facebook.com/${this.config.apiVersion}/${this.config.pageId}/posts?fields=id,message,story,created_time,full_picture,attachments,likes.summary(true),comments.summary(true),shares&limit=10&access_token=${this.config.accessToken}`;
             
@@ -76,8 +92,13 @@ class FacebookFeed {
             this.posts = data.data || [];
             this.nextPageUrl = data.paging?.next || null;
             
-            this.renderPosts();
-            this.updateStatus('connected', `${this.posts.length} posts loaded`);
+            if (this.posts.length > 0) {
+                this.renderPosts();
+                this.updateStatus('connected', `${this.posts.length} posts loaded`);
+            } else {
+                this.showFallbackContent();
+                this.updateStatus('connected', 'No posts available');
+            }
             
         } catch (error) {
             console.error('Failed to load Facebook posts:', error);
@@ -121,6 +142,8 @@ class FacebookFeed {
 
     async refreshPosts() {
         // Silent refresh - don't show loading states
+        if (!this.isConfigValid()) return;
+        
         try {
             const url = `https://graph.facebook.com/${this.config.apiVersion}/${this.config.pageId}/posts?fields=id,message,story,created_time,full_picture,attachments,likes.summary(true),comments.summary(true),shares&limit=10&access_token=${this.config.accessToken}`;
             
@@ -150,7 +173,14 @@ class FacebookFeed {
     }
 
     renderPosts() {
+        if (!this.postsContainer) return;
+        
         this.postsContainer.innerHTML = '';
+        if (this.posts.length === 0) {
+            this.showFallbackContent();
+            return;
+        }
+        
         this.posts.forEach(post => {
             this.renderPost(post);
         });
@@ -158,6 +188,8 @@ class FacebookFeed {
     }
 
     renderNewPosts(posts) {
+        if (!this.postsContainer) return;
+        
         posts.forEach(post => {
             this.renderPost(post);
         });
@@ -165,6 +197,8 @@ class FacebookFeed {
     }
 
     renderPost(post) {
+        if (!this.postsContainer) return;
+        
         const postElement = document.createElement('div');
         postElement.className = 'facebook-post';
         postElement.setAttribute('data-post-id', post.id);
@@ -274,6 +308,8 @@ class FacebookFeed {
     }
 
     toggleLoadMoreSection() {
+        if (!this.loadMoreSection) return;
+        
         if (this.nextPageUrl && this.posts.length > 0) {
             this.loadMoreSection.style.display = 'block';
         } else {
@@ -282,25 +318,27 @@ class FacebookFeed {
     }
 
     toggleLoadMoreButton(loading) {
+        if (!this.loadMoreBtn) return;
+        
         const btnText = this.loadMoreBtn.querySelector('span');
         const btnLoading = this.loadMoreBtn.querySelector('.btn-loading');
         
         if (loading) {
-            btnText.style.display = 'none';
-            btnLoading.style.display = 'flex';
+            if (btnText) btnText.style.display = 'none';
+            if (btnLoading) btnLoading.style.display = 'flex';
             this.loadMoreBtn.disabled = true;
         } else {
-            btnText.style.display = 'block';
-            btnLoading.style.display = 'none';
+            if (btnText) btnText.style.display = 'block';
+            if (btnLoading) btnLoading.style.display = 'none';
             this.loadMoreBtn.disabled = false;
         }
     }
 
     showError(message) {
         this.updateStatus('error', 'Connection failed');
-        this.postsContainer.innerHTML = '';
-        this.errorMessage.style.display = 'block';
-        this.loadMoreSection.style.display = 'none';
+        if (this.postsContainer) this.postsContainer.innerHTML = '';
+        if (this.errorMessage) this.errorMessage.style.display = 'block';
+        if (this.loadMoreSection) this.loadMoreSection.style.display = 'none';
         
         // Show fallback content
         this.showFallbackContent();
@@ -308,6 +346,8 @@ class FacebookFeed {
 
     showFallbackContent() {
         // Show some static content when Facebook is unavailable
+        if (!this.postsContainer) return;
+        
         this.postsContainer.innerHTML = `
             <div class="facebook-post">
                 <div class="post-header">
@@ -326,8 +366,12 @@ class FacebookFeed {
     }
 
     retryConnection() {
-        this.errorMessage.style.display = 'none';
-        this.loadInitialPosts();
+        if (this.errorMessage) this.errorMessage.style.display = 'none';
+        if (this.isConfigValid()) {
+            this.loadInitialPosts();
+        } else {
+            this.showConfigError();
+        }
     }
 
     showNotification(message, type = 'info') {
@@ -364,27 +408,11 @@ class FacebookFeed {
             }, 300);
         }, 4000);
     }
-
-    // Configuration method for easy setup
-    static configure(config) {
-        return new FacebookFeed({
-            ...FacebookFeed.prototype.config,
-            ...config
-        });
-    }
 }
 
 // Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    // Initialize with your configuration
     new FacebookFeed();
-    
-    // Alternative: Configure with custom settings
-    // FacebookFeed.configure({
-    //     appId: 'your-app-id',
-    //     pageId: 'your-page-id', 
-    //     accessToken: 'your-access-token'
-    // });
 });
 
 // Export for use in other files

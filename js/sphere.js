@@ -219,60 +219,31 @@ class SphereNavigation {
         // Show loading state
         this.showLoadingState(sphere);
         
-        // Simple navigation paths - try multiple approaches
+        // Define navigation paths
         let targetPath = '';
-        let fallbackPath = '';
+        const currentPath = window.location.pathname;
+        const isInRoot = !currentPath.includes('/pages/');
         
-        // Determine paths
         if (page === 'home') {
-            targetPath = 'index.html';
-            fallbackPath = '../index.html';
+            // Navigate to root index.html
+            targetPath = isInRoot ? 'index.html' : '../index.html';
         } else {
-            targetPath = `pages/${page}.html`;
-            fallbackPath = `${page}.html`;
+            // Navigate to specific page
+            if (isInRoot) {
+                // We're in root, going to pages folder
+                targetPath = `pages/${page}.html`;
+            } else {
+                // We're in pages folder, navigate to another page
+                targetPath = `${page}.html`;
+            }
         }
         
-        console.log('Trying primary path:', targetPath);
+        console.log('Navigating to:', targetPath);
         
-        // Try primary navigation
-        const tryNavigation = (path) => {
-            console.log('Attempting navigation to:', path);
-            
-            // Check if it's a relative path that needs the current origin
-            if (!path.startsWith('http') && !path.startsWith('/')) {
-                // For GitHub Pages, construct the full path
-                const currentOrigin = window.location.origin;
-                const currentRepo = window.location.pathname.split('/')[1]; // Gets 'karmakazi-website' or similar
-                
-                if (currentRepo && !window.location.pathname.includes('/pages/')) {
-                    // We're on the root, going to pages
-                    window.location.href = `${currentOrigin}/${currentRepo}/${path}`;
-                } else if (currentRepo && window.location.pathname.includes('/pages/')) {
-                    // We're in pages folder
-                    if (page === 'home') {
-                        window.location.href = `${currentOrigin}/${currentRepo}/index.html`;
-                    } else {
-                        window.location.href = `${currentOrigin}/${currentRepo}/pages/${page}.html`;
-                    }
-                } else {
-                    // Local development or custom domain
-                    window.location.href = path;
-                }
-            } else {
-                window.location.href = path;
-            }
-        };
-        
-        // Navigate after a short delay
+        // Navigate after a short delay for visual feedback
         setTimeout(() => {
-            tryNavigation(targetPath);
+            window.location.href = targetPath;
         }, 200);
-        
-        // Fallback navigation if first attempt fails
-        setTimeout(() => {
-            console.log('Fallback navigation to:', fallbackPath);
-            tryNavigation(fallbackPath);
-        }, 1500);
     }
 
     showLoadingState(sphere) {
