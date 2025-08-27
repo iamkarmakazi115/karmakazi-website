@@ -3,9 +3,9 @@ class FacebookFeed {
     constructor() {
         // Facebook Configuration - NEVER commit real tokens to public repos
         this.config = {
-            appId: process.env.FACEBOOK_APP_ID || 'YOUR_FACEBOOK_APP_ID', 
-            pageId: '61579899121583', // Your actual Karmakazi page ID from blog.html
-            accessToken: process.env.FACEBOOK_ACCESS_TOKEN || 'EAAK4A7SAFp0BPZAC8Qk0svjjRLQ4joJnmCeste6rZAsPAgzjEdXL7nMMjaGtmCJiC5Dc3OIWWXnyFqZCBZBXajxyPAwsTDwZAZBifHMUkYZCOYsUZBRk37U2bOEkJtubZAMPTFnnjZCR2ZC0MEhuzS5tvjo5kcf0YCxmfsyM3g6lFRHclYVZAOE0gPC8UjAuiMeCwOPSUaZB89B4WY6FzpzZBQC0UGhRwZBfcrcMwtBE2IUukgZBrkKNVFNZCkiU6', 
+            appId: 'YOUR_FACEBOOK_APP_ID', // Replace with your actual App ID 
+            pageId: '61579899121583', // Your actual Karmakazi page ID
+            accessToken: '', // IMPORTANT: Add your token via environment variable or private config
             apiVersion: 'v18.0'
         };
 
@@ -34,7 +34,7 @@ class FacebookFeed {
 
     isConfigValid() {
         return this.config.appId && 
-               this.config.appId !== '765276006127261' &&
+               this.config.appId !== 'YOUR_FACEBOOK_APP_ID' &&
                this.config.accessToken && 
                this.config.accessToken !== '' &&
                this.config.pageId;

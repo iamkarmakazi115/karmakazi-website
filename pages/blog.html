@@ -8,54 +8,58 @@
     <link rel="stylesheet" href="../css/sphere.css">
 </head>
 <body>
-    <!-- Background (No Video - Using Gradient) -->
-    <div class="gradient-background">
-        <div class="cosmic-gradient"></div>
+    <!-- Background Image -->
+    <div class="image-background">
+        <div class="background-overlay"></div>
     </div>
 
-    <!-- Main Content -->
-    <main class="main-content" id="main-content">
-        <header class="site-header">
-            <h1>Paul Castro - Blog & Social</h1>
-            <p>Live updates from the Karmakazi universe</p>
-        </header>
-
-        <!-- 4 Sphere Navigation -->
-        <div class="sphere-container four-sphere-layout" id="sphere-container">
-            <div class="sphere-carousel">
-                <!-- Home Sphere -->
-                <div class="sphere" data-page="home">
-                    <div class="sphere-inner">
-                        <div class="sphere-face front">Home</div>
-                        <div class="sphere-face back">Home</div>
+    <!-- Page Layout Container -->
+    <div class="page-layout">
+        <!-- Left Sidebar Navigation -->
+        <nav class="sidebar-nav">
+            <div class="sphere-container four-sphere-layout" id="sphere-container">
+                <div class="sphere-carousel">
+                    <!-- Home Sphere -->
+                    <div class="sphere" data-page="home">
+                        <div class="sphere-inner">
+                            <div class="sphere-face front">Home</div>
+                            <div class="sphere-face back">Home</div>
+                        </div>
                     </div>
-                </div>
 
-                <!-- About Me Sphere -->
-                <div class="sphere" data-page="about">
-                    <div class="sphere-inner">
-                        <div class="sphere-face front">About Me</div>
-                        <div class="sphere-face back">About Me</div>
+                    <!-- About Me Sphere -->
+                    <div class="sphere" data-page="about">
+                        <div class="sphere-inner">
+                            <div class="sphere-face front">About Me</div>
+                            <div class="sphere-face back">About Me</div>
+                        </div>
                     </div>
-                </div>
 
-                <!-- My Works Sphere -->
-                <div class="sphere" data-page="works">
-                    <div class="sphere-inner">
-                        <div class="sphere-face front">My Works</div>
-                        <div class="sphere-face back">My Works</div>
+                    <!-- My Works Sphere -->
+                    <div class="sphere" data-page="works">
+                        <div class="sphere-inner">
+                            <div class="sphere-face front">My Works</div>
+                            <div class="sphere-face back">My Works</div>
+                        </div>
                     </div>
-                </div>
 
-                <!-- Current Page Indicator -->
-                <div class="sphere current-page">
-                    <div class="sphere-inner">
-                        <div class="sphere-face front">Blog/Social</div>
-                        <div class="sphere-face back">Blog/Social</div>
+                    <!-- Current Page Indicator -->
+                    <div class="sphere current-page">
+                        <div class="sphere-inner">
+                            <div class="sphere-face front">Blog/Social</div>
+                            <div class="sphere-face back">Blog/Social</div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <header class="site-header">
+                <h1>Paul Castro - Blog & Social</h1>
+                <p>Live updates from the Karmakazi universe</p>
+            </header>
 
         <!-- Facebook Feed Section -->
         <section class="facebook-feed-section">
@@ -135,7 +139,8 @@
                 </div>
             </div>
         </section>
-    </main>
+        </main>
+    </div>
 
     <!-- Contact Footer -->
     <footer class="contact-footer">
@@ -388,59 +393,76 @@
             animation: spin 1s linear infinite;
         }
 
-        /* Gradient Background Styles */
-        .gradient-background {
+        /* Image Background Styles */
+        .image-background {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
             z-index: -1;
-            overflow: hidden;
+            background-image: url('../assets/images/blog-background.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
         }
 
-        .cosmic-gradient {
+        .background-overlay {
             width: 100%;
             height: 100%;
-            background: linear-gradient(45deg, 
-                #1a1a2e 0%, 
-                #16213e 25%, 
-                #0f3460 50%, 
-                #16213e 75%, 
-                #1a1a2e 100%);
-            background-size: 400% 400%;
-            animation: gradientShift 20s ease infinite;
-            opacity: 0.9;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(1px);
         }
 
-        .cosmic-gradient::before {
-            content: '';
-            position: absolute;
-            top: 0;
+        /* Page Layout */
+        .page-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar-nav {
+            width: 300px;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(15px);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            position: fixed;
+            height: 100vh;
             left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(ellipse at center, 
-                rgba(78, 205, 196, 0.1) 0%, 
-                transparent 50%),
-                radial-gradient(ellipse at 80% 20%, 
-                rgba(69, 183, 209, 0.1) 0%, 
-                transparent 50%),
-                radial-gradient(ellipse at 20% 80%, 
-                rgba(255, 107, 107, 0.05) 0%, 
-                transparent 50%);
-            animation: cosmicPulse 15s ease-in-out infinite;
+            top: 0;
+            z-index: 100;
+            padding: 20px;
+            display: flex;
+            align-items: center;
         }
 
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        .sidebar-nav .sphere-container {
+            height: auto;
+            padding: 0;
+            margin: 0;
         }
 
-        @keyframes cosmicPulse {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 0.7; }
+        .sidebar-nav .sphere-carousel {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 20px;
+            padding: 0;
+            min-height: auto;
+        }
+
+        .sidebar-nav .sphere {
+            width: 120px;
+            height: 160px;
+            margin: 0;
+        }
+
+        /* Main Content Layout */
+        .main-content {
+            flex: 1;
+            margin-left: 300px;
+            position: relative;
+            z-index: 1;
         }
             padding: 20px;
             background: rgba(255,255,255,0.05);
@@ -845,6 +867,39 @@
 
         /* Responsive Design */
         @media (max-width: 768px) {
+            .page-layout {
+                flex-direction: column;
+            }
+
+            .sidebar-nav {
+                position: relative;
+                width: 100%;
+                height: auto;
+                padding: 15px;
+            }
+
+            .sidebar-nav .sphere-carousel {
+                display: flex;
+                gap: 15px;
+                overflow-x: auto;
+                scrollbar-width: none;
+                -ms-overflow-style: none;
+            }
+
+            .sidebar-nav .sphere-carousel::-webkit-scrollbar {
+                display: none;
+            }
+
+            .sidebar-nav .sphere {
+                width: 100px;
+                height: 140px;
+                flex-shrink: 0;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
             .feed-header {
                 flex-direction: column;
                 gap: 20px;

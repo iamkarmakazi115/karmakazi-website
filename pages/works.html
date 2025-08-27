@@ -8,54 +8,58 @@
     <link rel="stylesheet" href="../css/sphere.css">
 </head>
 <body>
-    <!-- Background (No Video - Using Gradient) -->
-    <div class="gradient-background">
-        <div class="cosmic-gradient"></div>
+    <!-- Background Image -->
+    <div class="image-background">
+        <div class="background-overlay"></div>
     </div>
 
-    <!-- Main Content -->
-    <main class="main-content" id="main-content">
-        <header class="site-header">
-            <h1>Paul Castro - My Works</h1>
-            <p>Literary journeys across dimensions of imagination</p>
-        </header>
-
-        <!-- 4 Sphere Navigation -->
-        <div class="sphere-container four-sphere-layout" id="sphere-container">
-            <div class="sphere-carousel">
-                <!-- Home Sphere -->
-                <div class="sphere" data-page="home">
-                    <div class="sphere-inner">
-                        <div class="sphere-face front">Home</div>
-                        <div class="sphere-face back">Home</div>
+    <!-- Page Layout Container -->
+    <div class="page-layout">
+        <!-- Left Sidebar Navigation -->
+        <nav class="sidebar-nav">
+            <div class="sphere-container four-sphere-layout" id="sphere-container">
+                <div class="sphere-carousel">
+                    <!-- Home Sphere -->
+                    <div class="sphere" data-page="home">
+                        <div class="sphere-inner">
+                            <div class="sphere-face front">Home</div>
+                            <div class="sphere-face back">Home</div>
+                        </div>
                     </div>
-                </div>
 
-                <!-- About Me Sphere -->
-                <div class="sphere" data-page="about">
-                    <div class="sphere-inner">
-                        <div class="sphere-face front">About Me</div>
-                        <div class="sphere-face back">About Me</div>
+                    <!-- About Me Sphere -->
+                    <div class="sphere" data-page="about">
+                        <div class="sphere-inner">
+                            <div class="sphere-face front">About Me</div>
+                            <div class="sphere-face back">About Me</div>
+                        </div>
                     </div>
-                </div>
 
-                <!-- Blog/Social Media Sphere -->
-                <div class="sphere" data-page="blog">
-                    <div class="sphere-inner">
-                        <div class="sphere-face front">Blog/Social</div>
-                        <div class="sphere-face back">Blog/Social</div>
+                    <!-- Blog/Social Media Sphere -->
+                    <div class="sphere" data-page="blog">
+                        <div class="sphere-inner">
+                            <div class="sphere-face front">Blog/Social</div>
+                            <div class="sphere-face back">Blog/Social</div>
+                        </div>
                     </div>
-                </div>
 
-                <!-- Current Page Indicator -->
-                <div class="sphere current-page">
-                    <div class="sphere-inner">
-                        <div class="sphere-face front">My Works</div>
-                        <div class="sphere-face back">My Works</div>
+                    <!-- Current Page Indicator -->
+                    <div class="sphere current-page">
+                        <div class="sphere-inner">
+                            <div class="sphere-face front">My Works</div>
+                            <div class="sphere-face back">My Works</div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <header class="site-header">
+                <h1>Paul Castro - My Works</h1>
+                <p>Literary journeys across dimensions of imagination</p>
+            </header>
 
         <!-- Works Content -->
         <section class="works-content">
@@ -202,7 +206,8 @@
                 </div>
             </div>
         </section>
-    </main>
+        </main>
+    </div>
 
     <!-- Contact Footer -->
     <footer class="contact-footer">
@@ -241,54 +246,76 @@
     <script src="../js/contact.js"></script>
 
     <style>
-        /* Gradient Background Styles */
-        .gradient-background {
+        /* Image Background Styles */
+        .image-background {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
             z-index: -1;
-            overflow: hidden;
+            background-image: url('../assets/images/works-background.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
         }
 
-        .cosmic-gradient {
+        .background-overlay {
             width: 100%;
             height: 100%;
-            background: linear-gradient(225deg, 
-                #667eea 0%, 
-                #764ba2 50%, 
-                #f093fb 100%);
-            background-size: 400% 400%;
-            animation: gradientShift 22s ease infinite;
-            opacity: 0.85;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(1px);
         }
 
-        .cosmic-gradient::before {
-            content: '';
-            position: absolute;
-            top: 0;
+        /* Page Layout */
+        .page-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar-nav {
+            width: 300px;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(15px);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            position: fixed;
+            height: 100vh;
             left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(ellipse at 20% 80%, 
-                rgba(102, 126, 234, 0.12) 0%, 
-                transparent 50%),
-                radial-gradient(ellipse at 80% 20%, 
-                rgba(240, 147, 251, 0.1) 0%, 
-                transparent 60%);
-            animation: worksPulse 16s ease-in-out infinite;
+            top: 0;
+            z-index: 100;
+            padding: 20px;
+            display: flex;
+            align-items: center;
         }
 
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        .sidebar-nav .sphere-container {
+            height: auto;
+            padding: 0;
+            margin: 0;
         }
 
-        @keyframes worksPulse {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 0.6; }
+        .sidebar-nav .sphere-carousel {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 20px;
+            padding: 0;
+            min-height: auto;
+        }
+
+        .sidebar-nav .sphere {
+            width: 120px;
+            height: 160px;
+            margin: 0;
+        }
+
+        /* Main Content Layout */
+        .main-content {
+            flex: 1;
+            margin-left: 300px;
+            position: relative;
+            z-index: 1;
         }
 
         /* Works Page Specific Styles */
@@ -503,6 +530,39 @@
 
         /* Responsive Design */
         @media (max-width: 768px) {
+            .page-layout {
+                flex-direction: column;
+            }
+
+            .sidebar-nav {
+                position: relative;
+                width: 100%;
+                height: auto;
+                padding: 15px;
+            }
+
+            .sidebar-nav .sphere-carousel {
+                display: flex;
+                gap: 15px;
+                overflow-x: auto;
+                scrollbar-width: none;
+                -ms-overflow-style: none;
+            }
+
+            .sidebar-nav .sphere-carousel::-webkit-scrollbar {
+                display: none;
+            }
+
+            .sidebar-nav .sphere {
+                width: 100px;
+                height: 140px;
+                flex-shrink: 0;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
             .books-grid {
                 grid-template-columns: 1fr;
                 gap: 30px;
