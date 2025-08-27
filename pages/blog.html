@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paul Castro - Blog & Social</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/sphere.css">
+</head>
+<body>
+    <!-- Background Video -->
+    <div class="video-background">
+        <video autoplay muted loop id="background-video">
+            <source src="../assets/videos/blog-background.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content" id="main-content">
+        <header class="site-header">
+            <h1>Paul Castro - Blog & Social</h1>
+            <p>Live updates from the Karmakazi universe</p>
+        </header>
+
+        <!-- 4 Sphere Navigation -->
+        <div class="sphere-container four-sphere-layout" id="sphere-container">
+            <div class="sphere-carousel">
+                <!-- Home Sphere -->
+                <div class="sphere" data-page="home">
+                    <div class="sphere-inner">
+                        <div class="sphere-face front">Home</div>
+                        <div class="sphere-face back">Home</div>
+                    </div>
+                </div>
+
+                <!-- About Me Sphere -->
+                <div class="sphere" data-page="about">
+                    <div class="sphere-inner">
+                        <div class="sphere-face front">About Me</div>
+                        <div class="sphere-face back">About Me</div>
+                    </div>
+                </div>
+
+                <!-- My Works Sphere -->
+                <div class="sphere" data-page="works">
+                    <div class="sphere-inner">
+                        <div class="sphere-face front">My Works</div>
+                        <div class="sphere-face back">My Works</div>
+                    </div>
+                </div>
+
+                <!-- Current Page Indicator -->
+                <div class="sphere current-page">
+                    <div class="sphere-inner">
+                        <div class="sphere-face front">Blog/Social</div>
+                        <div class="sphere-face back">Blog/Social</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Facebook Feed Section -->
+        <section class="facebook-feed-section">
+            <div class="feed-container">
+                <div class="feed-header">
+                    <div class="page-info">
+                        <div class="page-avatar">
+                            <div class="avatar-placeholder">K</div>
+                        </div>
+                        <div class="page-details">
+                            <h2>Karmakazi</h2>
+                            <p>Paul Castro's Official Updates</p>
+                            <a href="#" id="facebook-page-link" target="_blank" class="page-link">Follow on Facebook →</a>
+                        </div>
+                    </div>
+                    <div class="feed-status">
+                        <div id="connection-status" class="status-indicator">
+                            <div class="loading-spinner"></div>
+                            <span>Loading posts...</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Scrollable Facebook Posts Feed -->
+                <div class="facebook-posts-container" id="facebook-posts">
+                    <div class="loading-posts">
+                        <div class="loading-animation">
+                            <div class="cosmic-loader"></div>
+                            <p>Connecting to the Karmakazi universe...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Load More Button -->
+                <div class="load-more-section" id="load-more-section" style="display: none;">
+                    <button id="load-more-btn" class="load-more-btn">
+                        <span>Load More Posts</span>
+                        <div class="btn-loading" style="display: none;">
+                            <div class="loading"></div>
+                        </div>
+                    </button>
+                </div>
+
+                <!-- Error Message -->
+                <div class="error-message" id="error-message" style="display: none;">
+                    <div class="error-content">
+                        <h3>Connection Lost</h3>
+                        <p>Unable to connect to Facebook. The posts may be temporarily unavailable.</p>
+                        <button id="retry-btn" class="retry-btn">Try Again</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Social Links Section -->
+        <section class="social-links-section">
+            <div class="content-wrapper">
+                <h3>Connect Across All Platforms</h3>
+                <div class="social-links-grid">
+                    <a href="#" class="social-link-card facebook" target="_blank">
+                        <div class="social-icon">📘</div>
+                        <span>Facebook</span>
+                    </a>
+                    <a href="#" class="social-link-card twitter" target="_blank">
+                        <div class="social-icon">𝕏</div>
+                        <span>Twitter/X</span>
+                    </a>
+                    <a href="#" class="social-link-card instagram" target="_blank">
+                        <div class="social-icon">📷</div>
+                        <span>Instagram</span>
+                    </a>
+                    <a href="#" class="social-link-card linkedin" target="_blank">
+                        <div class="social-icon">💼</div>
+                        <span>LinkedIn</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Contact Footer -->
+    <footer class="contact-footer">
+        <div class="contact-container">
+            <div class="contact-info">
+                <h3>Contact Paul Castro</h3>
+                <p>Email: iamkarmakazi115@gmail.com</p>
+            </div>
+            
+            <form class="contact-form" id="contact-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="contact-email">Your Email:</label>
+                        <input type="email" id="contact-email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="contact-subject">Subject:</label>
+                        <input type="text" id="contact-subject" name="subject" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="contact-message">Message (200 words max):</label>
+                    <textarea id="contact-message" name="message" maxlength="1200" required></textarea>
+                    <div class="word-count">
+                        <span id="word-count">0</span>/200 words
+                    </div>
+                </div>
+                <button type="submit" class="submit-btn">Send Message</button>
+            </form>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../js/main.js"></script>
+    <script src="../js/sphere.js"></script>
+    <script src="../js/contact.js"></script>
+    <script src="../js/facebook-feed.js"></script>
+
+    <style>
+        /* Blog Page Specific Styles */
+        .current-page .sphere-inner {
+            animation-play-state: paused;
+            filter: brightness(1.3) saturate(1.2);
+        }
+
+        .current-page .sphere-face {
+            box-shadow: 
+                inset -10px -10px 20px rgba(0,0,0,0.3),
+                inset 10px 10px 20px rgba(255,255,255,0.1),
+                0 0 50px rgba(78, 205, 196, 0.8);
+        }
+
+        /* Facebook Feed Section */
+        .facebook-feed-section {
+            padding: 50px 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .feed-container {
+            background: rgba(0,0,0,0.4);
+            border-radius: 20px;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.1);
+            overflow: hidden;
+        }
+
+        /* Feed Header */
+        .feed-header {
+            padding: 30px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .page-info {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .page-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #4ecdc4, #45b7d1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .avatar-placeholder {
+            font-size: 2rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        .page-details h2 {
+            color: #4ecdc4;
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+
+        .page-details p {
+            color: #ccc;
+            margin-bottom: 15px;
+        }
+
+        .page-link {
+            color: #4ecdc4;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        .page-link:hover {
+            color: #45b7d1;
+        }
+
+        /* Status Indicator */
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #4ecdc4;
+            font-size: 0.9rem;
+        }
+
+        .loading-spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(78, 205, 196, 0.3);
+            border-radius: 50%;
+            border-top-color: #4ecdc4;
+            animation: spin 1s linear infinite;
+        }
+
+        /* Facebook Posts Container */
+        .facebook-posts-container {
+            max-height: 600px;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: #4ecdc4 rgba(255,255,255,0.1);
+        }
+
+        .facebook-posts-container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .facebook-posts-container::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+        }
+
+        .facebook-posts-container::-webkit-scrollbar-thumb {
+            background: #4ecdc4;
+            border-radius: 10px;
+        }
+
+        .facebook-posts-container::-webkit-scrollbar-thumb:hover {
+            background: #45b7d1;
+        }
+
+        /* Individual Facebook Post */
+        .facebook-post {
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding: 25px 30px;
+            transition: background-color 0.3s ease;
+        }
+
+        .facebook-post:hover {
+            background: rgba(255,255,255,0.02);
+        }
+
+        .facebook-post:last-child {
+            border-bottom: none;
+        }
+
+        .post-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .post-time {
+            color: #999;
+            font-size: 0.9rem;
+        }
+
+        .post-content {
+            color: #ddd;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            word-wrap: break-word;
+        }
+
+        .post-image {
+            width: 100%;
+            max-width: 500px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+
+        .post-video {
+            width: 100%;
+            max-width: 500px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+
+        .post-link {
+            display: block;
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            text-decoration: none;
+            color: inherit;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .post-link:hover {
+            background: rgba(255,255,255,0.08);
+            border-color: #4ecdc4;
+        }
+
+        .link-title {
+            color: #4ecdc4;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .link-description {
+            color: #ccc;
+            font-size: 0.9rem;
+        }
+
+        .post-stats {
+            display: flex;
+            gap: 20px;
+            color: #999;
+            font-size: 0.9rem;
+            margin-top: 15px;
+        }
+
+        .post-stat {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* Loading Animation */
+        .loading-posts {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 300px;
+            flex-direction: column;
+        }
+
+        .cosmic-loader {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(78, 205, 196, 0.3);
+            border-radius: 50%;
+            border-top: 4px solid #4ecdc4;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        .loading-posts p {
+            color: #4ecdc4;
+            font-size: 1.1rem;
+        }
+
+        /* Load More Button */
+        .load-more-section {
+            padding: 30px;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .load-more-btn {
+            background: linear-gradient(45deg, #4ecdc4, #45b7d1);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 0 auto;
+        }
+
+        .load-more-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .load-more-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Error Message */
+        .error-message {
+            padding: 50px 30px;
+            text-align: center;
+        }
+
+        .error-content h3 {
+            color: #ff6b6b;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .error-content p {
+            color: #ccc;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .retry-btn {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .retry-btn:hover {
+            background: #ff5252;
+        }
+
+        /* Social Links Section */
+        .social-links-section {
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .social-links-section h3 {
+            color: #4ecdc4;
+            font-size: 2rem;
+            margin-bottom: 40px;
+        }
+
+        .social-links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .social-link-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            padding: 25px;
+            background: rgba(0,0,0,0.4);
+            border-radius: 15px;
+            text-decoration: none;
+            color: white;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .social-link-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(78, 205, 196, 0.3);
+        }
+
+        .social-icon {
+            font-size: 2rem;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .social-link-card.facebook .social-icon {
+            background: #1877F2;
+        }
+
+        .social-link-card.twitter .social-icon {
+            background: #1DA1F2;
+        }
+
+        .social-link-card.instagram .social-icon {
+            background: linear-gradient(45deg, #405de6, #5851db, #833ab4, #c13584);
+        }
+
+        .social-link-card.linkedin .social-icon {
+            background: #0077B5;
+        }
+
+        /* Animations */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .facebook-post {
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .feed-header {
+                flex-direction: column;
+                gap: 20px;
+                align-items: flex-start;
+            }
+
+            .page-info {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+
+            .facebook-posts-container {
+                max-height: 500px;
+            }
+
+            .facebook-post {
+                padding: 20px 20px;
+            }
+
+            .social-links-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</body>
+</html>
