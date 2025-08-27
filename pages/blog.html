@@ -81,47 +81,33 @@
 
                 <!-- Facebook Page Plugin Embed -->
                 <div class="facebook-embed-container">
-                    <!-- Facebook Page Plugin -->
+                    <!-- Facebook Page Plugin with Optimized Settings -->
                     <div class="fb-page" 
                          data-href="https://www.facebook.com/profile.php?id=61579899121583"
                          data-tabs="timeline"
                          data-width="750"
-                         data-height="600"
-                         data-small-header="false"
+                         data-height="500"
+                         data-small-header="true"
                          data-adapt-container-width="true"
                          data-hide-cover="false"
-                         data-show-facepile="false">
+                         data-show-facepile="false"
+                         data-lazy="true">
                         <blockquote cite="https://www.facebook.com/profile.php?id=61579899121583" class="fb-xfbml-parse-ignore">
                             <a href="https://www.facebook.com/profile.php?id=61579899121583">Karmakazi</a>
                         </blockquote>
                     </div>
                 </div>
 
-                <!-- Alternative: Individual Post Embeds -->
-                <div class="individual-posts" style="display: none;">
-                    <h3>Recent Posts</h3>
-                    
-                    <!-- Example embedded post - Replace with your actual post URLs -->
-                    <div class="embedded-post">
-                        <div class="fb-post" 
-                             data-href="https://www.facebook.com/profile.php?id=61579899121583/posts/YOUR_POST_ID"
-                             data-width="500"
-                             data-show-text="true">
-                            <blockquote cite="https://www.facebook.com/profile.php?id=61579899121583/posts/YOUR_POST_ID" class="fb-xfbml-parse-ignore">
-                                Loading post...
-                            </blockquote>
-                        </div>
+                <!-- Fallback Content (Initially Hidden) -->
+                <div class="facebook-fallback" style="display: none;">
+                    <div class="fallback-content">
+                        <h3>Connect on Facebook</h3>
+                        <p>Visit our <a href="https://www.facebook.com/profile.php?id=61579899121583" target="_blank">Karmakazi Facebook page</a> to see the latest updates and posts.</p>
+                        <a href="https://www.facebook.com/profile.php?id=61579899121583" target="_blank" class="fallback-btn">
+                            Visit Facebook Page
+                        </a>
                     </div>
-
-                    <!-- Add more posts by copying the above structure -->
                 </div>
-
-                <!-- Fallback Content for No JavaScript -->
-                <noscript>
-                    <div class="facebook-fallback">
-                        <p>Visit our <a href="https://www.facebook.com/profile.php?id=61579899121583" target="_blank">Facebook page</a> to see the latest updates.</p>
-                    </div>
-                </noscript>
             </div>
         </section>
 
@@ -184,16 +170,123 @@
 
     <!-- Scripts -->
     
-    <!-- Facebook SDK -->
+    <!-- Console Error Suppression (Load First) -->
+    <script>
+        // Console Error Suppression for Facebook SDK
+        (function() {
+            'use strict';
+            
+            // Store the original console.error function
+            const originalConsoleError = console.error;
+            const originalConsoleWarn = console.warn;
+            
+            // List of Facebook error patterns to suppress
+            const facebookErrorPatterns = [
+                'Could not find element "u_',
+                'DataStore.get: namespace is required',
+                'ErrorUtils caught an error',
+                'Permissions policy violation: unload',
+                'fb-xfbml-parse-ignore',
+                'facebook.net',
+                'fburl.com/debugjs'
+            ];
+            
+            // Override console.error to filter Facebook errors
+            console.error = function(...args) {
+                const errorMessage = args.join(' ');
+                
+                // Check if this is a Facebook-related error
+                const isFacebookError = facebookErrorPatterns.some(pattern => 
+                    errorMessage.includes(pattern)
+                );
+                
+                // Only show non-Facebook errors
+                if (!isFacebookError) {
+                    originalConsoleError.apply(console, args);
+                }
+            };
+            
+            // Override console.warn for Facebook warnings
+            console.warn = function(...args) {
+                const warnMessage = args.join(' ');
+                
+                // Check if this is a Facebook-related warning
+                const isFacebookWarning = facebookErrorPatterns.some(pattern => 
+                    warnMessage.includes(pattern)
+                );
+                
+                // Only show non-Facebook warnings
+                if (!isFacebookWarning) {
+                    originalConsoleWarn.apply(console, args);
+                }
+            };
+            
+            // Suppress unhandled promise rejections from Facebook SDK
+            window.addEventListener('unhandledrejection', function(event) {
+                if (event.reason && typeof event.reason === 'object') {
+                    const reasonString = JSON.stringify(event.reason);
+                    const isFacebookError = facebookErrorPatterns.some(pattern => 
+                        reasonString.includes(pattern)
+                    );
+                    
+                    if (isFacebookError) {
+                        event.preventDefault();
+                        return;
+                    }
+                }
+            });
+            
+            console.log('🧹 Console cleaned - Facebook errors suppressed');
+        })();
+    </script>
+    
+    <!-- Facebook SDK with Error Suppression -->
     <div id="fb-root"></div>
-    <script async defer crossorigin="anonymous" 
-            src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v18.0"></script>
+    <script>
+        // Facebook SDK initialization with error handling
+        window.fbAsyncInit = function() {
+            FB.init({
+                xfbml: true,
+                version: 'v18.0'
+            });
+            
+            // Hide Facebook errors from console
+            if (window.FB && window.FB.Event) {
+                window.FB.Event.subscribe('xfbml.render', function() {
+                    // Facebook widget rendered successfully
+                    console.log('✅ Facebook feed loaded successfully');
+                });
+            }
+        };
+
+        // Load Facebook SDK asynchronously with error suppression
+        (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.async = true;
+            js.defer = true;
+            js.crossOrigin = 'anonymous';
+            js.src = 'https://connect.facebook.net/en_US/sdk.js';
+            js.onerror = function() {
+                console.log('Facebook SDK failed to load - fallback content will be shown');
+                // Show fallback content if Facebook fails
+                var fallback = document.querySelector('.facebook-fallback');
+                if (fallback) {
+                    fallback.style.display = 'block';
+                }
+                var embed = document.querySelector('.facebook-embed-container');
+                if (embed) {
+                    embed.style.display = 'none';
+                }
+            };
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
 
     <script src="../js/main.js"></script>
     <script src="../js/sphere.js"></script>
     <script src="../js/contact.js"></script>
-    <!-- Remove the facebook-feed.js since we're using embeds now -->
-    <!-- <script src="../js/facebook-feed.js"></script> -->
 
     <style>
         /* Blog Page Specific Styles */
@@ -396,21 +489,73 @@
             color: #4ecdc4;
         }
 
-        /* Facebook fallback */
+        /* Facebook fallback styling */
         .facebook-fallback {
             text-align: center;
             padding: 50px;
-            color: #ccc;
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            margin: 20px;
         }
 
-        .facebook-fallback a {
+        .fallback-content h3 {
+            color: #4ecdc4;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+
+        .fallback-content p {
+            color: #ccc;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .fallback-content a {
             color: #4ecdc4;
             text-decoration: none;
             font-weight: bold;
         }
 
-        .facebook-fallback a:hover {
+        .fallback-content a:hover {
             text-decoration: underline;
+        }
+
+        .fallback-btn {
+            display: inline-block;
+            background: linear-gradient(45deg, #4ecdc4, #45b7d1);
+            color: white !important;
+            padding: 15px 30px;
+            border-radius: 25px;
+            text-decoration: none !important;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+
+        .fallback-btn:hover {
+            transform: translateY(-2px);
+            text-decoration: none !important;
+        }
+
+        /* Loading state */
+        .facebook-embed-container {
+            min-height: 500px;
+            position: relative;
+        }
+
+        .facebook-embed-container::before {
+            content: 'Loading Facebook feed...';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #4ecdc4;
+            font-size: 1.2rem;
+            opacity: 0.7;
+        }
+
+        .facebook-embed-container .fb-page {
+            position: relative;
+            z-index: 2;
         }
 
         .facebook-posts-container::-webkit-scrollbar {
