@@ -25,7 +25,8 @@ class KarmakaziSite {
     setupBackgroundVideo() {
         this.backgroundVideo = document.getElementById('background-video');
         
-        if (this.backgroundVideo) {
+        // Only set up video for homepage
+        if (this.backgroundVideo && this.currentPage === 'home') {
             // Set appropriate video source based on page
             this.setVideoSource();
             
@@ -47,15 +48,20 @@ class KarmakaziSite {
             if (this.isMobileDevice()) {
                 this.optimizeForMobile();
             }
+        } else if (this.currentPage !== 'home') {
+            // For non-home pages, just use gradient backgrounds (no video setup needed)
+            console.log(`Using gradient background for ${this.currentPage} page`);
         }
     }
 
     setVideoSource() {
+        // Only set video source for homepage
+        if (this.currentPage !== 'home') {
+            return;
+        }
+
         const videoSources = {
-            home: 'assets/videos/home-background.mp4',
-            about: 'assets/videos/about-background.mp4',
-            works: 'assets/videos/works-background.mp4',
-            blog: 'assets/videos/blog-background.mp4'
+            home: 'assets/videos/home-background.mp4'
         };
 
         const source = this.backgroundVideo.querySelector('source');
