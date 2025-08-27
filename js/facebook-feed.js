@@ -4,7 +4,7 @@ class FacebookFeed {
         // Facebook Configuration - NEVER commit real tokens to public repos
         this.config = {
             appId: 'YOUR_FACEBOOK_APP_ID', // Replace with your actual App ID 
-            pageId: '61579899121583', // Your actual Karmakazi page ID
+            pageId: '742275432308734', // Your actual Karmakazi Facebook Page ID
             accessToken: '', // IMPORTANT: Add your token via environment variable or private config
             apiVersion: 'v18.0'
         };
