@@ -23,30 +23,31 @@
             <p>Welcome to my digital universe</p>
         </header>
 
-        <!-- 3D Sphere Navigation -->
+        <!-- Horizontal Carousel Navigation -->
         <div class="sphere-container" id="sphere-container">
-            <div class="sphere-carousel">
-                <!-- About Me Sphere -->
-                <div class="sphere" data-page="about">
+            <!-- Navigation Arrows -->
+            <button class="carousel-nav prev" id="carousel-prev">‹</button>
+            <button class="carousel-nav next" id="carousel-next">›</button>
+            
+            <div class="sphere-carousel" id="sphere-carousel">
+                <!-- About Me Card -->
+                <div class="sphere center" data-page="about">
                     <div class="sphere-inner">
-                        <div class="sphere-face front">About Me</div>
-                        <div class="sphere-face back">About Me</div>
+                        <div class="sphere-face front" data-title="About Me"></div>
                     </div>
                 </div>
 
-                <!-- My Works Sphere -->
-                <div class="sphere" data-page="works">
+                <!-- My Works Card -->
+                <div class="sphere side" data-page="works">
                     <div class="sphere-inner">
-                        <div class="sphere-face front">My Works</div>
-                        <div class="sphere-face back">My Works</div>
+                        <div class="sphere-face front" data-title="My Works"></div>
                     </div>
                 </div>
 
-                <!-- Blog/Social Media Sphere -->
-                <div class="sphere" data-page="blog">
+                <!-- Blog/Social Media Card -->
+                <div class="sphere side" data-page="blog">
                     <div class="sphere-inner">
-                        <div class="sphere-face front">Blog/Social</div>
-                        <div class="sphere-face back">Blog/Social</div>
+                        <div class="sphere-face front" data-title="Blog/Social"></div>
                     </div>
                 </div>
             </div>
