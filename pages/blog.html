@@ -82,45 +82,60 @@
                         <div class="page-details">
                             <h2>Karmakazi</h2>
                             <p>Paul Castro's Official Updates</p>
-                            <a href="#" id="facebook-page-link" target="_blank" class="page-link">Follow on Facebook →</a>
+                            <a href="https://www.facebook.com/profile.php?id=61579899121583" target="_blank" class="page-link">Follow on Facebook →</a>
                         </div>
                     </div>
                     <div class="feed-status">
-                        <div id="connection-status" class="status-indicator">
-                            <div class="loading-spinner"></div>
-                            <span>Loading posts...</span>
+                        <div class="status-indicator connected">
+                            <span style="color: #4ecdc4;">●</span>
+                            <span>Live Facebook feed</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Scrollable Facebook Posts Feed -->
-                <div class="facebook-posts-container" id="facebook-posts">
-                    <div class="loading-posts">
-                        <div class="loading-animation">
-                            <div class="cosmic-loader"></div>
-                            <p>Connecting to the Karmakazi universe...</p>
-                        </div>
+                <!-- Facebook Page Plugin Embed -->
+                <div class="facebook-embed-container">
+                    <!-- Facebook Page Plugin -->
+                    <div class="fb-page" 
+                         data-href="https://www.facebook.com/profile.php?id=61579899121583"
+                         data-tabs="timeline"
+                         data-width="750"
+                         data-height="600"
+                         data-small-header="false"
+                         data-adapt-container-width="true"
+                         data-hide-cover="false"
+                         data-show-facepile="false">
+                        <blockquote cite="https://www.facebook.com/profile.php?id=61579899121583" class="fb-xfbml-parse-ignore">
+                            <a href="https://www.facebook.com/profile.php?id=61579899121583">Karmakazi</a>
+                        </blockquote>
                     </div>
                 </div>
 
-                <!-- Load More Button -->
-                <div class="load-more-section" id="load-more-section" style="display: none;">
-                    <button id="load-more-btn" class="load-more-btn">
-                        <span>Load More Posts</span>
-                        <div class="btn-loading" style="display: none;">
-                            <div class="loading"></div>
+                <!-- Alternative: Individual Post Embeds -->
+                <div class="individual-posts" style="display: none;">
+                    <h3>Recent Posts</h3>
+                    
+                    <!-- Example embedded post - Replace with your actual post URLs -->
+                    <div class="embedded-post">
+                        <div class="fb-post" 
+                             data-href="https://www.facebook.com/profile.php?id=61579899121583/posts/YOUR_POST_ID"
+                             data-width="500"
+                             data-show-text="true">
+                            <blockquote cite="https://www.facebook.com/profile.php?id=61579899121583/posts/YOUR_POST_ID" class="fb-xfbml-parse-ignore">
+                                Loading post...
+                            </blockquote>
                         </div>
-                    </button>
+                    </div>
+
+                    <!-- Add more posts by copying the above structure -->
                 </div>
 
-                <!-- Error Message -->
-                <div class="error-message" id="error-message" style="display: none;">
-                    <div class="error-content">
-                        <h3>Connection Lost</h3>
-                        <p>Unable to connect to Facebook. The posts may be temporarily unavailable.</p>
-                        <button id="retry-btn" class="retry-btn">Try Again</button>
+                <!-- Fallback Content for No JavaScript -->
+                <noscript>
+                    <div class="facebook-fallback">
+                        <p>Visit our <a href="https://www.facebook.com/profile.php?id=61579899121583" target="_blank">Facebook page</a> to see the latest updates.</p>
                     </div>
-                </div>
+                </noscript>
             </div>
         </section>
 
@@ -182,10 +197,17 @@
     </footer>
 
     <!-- Scripts -->
+    
+    <!-- Facebook SDK -->
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous" 
+            src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v18.0"></script>
+
     <script src="../js/main.js"></script>
     <script src="../js/sphere.js"></script>
     <script src="../js/contact.js"></script>
-    <script src="../js/facebook-feed.js"></script>
+    <!-- Remove the facebook-feed.js since we're using embeds now -->
+    <!-- <script src="../js/facebook-feed.js"></script> -->
 
     <style>
         /* Blog Page Specific Styles */
@@ -287,12 +309,70 @@
             animation: spin 1s linear infinite;
         }
 
-        /* Facebook Posts Container */
-        .facebook-posts-container {
-            max-height: 600px;
-            overflow-y: auto;
-            scrollbar-width: thin;
-            scrollbar-color: #4ecdc4 rgba(255,255,255,0.1);
+        /* Facebook Embed Container */
+        .facebook-embed-container {
+            padding: 20px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            margin: 20px;
+        }
+
+        .facebook-embed-container .fb-page {
+            width: 100% !important;
+        }
+
+        .facebook-embed-container .fb-page span {
+            width: 100% !important;
+        }
+
+        .facebook-embed-container .fb-page iframe {
+            width: 100% !important;
+            max-width: 100% !important;
+        }
+
+        /* Individual embedded posts */
+        .individual-posts {
+            padding: 30px;
+        }
+
+        .individual-posts h3 {
+            color: #4ecdc4;
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .embedded-post {
+            margin: 30px 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .embedded-post .fb-post {
+            width: 100%;
+            max-width: 500px;
+        }
+
+        /* Status indicator for embed */
+        .status-indicator.connected {
+            color: #4ecdc4;
+        }
+
+        /* Facebook fallback */
+        .facebook-fallback {
+            text-align: center;
+            padding: 50px;
+            color: #ccc;
+        }
+
+        .facebook-fallback a {
+            color: #4ecdc4;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .facebook-fallback a:hover {
+            text-decoration: underline;
         }
 
         .facebook-posts-container::-webkit-scrollbar {
