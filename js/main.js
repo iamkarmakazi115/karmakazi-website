@@ -290,19 +290,22 @@ class KarmakaziSite {
     }
 
     preloadCriticalResources() {
-        const criticalResources = [
-            'assets/images/nebula-texture.jpg',
-            'css/main.css',
-            'css/sphere.css'
-        ];
+        // Only preload if we're on the home page to avoid path issues
+        if (this.currentPage === 'home') {
+            const criticalResources = [
+                'assets/images/nebula-texture.jpg',
+                'css/main.css',
+                'css/sphere.css'
+            ];
 
-        criticalResources.forEach(resource => {
-            const link = document.createElement('link');
-            link.rel = 'preload';
-            link.href = resource;
-            link.as = resource.endsWith('.css') ? 'style' : 'image';
-            document.head.appendChild(link);
-        });
+            criticalResources.forEach(resource => {
+                const link = document.createElement('link');
+                link.rel = 'preload';
+                link.href = resource;
+                link.as = resource.endsWith('.css') ? 'style' : 'image';
+                document.head.appendChild(link);
+            });
+        }
     }
 
     setupServiceWorker() {

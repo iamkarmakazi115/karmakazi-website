@@ -3,9 +3,9 @@ class FacebookFeed {
     constructor() {
         // Facebook Configuration
         this.config = {
-            appId: '765276006127261', // You'll need to get this from Facebook Developers
-            pageId: '742275432308734', // Your Karmakazi Facebook page ID
-            accessToken: 'EAAK4A7SAFp0BPfIVVUDjeMnFI6q9kNXhf3G4SQE5FwT9PuU9aRkYqCfBcyH2n2JEjxdQNjk6d4kIqWRHJkiuqa3A890fdzvWYJk6x6YWAqnByhjfcjOMzC3zmOv9xd49Bty1lplGRO6igQxTxWNRZC5U7FDmfH1EamSYIZAgLc2nwbqGZBJLjBYBtPPWsTdudZBUHJATlUPTZCraMUP0dEsicypcDCVC7vgqX6eFJ7zPr3cd7pK91LUsenO787AZDZD', // Long-lived page access token
+            appId: 'YOUR_FACEBOOK_APP_ID', // You'll need to get this from Facebook Developers
+            pageId: '742275432308734', // Your Karmakazi Facebook page ID (from error log)
+            accessToken: '', // REMOVE THE TOKEN - it's invalid and public
             apiVersion: 'v18.0'
         };
 
@@ -48,18 +48,29 @@ class FacebookFeed {
         try {
             this.updateStatus('loading', 'Connecting to Karmakazi...');
             
+            // Check if we have a valid access token
+            if (!this.config.accessToken || this.config.accessToken === '' || this.config.accessToken === 'YOUR_PAGE_ACCESS_TOKEN') {
+                throw new Error('Facebook access token not configured. Please set up Facebook integration.');
+            }
+            
             const url = `https://graph.facebook.com/${this.config.apiVersion}/${this.config.pageId}/posts?fields=id,message,story,created_time,full_picture,attachments,likes.summary(true),comments.summary(true),shares&limit=10&access_token=${this.config.accessToken}`;
             
             const response = await fetch(url);
             
             if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+                if (response.status === 400) {
+                    throw new Error('Facebook API configuration error. Please check your App ID, Page ID, and Access Token.');
+                } else if (response.status === 401) {
+                    throw new Error('Facebook access token expired or invalid. Please generate a new token.');
+                } else {
+                    throw new Error(`Facebook API error: ${response.status}`);
+                }
             }
             
             const data = await response.json();
             
             if (data.error) {
-                throw new Error(data.error.message);
+                throw new Error(`Facebook API Error: ${data.error.message}`);
             }
 
             this.posts = data.data || [];
