@@ -1,0 +1,170 @@
+/* 3D Sphere Navigation Styles */
+.sphere-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 400px;
+    perspective: 1000px;
+    margin: 50px 0;
+}
+
+.sphere-carousel {
+    display: flex;
+    gap: 100px;
+    transform-style: preserve-3d;
+}
+
+/* Individual Sphere */
+.sphere {
+    width: 150px;
+    height: 150px;
+    position: relative;
+    cursor: pointer;
+    transform-style: preserve-3d;
+    transition: transform 0.3s ease;
+}
+
+.sphere:hover {
+    transform: scale(1.1) rotateY(20deg);
+}
+
+.sphere-inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    animation: rotateSphere 10s infinite linear;
+}
+
+/* Sphere Faces */
+.sphere-face {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-image: url('../assets/images/nebula-texture.jpg');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+    text-align: center;
+    box-shadow: 
+        inset -10px -10px 20px rgba(0,0,0,0.3),
+        inset 10px 10px 20px rgba(255,255,255,0.1),
+        0 0 30px rgba(255,255,255,0.2);
+    border: 2px solid rgba(255,255,255,0.1);
+}
+
+.sphere-face.front {
+    transform: rotateY(0deg) translateZ(75px);
+}
+
+.sphere-face.back {
+    transform: rotateY(180deg) translateZ(75px);
+}
+
+/* Create additional faces for more realistic sphere */
+.sphere-inner::before,
+.sphere-inner::after {
+    content: '';
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-image: url('../assets/images/nebula-texture.jpg');
+    background-size: cover;
+    box-shadow: 
+        inset -10px -10px 20px rgba(0,0,0,0.3),
+        inset 10px 10px 20px rgba(255,255,255,0.1);
+}
+
+.sphere-inner::before {
+    transform: rotateY(90deg) translateZ(75px);
+}
+
+.sphere-inner::after {
+    transform: rotateY(-90deg) translateZ(75px);
+}
+
+/* Rotation Animation */
+@keyframes rotateSphere {
+    0% {
+        transform: rotateX(0deg) rotateY(0deg);
+    }
+    25% {
+        transform: rotateX(90deg) rotateY(90deg);
+    }
+    50% {
+        transform: rotateX(180deg) rotateY(180deg);
+    }
+    75% {
+        transform: rotateX(270deg) rotateY(270deg);
+    }
+    100% {
+        transform: rotateX(360deg) rotateY(360deg);
+    }
+}
+
+/* Sphere Labels */
+.sphere-face span {
+    padding: 10px;
+    background: rgba(0,0,0,0.7);
+    border-radius: 20px;
+    backdrop-filter: blur(5px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .sphere-carousel {
+        flex-direction: column;
+        gap: 50px;
+        align-items: center;
+    }
+    
+    .sphere {
+        width: 120px;
+        height: 120px;
+    }
+    
+    .sphere-face {
+        width: 120px;
+        height: 120px;
+        font-size: 12px;
+    }
+    
+    .sphere-face.front,
+    .sphere-face.back {
+        transform: rotateY(0deg) translateZ(60px);
+    }
+    
+    .sphere-inner::before {
+        transform: rotateY(90deg) translateZ(60px);
+    }
+    
+    .sphere-inner::after {
+        transform: rotateY(-90deg) translateZ(60px);
+    }
+}
+
+/* Four Sphere Layout (for other pages) */
+.four-sphere-layout .sphere-carousel {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 80px;
+    justify-items: center;
+    align-items: center;
+}
+
+@media (max-width: 768px) {
+    .four-sphere-layout .sphere-carousel {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(4, 1fr);
+        gap: 40px;
+    }
+}

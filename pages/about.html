@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paul Castro - About Me</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/sphere.css">
+</head>
+<body>
+    <!-- Background Video -->
+    <div class="video-background">
+        <video autoplay muted loop id="background-video">
+            <source src="../assets/videos/about-background.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content" id="main-content">
+        <header class="site-header">
+            <h1>About Paul Castro</h1>
+            <p>Discover my journey through the cosmos</p>
+        </header>
+
+        <!-- 4 Sphere Navigation -->
+        <div class="sphere-container four-sphere-layout" id="sphere-container">
+            <div class="sphere-carousel">
+                <!-- Home Sphere -->
+                <div class="sphere" data-page="home">
+                    <div class="sphere-inner">
+                        <div class="sphere-face front">Home</div>
+                        <div class="sphere-face back">Home</div>
+                    </div>
+                </div>
+
+                <!-- My Works Sphere -->
+                <div class="sphere" data-page="works">
+                    <div class="sphere-inner">
+                        <div class="sphere-face front">My Works</div>
+                        <div class="sphere-face back">My Works</div>
+                    </div>
+                </div>
+
+                <!-- Blog/Social Media Sphere -->
+                <div class="sphere" data-page="blog">
+                    <div class="sphere-inner">
+                        <div class="sphere-face front">Blog/Social</div>
+                        <div class="sphere-face back">Blog/Social</div>
+                    </div>
+                </div>
+
+                <!-- Current Page Indicator -->
+                <div class="sphere current-page">
+                    <div class="sphere-inner">
+                        <div class="sphere-face front">About Me</div>
+                        <div class="sphere-face back">About Me</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- About Content -->
+        <section class="about-content">
+            <div class="content-wrapper">
+                <div class="about-intro">
+                    <h2>Welcome to My Universe</h2>
+                    <p>I'm Paul Castro, a digital explorer navigating the vast cosmos of technology, creativity, and innovation. My journey spans multiple galaxies of expertise, from development to design, always seeking new frontiers to explore.</p>
+                </div>
+
+                <div class="about-sections">
+                    <div class="about-section">
+                        <h3>My Mission</h3>
+                        <p>To bridge the gap between imagination and reality, creating digital experiences that transport users to new dimensions of possibility.</p>
+                    </div>
+
+                    <div class="about-section">
+                        <h3>My Journey</h3>
+                        <p>From the early days of coding simple scripts to building complex digital universes, my path has been guided by curiosity and a passion for pushing boundaries.</p>
+                    </div>
+
+                    <div class="about-section">
+                        <h3>My Philosophy</h3>
+                        <p>Every project is a new planet to explore, every challenge a constellation to navigate, and every solution a star that lights the way for others.</p>
+                    </div>
+                </div>
+
+                <div class="skills-galaxy">
+                    <h3>Skills Constellation</h3>
+                    <div class="skills-grid">
+                        <div class="skill-item">Web Development</div>
+                        <div class="skill-item">UI/UX Design</div>
+                        <div class="skill-item">3D Graphics</div>
+                        <div class="skill-item">Animation</div>
+                        <div class="skill-item">Creative Coding</div>
+                        <div class="skill-item">Digital Art</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Contact Footer -->
+    <footer class="contact-footer">
+        <div class="contact-container">
+            <div class="contact-info">
+                <h3>Contact Paul Castro</h3>
+                <p>Email: iamkarmakazi115@gmail.com</p>
+            </div>
+            
+            <form class="contact-form" id="contact-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="contact-email">Your Email:</label>
+                        <input type="email" id="contact-email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="contact-subject">Subject:</label>
+                        <input type="text" id="contact-subject" name="subject" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="contact-message">Message (200 words max):</label>
+                    <textarea id="contact-message" name="message" maxlength="1200" required></textarea>
+                    <div class="word-count">
+                        <span id="word-count">0</span>/200 words
+                    </div>
+                </div>
+                <button type="submit" class="submit-btn">Send Message</button>
+            </form>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../js/main.js"></script>
+    <script src="../js/sphere.js"></script>
+    <script src="../js/contact.js"></script>
+
+    <style>
+        /* Additional styles for about page */
+        .current-page .sphere-inner {
+            animation-play-state: paused;
+            filter: brightness(1.3) saturate(1.2);
+        }
+
+        .current-page .sphere-face {
+            box-shadow: 
+                inset -10px -10px 20px rgba(0,0,0,0.3),
+                inset 10px 10px 20px rgba(255,255,255,0.1),
+                0 0 50px rgba(78, 205, 196, 0.8);
+        }
+
+        .about-content {
+            padding: 50px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .about-intro {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .about-intro h2 {
+            font-size: 2.5rem;
+            color: #4ecdc4;
+            margin-bottom: 20px;
+        }
+
+        .about-intro p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            color: #ddd;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .about-sections {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .about-section {
+            background: rgba(0,0,0,0.4);
+            padding: 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .about-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(78, 205, 196, 0.3);
+        }
+
+        .about-section h3 {
+            color: #4ecdc4;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .about-section p {
+            color: #ccc;
+            line-height: 1.6;
+        }
+
+        .skills-galaxy {
+            text-align: center;
+        }
+
+        .skills-galaxy h3 {
+            color: #4ecdc4;
+            font-size: 2rem;
+            margin-bottom: 30px;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .skill-item {
+            background: linear-gradient(45deg, rgba(78, 205, 196, 0.2), rgba(69, 183, 209, 0.2));
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid rgba(78, 205, 196, 0.3);
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .skill-item:hover {
+            background: linear-gradient(45deg, rgba(78, 205, 196, 0.4), rgba(69, 183, 209, 0.4));
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(78, 205, 196, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .about-intro h2 {
+                font-size: 2rem;
+            }
+
+            .about-sections {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .skills-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 15px;
+            }
+        }
