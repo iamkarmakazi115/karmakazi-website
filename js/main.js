@@ -59,9 +59,26 @@ class KarmakaziSite {
         };
 
         const source = this.backgroundVideo.querySelector('source');
-        if (source) {
+        if (source && videoSources[this.currentPage]) {
             source.src = videoSources[this.currentPage];
             this.backgroundVideo.load();
+            
+            // Add error handling for missing videos
+            this.backgroundVideo.addEventListener('error', () => {
+                console.log(`Video ${videoSources[this.currentPage]} not found, using fallback background`);
+                this.handleVideoError();
+            });
+            
+            // Set a timeout to fallback if video doesn't load
+            setTimeout(() => {
+                if (this.backgroundVideo.networkState === HTMLMediaElement.NETWORK_NO_SOURCE) {
+                    console.log('Video failed to load, using fallback');
+                    this.handleVideoError();
+                }
+            }, 3000);
+        } else {
+            // No video source specified, use fallback immediately
+            this.handleVideoError();
         }
     }
 
@@ -102,11 +119,12 @@ class KarmakaziSite {
     }
 
     handleVideoError() {
-        console.warn('Video failed to load, using fallback background');
+        console.log('Setting up fallback background due to video error');
         const videoContainer = document.querySelector('.video-background');
         
         // Create fallback background
         const fallbackBg = document.createElement('div');
+        fallbackBg.className = 'video-fallback';
         fallbackBg.style.cssText = `
             position: absolute;
             top: 0;
@@ -116,12 +134,19 @@ class KarmakaziSite {
             background: linear-gradient(45deg, #1a1a2e, #16213e, #0f3460);
             background-size: 400% 400%;
             animation: gradientShift 15s ease infinite;
+            opacity: 0.8;
+            z-index: 1;
         `;
         
-        videoContainer.appendChild(fallbackBg);
+        // Only add fallback if it doesn't already exist
+        if (!videoContainer.querySelector('.video-fallback')) {
+            videoContainer.appendChild(fallbackBg);
+        }
         
         // Hide the video element
-        this.backgroundVideo.style.display = 'none';
+        if (this.backgroundVideo) {
+            this.backgroundVideo.style.display = 'none';
+        }
     }
 
     isMobileDevice() {

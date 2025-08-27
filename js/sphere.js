@@ -116,24 +116,23 @@ class SphereNavigation {
         // Show loading state
         this.showLoadingState(sphere);
         
+        // Determine the correct path based on current location
+        const currentPath = window.location.pathname;
+        let targetPath = '';
+        
+        // Check if we're currently in a subdirectory (pages folder)
+        const isInPagesFolder = currentPath.includes('/pages/');
+        
+        // Set correct navigation paths
+        if (page === 'home') {
+            targetPath = isInPagesFolder ? '../index.html' : 'index.html';
+        } else {
+            targetPath = isInPagesFolder ? `${page}.html` : `pages/${page}.html`;
+        }
+        
         // Simulate page transition delay
         setTimeout(() => {
-            switch(page) {
-                case 'about':
-                    window.location.href = 'pages/about.html';
-                    break;
-                case 'works':
-                    window.location.href = 'pages/works.html';
-                    break;
-                case 'blog':
-                    window.location.href = 'pages/blog.html';
-                    break;
-                case 'home':
-                    window.location.href = 'index.html';
-                    break;
-                default:
-                    console.log('Unknown page:', page);
-            }
+            window.location.href = targetPath;
         }, 500);
     }
 
