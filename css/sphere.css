@@ -100,15 +100,54 @@
     animation: gentleFloat 6s ease-in-out infinite;
 }
 
-/* Card Face Styling */
+/* Pentagon Card Styling */
+.sphere {
+    width: 200px;
+    height: 280px;
+    position: relative;
+    cursor: pointer;
+    transform-style: preserve-3d;
+    transition: transform 0.3s ease, filter 0.3s ease;
+    flex-shrink: 0;
+    margin: 20px 0; /* Add margin for pentagon shape */
+}
+
+/* Center card is larger and focused */
+.sphere.center {
+    width: 250px;
+    height: 350px;
+    transform: scale(1.1);
+    z-index: 5;
+    filter: brightness(1.2) contrast(1.1);
+    box-shadow: 0 20px 40px rgba(78, 205, 196, 0.3);
+}
+
+/* Side cards are slightly dimmed */
+.sphere.side {
+    filter: brightness(0.8) contrast(0.9);
+    transform: scale(0.95);
+}
+
+.sphere:hover {
+    transform: scale(1.05) translateY(-10px);
+    box-shadow: 0 15px 30px rgba(78, 205, 196, 0.4);
+    filter: brightness(1.2) contrast(1.1);
+}
+
+.sphere-inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    overflow: visible;
+    animation: gentleFloat 6s ease-in-out infinite;
+}
+
+/* Pentagon Shape Creation */
 .sphere-face {
     position: absolute;
     width: 100%;
     height: 100%;
-    border-radius: 15px;
-    background-image: url('../assets/images/nebula-texture.jpg');
-    background-size: cover;
-    background-position: center;
     display: flex;
     align-items: flex-end;
     justify-content: center;
@@ -117,31 +156,62 @@
     color: white;
     text-shadow: 2px 2px 4px rgba(0,0,0,0.9);
     text-align: center;
+    padding: 20px;
+    
+    /* Pentagon shape using clip-path */
+    clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+    
+    /* Nebula texture background */
+    background-image: url('../assets/images/Nebula-texture.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    
+    /* Shadow and lighting effects */
     box-shadow: 
         inset 0 -50px 100px rgba(0,0,0,0.6),
-        0 10px 30px rgba(0,0,0,0.3);
+        0 10px 30px rgba(0,0,0,0.4),
+        0 0 20px rgba(78, 205, 196, 0.2);
+    
+    /* Border effect */
     border: 2px solid rgba(255,255,255,0.1);
-    padding: 20px;
+    
+    /* Fallback gradient if texture fails to load */
+    background-color: #2d1b69;
+}
+
+/* Ensure texture loads properly */
+.sphere-face {
+    background-image: 
+        url('../assets/images/Nebula-texture.jpg'),
+        url('./assets/images/Nebula-texture.jpg'),
+        linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+    background-blend-mode: normal;
 }
 
 .sphere-face.front {
     transform: translateZ(0px);
 }
 
-/* Title overlay at bottom of card */
+/* Pentagon Title Overlay */
 .sphere-face::after {
     content: attr(data-title);
     position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: linear-gradient(transparent, rgba(0,0,0,0.8));
-    padding: 30px 20px 20px;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(transparent, rgba(0,0,0,0.9));
+    padding: 15px 25px 10px;
     color: white;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: bold;
     text-align: center;
     text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.2);
+    white-space: nowrap;
+    z-index: 10;
 }
 
 /* Page titles */
@@ -152,15 +222,163 @@
 
 /* Remove the old text content */
 .sphere-face {
-    font-size: 0; /* Hide the old text */
+    font-size: 0; /* Hide any text content in the face itself */
 }
 
-/* Fallback texture if main image fails */
-.sphere-face {
-    background-image: 
-        url('../assets/images/nebula-texture.jpg'),
-        linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
-    background-blend-mode: overlay;
+/* Enhanced hover effects for pentagon */
+.sphere:hover .sphere-face {
+    box-shadow: 
+        inset 0 -50px 100px rgba(0,0,0,0.4),
+        0 20px 40px rgba(78, 205, 196, 0.5),
+        0 0 30px rgba(78, 205, 196, 0.4);
+    filter: brightness(1.1) saturate(1.3);
+    transform: translateY(-2px);
+}
+
+/* Pentagon glow effect */
+.sphere:hover .sphere-face::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+    background: linear-gradient(45deg, rgba(78, 205, 196, 0.3), rgba(69, 183, 209, 0.3));
+    z-index: -1;
+    filter: blur(8px);
+}
+
+/* Gentle floating animation */
+@keyframes gentleFloat {
+    0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-8px) rotate(1deg);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .sphere-carousel {
+        flex-direction: row;
+        gap: 20px;
+        overflow-x: auto;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        padding: 20px 0;
+    }
+    
+    .sphere-carousel::-webkit-scrollbar {
+        display: none;
+    }
+    
+    .sphere {
+        width: 140px;
+        height: 200px;
+        flex-shrink: 0;
+        margin: 10px 0;
+    }
+    
+    .sphere.center {
+        width: 160px;
+        height: 230px;
+    }
+    
+    .sphere-face::after {
+        font-size: 14px;
+        padding: 10px 15px 8px;
+    }
+    
+    .carousel-nav {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+    }
+    
+    .carousel-nav.prev {
+        left: 10px;
+    }
+    
+    .carousel-nav.next {
+        right: 10px;
+    }
+}
+
+/* Four Pentagon Layout (for other pages) */
+.four-sphere-layout .sphere-carousel {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.four-sphere-layout .sphere {
+    width: 180px;
+    height: 250px;
+}
+
+@media (max-width: 768px) {
+    .four-sphere-layout .sphere-carousel {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
+        gap: 20px;
+        max-width: 400px;
+    }
+    
+    .four-sphere-layout .sphere {
+        width: 140px;
+        height: 200px;
+    }
+}
+
+/* Current page indicator for pentagon */
+.current-page .sphere-face {
+    box-shadow: 
+        inset 0 -50px 100px rgba(0,0,0,0.4),
+        0 0 60px rgba(78, 205, 196, 1),
+        0 0 100px rgba(78, 205, 196, 0.6),
+        0 20px 40px rgba(78, 205, 196, 0.3);
+    animation: pentagonGlow 2s ease-in-out infinite alternate;
+    border: 3px solid rgba(78, 205, 196, 0.6);
+}
+
+@keyframes pentagonGlow {
+    0% {
+        box-shadow: 
+            inset 0 -50px 100px rgba(0,0,0,0.4),
+            0 0 60px rgba(78, 205, 196, 1),
+            0 0 100px rgba(78, 205, 196, 0.6);
+        filter: brightness(1.2) saturate(1.2);
+    }
+    100% {
+        box-shadow: 
+            inset 0 -50px 100px rgba(0,0,0,0.4),
+            0 0 80px rgba(78, 205, 196, 1),
+            0 0 120px rgba(78, 205, 196, 0.8);
+        filter: brightness(1.4) saturate(1.4);
+    }
+}
+
+/* Pentagon loading animation */
+.sphere.loading .sphere-face {
+    animation: pentagonPulse 1s ease-in-out infinite;
+}
+
+@keyframes pentagonPulse {
+    0%, 100% {
+        transform: scale(1);
+        filter: brightness(1);
+    }
+    50% {
+        transform: scale(1.05);
+        filter: brightness(1.3);
+    }
 }
 
 /* Gentle floating animation */
