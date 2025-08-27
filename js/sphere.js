@@ -1,101 +1,350 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Paul Castro - Home</title>
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/sphere.css">
-</head>
-<body>
-    <!-- Background Video -->
-    <div class="video-background">
-        <video autoplay muted loop id="background-video">
-            <source src="assets/videos/home-background.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
-    </div>
+// Horizontal Carousel Navigation System
+class SphereNavigation {
+    constructor() {
+        this.spheres = document.querySelectorAll('.sphere');
+        this.carousel = document.getElementById('sphere-carousel');
+        this.prevBtn = document.getElementById('carousel-prev');
+        this.nextBtn = document.getElementById('carousel-next');
+        this.currentIndex = 0;
+        this.totalSpheres = this.spheres.length;
+        
+        this.init();
+    }
 
-    <!-- Main Content -->
-    <main class="main-content">
-        <header class="site-header">
-            <h1>Paul Castro</h1>
-            <p>Welcome to my digital universe</p>
-        </header>
+    init() {
+        this.addEventListeners();
+        this.setupHoverEffects();
+        this.setupClickHandlers();
+        this.setupCarouselNavigation();
+        this.updateCarousel();
+    }
 
-        <!-- Horizontal Carousel Navigation -->
-        <div class="sphere-container" id="sphere-container">
-            <!-- Navigation Arrows -->
-            <button class="carousel-nav prev" id="carousel-prev">‹</button>
-            <button class="carousel-nav next" id="carousel-next">›</button>
+    setupCarouselNavigation() {
+        if (this.prevBtn && this.nextBtn && this.totalSpheres > 1) {
+            this.prevBtn.addEventListener('click', () => {
+                this.currentIndex = (this.currentIndex - 1 + this.totalSpheres) % this.totalSpheres;
+                this.updateCarousel();
+            });
+
+            this.nextBtn.addEventListener('click', () => {
+                this.currentIndex = (this.currentIndex + 1) % this.totalSpheres;
+                this.updateCarousel();
+            });
+
+            // Auto-rotate carousel every 5 seconds (optional)
+            setInterval(() => {
+                this.currentIndex = (this.currentIndex + 1) % this.totalSpheres;
+                this.updateCarousel();
+            }, 5000);
+
+            // Keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                    this.prevBtn.click();
+                } else if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                    this.nextBtn.click();
+                }
+            });
+        }
+
+        // Touch/Swipe support for mobile
+        this.setupTouchNavigation();
+    }
+
+    updateCarousel() {
+        this.spheres.forEach((sphere, index) => {
+            sphere.classList.remove('center', 'side');
             
-            <div class="sphere-carousel" id="sphere-carousel">
-                <!-- About Me Card -->
-                <div class="sphere center" data-page="about">
-                    <div class="sphere-inner">
-                        <div class="sphere-face front" data-title="About Me"></div>
-                    </div>
-                </div>
+            if (index === this.currentIndex) {
+                sphere.classList.add('center');
+            } else {
+                sphere.classList.add('side');
+            }
+        });
 
-                <!-- My Works Card -->
-                <div class="sphere side" data-page="works">
-                    <div class="sphere-inner">
-                        <div class="sphere-face front" data-title="My Works"></div>
-                    </div>
-                </div>
+        // Update carousel position (smooth scroll for mobile)
+        if (window.innerWidth <= 768) {
+            const centerSphere = this.spheres[this.currentIndex];
+            if (centerSphere && this.carousel.scrollTo) {
+                const sphereWidth = centerSphere.offsetWidth;
+                const scrollPosition = this.currentIndex * (sphereWidth + 20) - (this.carousel.offsetWidth - sphereWidth) / 2;
+                this.carousel.scrollTo({
+                    left: Math.max(0, scrollPosition),
+                    behavior: 'smooth'
+                });
+            }
+        }
+    }
 
-                <!-- Blog/Social Media Card -->
-                <div class="sphere side" data-page="blog">
-                    <div class="sphere-inner">
-                        <div class="sphere-face front" data-title="Blog/Social"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    setupTouchNavigation() {
+        let startX = 0;
+        let startY = 0;
+        let isDragging = false;
 
-        <!-- Welcome Content -->
-        <section class="welcome-section">
-            <div class="content-wrapper">
-                <h2>Explore My Universe</h2>
-                <p>Navigate through my world using the rotating spheres above. Each sphere will transport you to a different dimension of my work and personality.</p>
-            </div>
-        </section>
-    </main>
+        this.carousel.addEventListener('touchstart', (e) => {
+            startX = e.touches[0].clientX;
+            startY = e.touches[0].clientY;
+            isDragging = true;
+        });
 
-    <!-- Contact Footer -->
-    <footer class="contact-footer">
-        <div class="contact-container">
-            <div class="contact-info">
-                <h3>Contact Paul Castro</h3>
-                <p>Email: iamkarmakazi115@gmail.com</p>
-            </div>
+        this.carousel.addEventListener('touchmove', (e) => {
+            if (!isDragging) return;
+            e.preventDefault(); // Prevent scrolling
+        });
+
+        this.carousel.addEventListener('touchend', (e) => {
+            if (!isDragging) return;
             
-            <form class="contact-form" id="contact-form">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="contact-email">Your Email:</label>
-                        <input type="email" id="contact-email" name="email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="contact-subject">Subject:</label>
-                        <input type="text" id="contact-subject" name="subject" required>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="contact-message">Message (200 words max):</label>
-                    <textarea id="contact-message" name="message" maxlength="1200" required></textarea>
-                    <div class="word-count">
-                        <span id="word-count">0</span>/200 words
-                    </div>
-                </div>
-                <button type="submit" class="submit-btn">Send Message</button>
-            </form>
-        </div>
-    </footer>
+            const endX = e.changedTouches[0].clientX;
+            const endY = e.changedTouches[0].clientY;
+            const diffX = startX - endX;
+            const diffY = startY - endY;
+            
+            // Check if horizontal swipe is greater than vertical
+            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+                if (diffX > 0) {
+                    // Swipe left - next
+                    this.nextBtn.click();
+                } else {
+                    // Swipe right - prev
+                    this.prevBtn.click();
+                }
+            }
+            
+            isDragging = false;
+        });
+    }
 
-    <!-- Scripts -->
-    <script src="js/main.js"></script>
-    <script src="js/sphere.js"></script>
-    <script src="js/contact.js"></script>
-</body>
-</html>
+    addEventListeners() {
+        this.spheres.forEach(sphere => {
+            sphere.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.handleSphereClick(sphere);
+            });
+
+            sphere.addEventListener('mouseenter', () => {
+                this.pauseAutoRotation();
+            });
+
+            sphere.addEventListener('mouseleave', () => {
+                this.resumeAutoRotation();
+            });
+        });
+    }
+
+    setupHoverEffects() {
+        this.spheres.forEach(sphere => {
+            sphere.addEventListener('mouseenter', () => {
+                if (!sphere.classList.contains('center')) {
+                    sphere.style.transform = 'scale(1.05) translateY(-5px)';
+                }
+                sphere.style.filter = 'brightness(1.2) contrast(1.1)';
+                
+                // Add glow effect
+                const sphereFace = sphere.querySelector('.sphere-face');
+                if (sphereFace) {
+                    sphereFace.style.boxShadow = `
+                        inset 0 -50px 100px rgba(0,0,0,0.4),
+                        0 0 40px rgba(78, 205, 196, 0.6)
+                    `;
+                }
+            });
+
+            sphere.addEventListener('mouseleave', () => {
+                sphere.style.transform = '';
+                sphere.style.filter = '';
+                
+                const sphereFace = sphere.querySelector('.sphere-face');
+                if (sphereFace) {
+                    sphereFace.style.boxShadow = '';
+                }
+            });
+        });
+    }
+
+    setupClickHandlers() {
+        this.spheres.forEach((sphere, index) => {
+            sphere.addEventListener('click', () => {
+                // If clicking on a side card, center it first
+                if (!sphere.classList.contains('center')) {
+                    this.currentIndex = index;
+                    this.updateCarousel();
+                    return;
+                }
+                
+                // If clicking on center card, navigate to page
+                const page = sphere.getAttribute('data-page');
+                if (page) {
+                    this.navigateToPage(page, sphere);
+                }
+            });
+        });
+    }
+
+    handleSphereClick(sphere) {
+        // Add click animation
+        sphere.style.transform = 'scale(0.95)';
+        
+        setTimeout(() => {
+            sphere.style.transform = '';
+        }, 150);
+
+        // Create ripple effect
+        this.createRippleEffect(sphere);
+    }
+
+    createRippleEffect(sphere) {
+        const ripple = document.createElement('div');
+        ripple.className = 'sphere-ripple';
+        
+        const rect = sphere.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        
+        ripple.style.width = ripple.style.height = size + 'px';
+        ripple.style.left = '50%';
+        ripple.style.top = '50%';
+        ripple.style.transform = 'translate(-50%, -50%) scale(0)';
+        ripple.style.position = 'absolute';
+        ripple.style.borderRadius = '50%';
+        ripple.style.background = 'rgba(78, 205, 196, 0.4)';
+        ripple.style.pointerEvents = 'none';
+        ripple.style.animation = 'ripple 0.6s ease-out';
+        ripple.style.zIndex = '100';
+        
+        sphere.style.position = 'relative';
+        sphere.appendChild(ripple);
+        
+        setTimeout(() => {
+            ripple.remove();
+        }, 600);
+    }
+
+    navigateToPage(page, sphere) {
+        // Show loading state
+        this.showLoadingState(sphere);
+        
+        // Determine the correct path based on current location
+        const currentPath = window.location.pathname;
+        let targetPath = '';
+        
+        // Check if we're currently in a subdirectory (pages folder)
+        const isInPagesFolder = currentPath.includes('/pages/');
+        
+        // Set correct navigation paths
+        if (page === 'home') {
+            targetPath = isInPagesFolder ? '../index.html' : 'index.html';
+        } else {
+            targetPath = isInPagesFolder ? `${page}.html` : `pages/${page}.html`;
+        }
+        
+        // Simulate page transition delay
+        setTimeout(() => {
+            window.location.href = targetPath;
+        }, 500);
+    }
+
+    showLoadingState(sphere) {
+        const sphereFace = sphere.querySelector('.sphere-face');
+        if (sphereFace) {
+            const originalContent = sphereFace.innerHTML;
+            sphereFace.innerHTML = '<div class="loading"></div>';
+            
+            // Restore content after navigation
+            setTimeout(() => {
+                sphereFace.innerHTML = originalContent;
+            }, 2000);
+        }
+    }
+
+    pauseAutoRotation() {
+        if (this.autoRotationInterval) {
+            clearInterval(this.autoRotationInterval);
+        }
+    }
+
+    resumeAutoRotation() {
+        // Resume after a delay
+        setTimeout(() => {
+            this.autoRotationInterval = setInterval(() => {
+                this.currentIndex = (this.currentIndex + 1) % this.totalSpheres;
+                this.updateCarousel();
+            }, 5000);
+        }, 1000);
+    }
+
+    // Dynamic sphere creation for different page layouts
+    static createSphere(text, page, container) {
+        const sphere = document.createElement('div');
+        sphere.className = 'sphere';
+        sphere.setAttribute('data-page', page);
+        
+        sphere.innerHTML = `
+            <div class="sphere-inner">
+                <div class="sphere-face front" data-title="${text}"></div>
+            </div>
+        `;
+        
+        container.appendChild(sphere);
+        
+        // Initialize event listeners for the new sphere
+        const navigation = new SphereNavigation();
+        navigation.setupSingleSphere(sphere);
+        
+        return sphere;
+    }
+
+    setupSingleSphere(sphere) {
+        sphere.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.handleSphereClick(sphere);
+            
+            const page = sphere.getAttribute('data-page');
+            if (page) {
+                this.navigateToPage(page, sphere);
+            }
+        });
+
+        // Add hover effects
+        this.setupHoverEffects();
+    }
+}
+
+// Add CSS for ripple effect and loading
+const carouselStyle = document.createElement('style');
+carouselStyle.textContent = `
+    @keyframes ripple {
+        to {
+            transform: translate(-50%, -50%) scale(2);
+            opacity: 0;
+        }
+    }
+    
+    .sphere-ripple {
+        z-index: 100;
+    }
+    
+    .loading {
+        width: 20px;
+        height: 20px;
+        border: 2px solid rgba(255,255,255,0.3);
+        border-radius: 50%;
+        border-top-color: #4ecdc4;
+        animation: spin 1s linear infinite;
+        margin: 0 auto;
+    }
+    
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+`;
+document.head.appendChild(carouselStyle);
+
+// Initialize when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    new SphereNavigation();
+});
+
+// Export for use in other files
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = SphereNavigation;
+}
