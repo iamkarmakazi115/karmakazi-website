@@ -310,6 +310,33 @@
             margin: 0;
         }
 
+        /* Ensure pentagon titles show in sidebar */
+        .sidebar-nav .sphere-face::after {
+            content: attr(data-title);
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(transparent, rgba(0,0,0,0.9));
+            padding: 10px 15px 5px;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            white-space: nowrap;
+            z-index: 10;
+        }
+
+        /* Pentagon titles for sidebar spheres */
+        .sidebar-nav .sphere[data-page="home"] .sphere-face::after { content: "Home"; }
+        .sidebar-nav .sphere[data-page="about"] .sphere-face::after { content: "About Me"; }
+        .sidebar-nav .sphere[data-page="works"] .sphere-face::after { content: "My Works"; }
+        .sidebar-nav .sphere[data-page="blog"] .sphere-face::after { content: "Blog/Social"; }
+
         /* Main Content Layout */
         .main-content {
             flex: 1;
