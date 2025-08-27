@@ -1,221 +1,101 @@
-// Sphere Navigation System
-class SphereNavigation {
-    constructor() {
-        this.spheres = document.querySelectorAll('.sphere');
-        this.init();
-    }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paul Castro - Home</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/sphere.css">
+</head>
+<body>
+    <!-- Background Video -->
+    <div class="video-background">
+        <video autoplay muted loop id="background-video">
+            <source src="assets/videos/home-background.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
 
-    init() {
-        this.addEventListeners();
-        this.setupHoverEffects();
-        this.setupClickHandlers();
-    }
+    <!-- Main Content -->
+    <main class="main-content">
+        <header class="site-header">
+            <h1>Paul Castro</h1>
+            <p>Welcome to my digital universe</p>
+        </header>
 
-    addEventListeners() {
-        this.spheres.forEach(sphere => {
-            sphere.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.handleSphereClick(sphere);
-            });
+        <!-- Horizontal Carousel Navigation -->
+        <div class="sphere-container" id="sphere-container">
+            <!-- Navigation Arrows -->
+            <button class="carousel-nav prev" id="carousel-prev">‹</button>
+            <button class="carousel-nav next" id="carousel-next">›</button>
+            
+            <div class="sphere-carousel" id="sphere-carousel">
+                <!-- About Me Card -->
+                <div class="sphere center" data-page="about">
+                    <div class="sphere-inner">
+                        <div class="sphere-face front" data-title="About Me"></div>
+                    </div>
+                </div>
 
-            sphere.addEventListener('mouseenter', () => {
-                this.pauseRotation(sphere);
-            });
+                <!-- My Works Card -->
+                <div class="sphere side" data-page="works">
+                    <div class="sphere-inner">
+                        <div class="sphere-face front" data-title="My Works"></div>
+                    </div>
+                </div>
 
-            sphere.addEventListener('mouseleave', () => {
-                this.resumeRotation(sphere);
-            });
-        });
-    }
-
-    setupHoverEffects() {
-        this.spheres.forEach(sphere => {
-            sphere.addEventListener('mouseenter', () => {
-                sphere.style.transform = 'scale(1.15) rotateY(20deg)';
-                sphere.style.filter = 'brightness(1.2) contrast(1.1)';
-                
-                // Add glow effect
-                sphere.style.boxShadow = '0 0 40px rgba(78, 205, 196, 0.6)';
-            });
-
-            sphere.addEventListener('mouseleave', () => {
-                sphere.style.transform = 'scale(1)';
-                sphere.style.filter = 'brightness(1) contrast(1)';
-                sphere.style.boxShadow = 'none';
-            });
-        });
-    }
-
-    setupClickHandlers() {
-        this.spheres.forEach(sphere => {
-            sphere.addEventListener('click', () => {
-                const page = sphere.getAttribute('data-page');
-                if (page) {
-                    this.navigateToPage(page, sphere);
-                }
-            });
-        });
-    }
-
-    pauseRotation(sphere) {
-        const sphereInner = sphere.querySelector('.sphere-inner');
-        if (sphereInner) {
-            sphereInner.style.animationPlayState = 'paused';
-        }
-    }
-
-    resumeRotation(sphere) {
-        const sphereInner = sphere.querySelector('.sphere-inner');
-        if (sphereInner) {
-            sphereInner.style.animationPlayState = 'running';
-        }
-    }
-
-    handleSphereClick(sphere) {
-        // Add click animation
-        sphere.style.transform = 'scale(0.95)';
-        
-        setTimeout(() => {
-            sphere.style.transform = 'scale(1.15)';
-        }, 150);
-
-        setTimeout(() => {
-            sphere.style.transform = 'scale(1)';
-        }, 300);
-
-        // Create ripple effect
-        this.createRippleEffect(sphere);
-    }
-
-    createRippleEffect(sphere) {
-        const ripple = document.createElement('div');
-        ripple.className = 'sphere-ripple';
-        
-        const rect = sphere.getBoundingClientRect();
-        const size = Math.max(rect.width, rect.height);
-        
-        ripple.style.width = ripple.style.height = size + 'px';
-        ripple.style.left = '50%';
-        ripple.style.top = '50%';
-        ripple.style.transform = 'translate(-50%, -50%) scale(0)';
-        ripple.style.position = 'absolute';
-        ripple.style.borderRadius = '50%';
-        ripple.style.background = 'rgba(78, 205, 196, 0.4)';
-        ripple.style.pointerEvents = 'none';
-        ripple.style.animation = 'ripple 0.6s ease-out';
-        
-        sphere.style.position = 'relative';
-        sphere.appendChild(ripple);
-        
-        setTimeout(() => {
-            ripple.remove();
-        }, 600);
-    }
-
-    navigateToPage(page, sphere) {
-        // Show loading state
-        this.showLoadingState(sphere);
-        
-        // Determine the correct path based on current location
-        const currentPath = window.location.pathname;
-        let targetPath = '';
-        
-        // Check if we're currently in a subdirectory (pages folder)
-        const isInPagesFolder = currentPath.includes('/pages/');
-        
-        // Set correct navigation paths
-        if (page === 'home') {
-            targetPath = isInPagesFolder ? '../index.html' : 'index.html';
-        } else {
-            targetPath = isInPagesFolder ? `${page}.html` : `pages/${page}.html`;
-        }
-        
-        // Simulate page transition delay
-        setTimeout(() => {
-            window.location.href = targetPath;
-        }, 500);
-    }
-
-    showLoadingState(sphere) {
-        const sphereFaces = sphere.querySelectorAll('.sphere-face');
-        sphereFaces.forEach(face => {
-            face.innerHTML = '<div class="loading"></div>';
-        });
-    }
-
-    // Dynamic sphere creation for different page layouts
-    static createSphere(text, page, container) {
-        const sphere = document.createElement('div');
-        sphere.className = 'sphere';
-        sphere.setAttribute('data-page', page);
-        
-        sphere.innerHTML = `
-            <div class="sphere-inner">
-                <div class="sphere-face front">${text}</div>
-                <div class="sphere-face back">${text}</div>
+                <!-- Blog/Social Media Card -->
+                <div class="sphere side" data-page="blog">
+                    <div class="sphere-inner">
+                        <div class="sphere-face front" data-title="Blog/Social"></div>
+                    </div>
+                </div>
             </div>
-        `;
-        
-        container.appendChild(sphere);
-        
-        // Initialize event listeners for the new sphere
-        const navigation = new SphereNavigation();
-        navigation.setupSingleSphere(sphere);
-        
-        return sphere;
-    }
+        </div>
 
-    setupSingleSphere(sphere) {
-        sphere.addEventListener('click', (e) => {
-            e.preventDefault();
-            this.handleSphereClick(sphere);
-        });
+        <!-- Welcome Content -->
+        <section class="welcome-section">
+            <div class="content-wrapper">
+                <h2>Explore My Universe</h2>
+                <p>Navigate through my world using the rotating spheres above. Each sphere will transport you to a different dimension of my work and personality.</p>
+            </div>
+        </section>
+    </main>
 
-        sphere.addEventListener('mouseenter', () => {
-            this.pauseRotation(sphere);
-            sphere.style.transform = 'scale(1.15) rotateY(20deg)';
-            sphere.style.filter = 'brightness(1.2) contrast(1.1)';
-            sphere.style.boxShadow = '0 0 40px rgba(78, 205, 196, 0.6)';
-        });
+    <!-- Contact Footer -->
+    <footer class="contact-footer">
+        <div class="contact-container">
+            <div class="contact-info">
+                <h3>Contact Paul Castro</h3>
+                <p>Email: iamkarmakazi115@gmail.com</p>
+            </div>
+            
+            <form class="contact-form" id="contact-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="contact-email">Your Email:</label>
+                        <input type="email" id="contact-email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="contact-subject">Subject:</label>
+                        <input type="text" id="contact-subject" name="subject" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="contact-message">Message (200 words max):</label>
+                    <textarea id="contact-message" name="message" maxlength="1200" required></textarea>
+                    <div class="word-count">
+                        <span id="word-count">0</span>/200 words
+                    </div>
+                </div>
+                <button type="submit" class="submit-btn">Send Message</button>
+            </form>
+        </div>
+    </footer>
 
-        sphere.addEventListener('mouseleave', () => {
-            this.resumeRotation(sphere);
-            sphere.style.transform = 'scale(1)';
-            sphere.style.filter = 'brightness(1) contrast(1)';
-            sphere.style.boxShadow = 'none';
-        });
-
-        sphere.addEventListener('click', () => {
-            const page = sphere.getAttribute('data-page');
-            if (page) {
-                this.navigateToPage(page, sphere);
-            }
-        });
-    }
-}
-
-// Add CSS for ripple effect
-const rippleStyle = document.createElement('style');
-rippleStyle.textContent = `
-    @keyframes ripple {
-        to {
-            transform: translate(-50%, -50%) scale(2);
-            opacity: 0;
-        }
-    }
-    
-    .sphere-ripple {
-        z-index: 10;
-    }
-`;
-document.head.appendChild(rippleStyle);
-
-// Initialize when DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
-    new SphereNavigation();
-});
-
-// Export for use in other files
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = SphereNavigation;
-}
+    <!-- Scripts -->
+    <script src="js/main.js"></script>
+    <script src="js/sphere.js"></script>
+    <script src="js/contact.js"></script>
+</body>
+</html>
