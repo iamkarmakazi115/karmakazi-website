@@ -1,4 +1,4 @@
-// Enhanced Navigation System for Both Carousel and Sidebar Layouts
+// Enhanced Navigation System for Both Carousel and Sidebar Layouts with Chat Live
 class SphereNavigation {
     constructor() {
         this.spheres = document.querySelectorAll('.sphere');
@@ -8,6 +8,7 @@ class SphereNavigation {
         this.currentIndex = 0;
         this.totalSpheres = this.spheres.length;
         this.isSidebarLayout = document.querySelector('.sidebar-nav') !== null;
+        this.autoRotationInterval = null;
         
         this.init();
     }
@@ -22,6 +23,9 @@ class SphereNavigation {
             this.setupCarouselNavigation();
             this.updateCarousel();
         }
+        
+        // Initialize sphere rotation animation
+        this.initSphereRotation();
     }
 
     setupCarouselNavigation() {
@@ -36,11 +40,8 @@ class SphereNavigation {
                 this.updateCarousel();
             });
 
-            // Auto-rotate carousel every 5 seconds (optional)
-            setInterval(() => {
-                this.currentIndex = (this.currentIndex + 1) % this.totalSpheres;
-                this.updateCarousel();
-            }, 5000);
+            // Auto-rotate carousel every 5 seconds
+            this.startAutoRotation();
 
             // Keyboard navigation
             document.addEventListener('keydown', (e) => {
@@ -54,6 +55,13 @@ class SphereNavigation {
             // Touch/Swipe support for mobile
             this.setupTouchNavigation();
         }
+    }
+
+    startAutoRotation() {
+        this.autoRotationInterval = setInterval(() => {
+            this.currentIndex = (this.currentIndex + 1) % this.totalSpheres;
+            this.updateCarousel();
+        }, 5000);
     }
 
     updateCarousel() {
@@ -150,11 +158,14 @@ class SphereNavigation {
             sphere.addEventListener('mouseenter', () => {
                 if (!sphere.classList.contains('center') && !this.isSidebarLayout) {
                     sphere.style.transform = 'scale(1.05) translateY(-5px)';
+                } else {
+                    sphere.style.transform = 'scale(1.1) rotateY(20deg)';
                 }
                 sphere.style.filter = 'brightness(1.2) contrast(1.1)';
+                sphere.style.transition = 'all 0.3s ease';
                 
                 // Add glow effect
-                const sphereFace = sphere.querySelector('.sphere-face');
+                const sphereFace = sphere.querySelector('.sphere-face, .sphere-surface');
                 if (sphereFace) {
                     sphereFace.style.boxShadow = `
                         inset 0 -50px 100px rgba(0,0,0,0.4),
@@ -167,7 +178,7 @@ class SphereNavigation {
                 sphere.style.transform = '';
                 sphere.style.filter = '';
                 
-                const sphereFace = sphere.querySelector('.sphere-face');
+                const sphereFace = sphere.querySelector('.sphere-face, .sphere-surface');
                 if (sphereFace) {
                     sphereFace.style.boxShadow = '';
                 }
@@ -232,23 +243,37 @@ class SphereNavigation {
         // Show loading state
         this.showLoadingState(sphere);
         
+        // Add smooth transition effect
+        document.body.style.opacity = '0.8';
+        document.body.style.transition = 'opacity 0.3s ease';
+        
         // Define navigation paths
         let targetPath = '';
         const currentPath = window.location.pathname;
-        const isInRoot = !currentPath.includes('/pages/');
+        const isInRoot = !currentPath.includes('/pages/') && 
+                        (currentPath === '/' || 
+                         currentPath.endsWith('/index.html') || 
+                         currentPath.endsWith('/karmakazi-website/'));
         
-        if (page === 'home') {
-            // Navigate to root index.html
-            targetPath = isInRoot ? 'index.html' : '../index.html';
-        } else {
-            // Navigate to specific page
-            if (isInRoot) {
-                // We're in root, going to pages folder
-                targetPath = `pages/${page}.html`;
-            } else {
-                // We're in pages folder, navigate to another page
-                targetPath = `${page}.html`;
-            }
+        switch(page) {
+            case 'home':
+                targetPath = isInRoot ? 'index.html' : '../index.html';
+                break;
+            case 'about':
+                targetPath = isInRoot ? 'pages/about.html' : 'about.html';
+                break;
+            case 'works':
+                targetPath = isInRoot ? 'pages/works.html' : 'works.html';
+                break;
+            case 'blog':
+                targetPath = isInRoot ? 'pages/blog.html' : 'blog.html';
+                break;
+            case 'chat': // NEW - Chat Live navigation
+                targetPath = isInRoot ? 'pages/chat.html' : 'chat.html';
+                break;
+            default:
+                console.log('Unknown page:', page);
+                return;
         }
         
         console.log('Navigating to:', targetPath);
@@ -256,7 +281,7 @@ class SphereNavigation {
         // Navigate after a short delay for visual feedback
         setTimeout(() => {
             window.location.href = targetPath;
-        }, 200);
+        }, 300);
     }
 
     showLoadingState(sphere) {
@@ -275,17 +300,42 @@ class SphereNavigation {
     pauseAutoRotation() {
         if (this.autoRotationInterval) {
             clearInterval(this.autoRotationInterval);
+            this.autoRotationInterval = null;
         }
     }
 
     resumeAutoRotation() {
         // Resume after a delay
         setTimeout(() => {
-            this.autoRotationInterval = setInterval(() => {
-                this.currentIndex = (this.currentIndex + 1) % this.totalSpheres;
-                this.updateCarousel();
-            }, 5000);
+            if (!this.autoRotationInterval) {
+                this.startAutoRotation();
+            }
         }, 1000);
+    }
+
+    // Enhanced sphere rotation animation
+    initSphereRotation() {
+        const sphereSurfaces = document.querySelectorAll('.sphere-surface, .sphere-face');
+        
+        sphereSurfaces.forEach((surface, index) => {
+            const rotationSpeed = 0.3 + (index * 0.1);
+            let rotation = 0;
+            
+            function animate() {
+                rotation += rotationSpeed;
+                const yRotation = rotation;
+                const xRotation = Math.sin(rotation * 0.02) * 5;
+                
+                // Apply rotation transform
+                surface.style.transform = `rotateY(${yRotation}deg) rotateX(${xRotation}deg)`;
+                requestAnimationFrame(animate);
+            }
+            
+            // Start animation with random delay to create organic movement
+            setTimeout(() => {
+                animate();
+            }, index * 200);
+        });
     }
 
     // Dynamic sphere creation for different page layouts
@@ -325,9 +375,9 @@ class SphereNavigation {
     }
 }
 
-// Add CSS for ripple effect and loading
-const carouselStyle = document.createElement('style');
-carouselStyle.textContent = `
+// Add CSS for ripple effect, loading, and enhanced animations
+const sphereStyles = document.createElement('style');
+sphereStyles.textContent = `
     @keyframes ripple {
         to {
             transform: translate(-50%, -50%) scale(2);
@@ -352,12 +402,67 @@ carouselStyle.textContent = `
     @keyframes spin {
         to { transform: rotate(360deg); }
     }
+    
+    /* Enhanced sphere hover effects */
+    .sphere {
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .sphere:hover {
+        z-index: 10;
+    }
+    
+    /* Chat Live sphere special styling */
+    .sphere[data-page="chat"] .sphere-face::after {
+        content: '';
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        width: 8px;
+        height: 8px;
+        background: #00ff00;
+        border-radius: 50%;
+        animation: pulse 2s infinite;
+        box-shadow: 0 0 5px #00ff00;
+    }
+    
+    @keyframes pulse {
+        0%, 100% { 
+            opacity: 1; 
+            transform: scale(1);
+        }
+        50% { 
+            opacity: 0.5; 
+            transform: scale(1.2);
+        }
+    }
+    
+    /* Performance optimization for animations */
+    .sphere * {
+        will-change: transform;
+    }
 `;
-document.head.appendChild(carouselStyle);
+document.head.appendChild(sphereStyles);
 
 // Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     new SphereNavigation();
+});
+
+// Performance optimization - pause animations when tab is hidden
+document.addEventListener('visibilitychange', function() {
+    const spheres = document.querySelectorAll('.sphere');
+    
+    if (document.hidden) {
+        spheres.forEach(sphere => {
+            sphere.style.animationPlayState = 'paused';
+        });
+    } else {
+        spheres.forEach(sphere => {
+            sphere.style.animationPlayState = 'running';
+        });
+    }
 });
 
 // Export for use in other files
