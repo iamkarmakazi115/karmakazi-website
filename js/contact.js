@@ -1,30 +1,11 @@
-// Enhanced Contact Form with Email Threading - Save as js/enhanced-contact.js
-class EnhancedContactForm {
+// Working Contact Form - Replace js/enhanced-contact.js with this
+class ContactForm {
     constructor() {
-        // You can set up these services later for professional email handling
-        this.formspreeEndpoint = 'https://formspree.io/f/YOUR_FORM_ID'; // Get from formspree.io
-        this.emailjsServiceId = 'YOUR_EMAILJS_SERVICE_ID'; // Get from emailjs.com
-        this.emailjsTemplateId = 'YOUR_EMAILJS_TEMPLATE_ID';
-        this.emailjsPublicKey = 'YOUR_EMAILJS_PUBLIC_KEY';
-        
         this.init();
     }
 
     init() {
-        // Load EmailJS if not already loaded
-        this.loadEmailJS();
         this.setupContactForms();
-    }
-
-    loadEmailJS() {
-        if (typeof emailjs === 'undefined') {
-            const script = document.createElement('script');
-            script.src = 'https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js';
-            script.onload = () => {
-                emailjs.init(this.emailjsPublicKey);
-            };
-            document.head.appendChild(script);
-        }
     }
 
     setupContactForms() {
@@ -32,13 +13,13 @@ class EnhancedContactForm {
         const forms = document.querySelectorAll('#contact-form, #contactForm');
         
         forms.forEach(form => {
-            this.setupForm(form);
+            if (form) {
+                this.setupForm(form);
+            }
         });
     }
 
     setupForm(form) {
-        if (!form) return;
-
         const messageTextarea = form.querySelector('#contact-message, #contactMessage');
         const wordCountSpan = form.querySelector('#word-count, #wordCount');
 
@@ -70,7 +51,7 @@ class EnhancedContactForm {
         }
     }
 
-    async handleFormSubmission(form) {
+    handleFormSubmission(form) {
         const formData = new FormData(form);
         const email = formData.get('email');
         const subject = formData.get('subject');
@@ -88,88 +69,11 @@ class EnhancedContactForm {
         // Show loading state
         this.showLoading(form);
 
-        try {
-            // Method 1: Try EmailJS (recommended for your use case)
-            await this.sendViaEmailJS(email, subject, message);
-            
-        } catch (emailjsError) {
-            console.warn('EmailJS failed, trying Formspree:', emailjsError);
-            
-            try {
-                // Method 2: Fallback to Formspree
-                await this.sendViaFormspree(email, subject, message);
-                
-            } catch (formspreeError) {
-                console.warn('Formspree failed, using mailto:', formspreeError);
-                
-                // Method 3: Final fallback to mailto
-                this.sendViaMailto(email, subject, message);
-            }
-        }
+        // Use mailto with CC for email threading
+        this.sendViaMailto(form, email, subject, message);
     }
 
-    async sendViaEmailJS(userEmail, subject, message) {
-        if (typeof emailjs === 'undefined') {
-            throw new Error('EmailJS not loaded');
-        }
-
-        const timestamp = new Date().toLocaleString();
-        
-        // Send email to Paul Castro
-        const emailToAuthor = {
-            to_email: 'iamkarmakazi115@gmail.com',
-            from_email: userEmail,
-            from_name: userEmail.split('@')[0],
-            subject: subject,
-            message: message,
-            timestamp: timestamp,
-            reply_to: userEmail
-        };
-
-        // Send copy to user
-        const emailToUser = {
-            to_email: userEmail,
-            from_email: 'noreply@karmakazi.org',
-            from_name: 'Paul Castro - Karmakazi',
-            subject: `Re: ${subject}`,
-            message: `Thank you for contacting me! I've received your message and will respond soon.\n\n---\nYour original message:\nSubject: ${subject}\nMessage: ${message}\n\nSent: ${timestamp}`,
-            timestamp: timestamp
-        };
-
-        // Send both emails
-        await emailjs.send(this.emailjsServiceId, this.emailjsTemplateId, emailToAuthor);
-        await emailjs.send(this.emailjsServiceId, 'user_copy_template', emailToUser);
-        
-        this.showMessage('Message sent successfully! Check your email for a copy.', 'success');
-        this.resetForm(form);
-    }
-
-    async sendViaFormspree(userEmail, subject, message) {
-        const response = await fetch(this.formspreeEndpoint, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify({
-                email: userEmail,
-                subject: subject,
-                message: message,
-                _replyto: userEmail,
-                _cc: userEmail,
-                _subject: `Contact from ${userEmail}: ${subject}`
-            })
-        });
-
-        if (!response.ok) {
-            throw new Error(`Formspree error: ${response.status}`);
-        }
-
-        this.showMessage('Message sent successfully! You should receive a copy via email.', 'success');
-        this.resetForm(form);
-    }
-
-    sendViaMailto(userEmail, subject, message) {
+    sendViaMailto(form, userEmail, subject, message) {
         const timestamp = new Date().toLocaleString();
         const emailBody = `From: ${userEmail}
 Sent: ${timestamp}
@@ -177,15 +81,22 @@ Sent: ${timestamp}
 ${message}
 
 ---
-Note: Please reply to this email to continue the conversation thread.`;
+This message was sent through the karmakazi.org contact form.
+Reply to this email to continue the conversation.`;
 
+        // Create mailto link with CC to user for threading
         const mailtoLink = `mailto:iamkarmakazi115@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}&cc=${encodeURIComponent(userEmail)}`;
         
-        // Open email client
-        window.location.href = mailtoLink;
-        
-        this.showMessage('Opening your email client... Your email address has been added as CC for thread continuation.', 'info');
-        this.resetForm(form);
+        try {
+            // Open email client
+            window.location.href = mailtoLink;
+            
+            this.showMessage('Opening your email client... You\'ve been CC\'d for conversation threading.', 'success');
+            this.resetForm(form);
+        } catch (error) {
+            this.showMessage('Unable to open email client. Please email directly: iamkarmakazi115@gmail.com', 'error');
+            this.resetForm(form);
+        }
     }
 
     showLoading(form) {
@@ -251,20 +162,22 @@ Note: Please reply to this email to continue the conversation thread.`;
     }
 
     resetForm(form) {
-        const submitBtn = form.querySelector('.submit-btn');
-        if (submitBtn) {
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
-        }
-        
-        form.reset();
-        
-        // Reset word count
-        const wordCount = form.querySelector('#word-count, #wordCount');
-        if (wordCount) {
-            wordCount.textContent = '0';
-            wordCount.style.color = 'rgba(255, 255, 255, 0.8)';
-        }
+        setTimeout(() => {
+            const submitBtn = form.querySelector('.submit-btn');
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
+            }
+            
+            form.reset();
+            
+            // Reset word count
+            const wordCount = form.querySelector('#word-count, #wordCount');
+            if (wordCount) {
+                wordCount.textContent = '0';
+                wordCount.style.color = 'rgba(255, 255, 255, 0.8)';
+            }
+        }, 2000);
     }
 }
 
@@ -306,10 +219,5 @@ document.head.appendChild(contactStyles);
 
 // Initialize when DOM loads
 document.addEventListener('DOMContentLoaded', () => {
-    new EnhancedContactForm();
+    new ContactForm();
 });
-
-// Export for use in other files
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = EnhancedContactForm;
-}
