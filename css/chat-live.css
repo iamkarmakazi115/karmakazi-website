@@ -25,6 +25,9 @@
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
+    
+    /* Fallback gradient if image fails */
+    background-color: #1a1a2e;
 }
 
 .background-overlay {
