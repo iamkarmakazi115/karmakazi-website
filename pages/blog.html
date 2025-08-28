@@ -22,32 +22,28 @@
                     <!-- Home Sphere -->
                     <div class="sphere" data-page="home">
                         <div class="sphere-inner">
-                            <div class="sphere-face front">Home</div>
-                            <div class="sphere-face back">Home</div>
+                            <div class="sphere-face front" data-title="Home"></div>
                         </div>
                     </div>
 
                     <!-- About Me Sphere -->
                     <div class="sphere" data-page="about">
                         <div class="sphere-inner">
-                            <div class="sphere-face front">About Me</div>
-                            <div class="sphere-face back">About Me</div>
+                            <div class="sphere-face front" data-title="About Me"></div>
                         </div>
                     </div>
 
                     <!-- My Works Sphere -->
                     <div class="sphere" data-page="works">
                         <div class="sphere-inner">
-                            <div class="sphere-face front">My Works</div>
-                            <div class="sphere-face back">My Works</div>
+                            <div class="sphere-face front" data-title="My Works"></div>
                         </div>
                     </div>
 
-                    <!-- Current Page Indicator -->
-                    <div class="sphere current-page">
+                    <!-- Chat Live Sphere (NEW) -->
+                    <div class="sphere" data-page="chat">
                         <div class="sphere-inner">
-                            <div class="sphere-face front">Blog/Social</div>
-                            <div class="sphere-face back">Blog/Social</div>
+                            <div class="sphere-face front" data-title="Chat Live"></div>
                         </div>
                     </div>
                 </div>
@@ -360,7 +356,7 @@
 
     <script src="../js/main.js"></script>
     <script src="../js/sphere.js"></script>
-    <script src="../js/contact.js"></script>
+    <script src="../js/enhanced-contact.js"></script>
 
     <style>
         /* Blog Page Specific Styles */
@@ -526,33 +522,6 @@
             margin: 0;
         }
 
-        /* Ensure pentagon titles show in sidebar */
-        .sidebar-nav .sphere-face::after {
-            content: attr(data-title);
-            position: absolute;
-            bottom: 15px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: linear-gradient(transparent, rgba(0,0,0,0.9));
-            padding: 10px 15px 5px;
-            color: white;
-            font-size: 12px;
-            font-weight: bold;
-            text-align: center;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.2);
-            white-space: nowrap;
-            z-index: 10;
-        }
-
-        /* Pentagon titles for sidebar spheres */
-        .sidebar-nav .sphere[data-page="home"] .sphere-face::after { content: "Home"; }
-        .sidebar-nav .sphere[data-page="about"] .sphere-face::after { content: "About Me"; }
-        .sidebar-nav .sphere[data-page="works"] .sphere-face::after { content: "My Works"; }
-        .sidebar-nav .sphere[data-page="blog"] .sphere-face::after { content: "Blog/Social"; }
-
         /* Main Content Layout */
         .main-content {
             flex: 1;
@@ -678,204 +647,6 @@
             min-width: 340px !important;
         }
 
-        .facebook-posts-container::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .facebook-posts-container::-webkit-scrollbar-track {
-            background: rgba(255,255,255,0.1);
-            border-radius: 10px;
-        }
-
-        .facebook-posts-container::-webkit-scrollbar-thumb {
-            background: #4ecdc4;
-            border-radius: 10px;
-        }
-
-        .facebook-posts-container::-webkit-scrollbar-thumb:hover {
-            background: #45b7d1;
-        }
-
-        /* Individual Facebook Post */
-        .facebook-post {
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            padding: 25px 30px;
-            transition: background-color 0.3s ease;
-        }
-
-        .facebook-post:hover {
-            background: rgba(255,255,255,0.02);
-        }
-
-        .facebook-post:last-child {
-            border-bottom: none;
-        }
-
-        .post-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .post-time {
-            color: #999;
-            font-size: 0.9rem;
-        }
-
-        .post-content {
-            color: #ddd;
-            line-height: 1.6;
-            margin-bottom: 15px;
-            word-wrap: break-word;
-        }
-
-        .post-image {
-            width: 100%;
-            max-width: 500px;
-            border-radius: 10px;
-            margin: 15px 0;
-        }
-
-        .post-video {
-            width: 100%;
-            max-width: 500px;
-            border-radius: 10px;
-            margin: 15px 0;
-        }
-
-        .post-link {
-            display: block;
-            background: rgba(255,255,255,0.05);
-            border-radius: 10px;
-            padding: 20px;
-            margin: 15px 0;
-            text-decoration: none;
-            color: inherit;
-            border: 1px solid rgba(255,255,255,0.1);
-            transition: all 0.3s ease;
-        }
-
-        .post-link:hover {
-            background: rgba(255,255,255,0.08);
-            border-color: #4ecdc4;
-        }
-
-        .link-title {
-            color: #4ecdc4;
-            font-weight: bold;
-            margin-bottom: 8px;
-        }
-
-        .link-description {
-            color: #ccc;
-            font-size: 0.9rem;
-        }
-
-        .post-stats {
-            display: flex;
-            gap: 20px;
-            color: #999;
-            font-size: 0.9rem;
-            margin-top: 15px;
-        }
-
-        .post-stat {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        /* Loading Animation */
-        .loading-posts {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 300px;
-            flex-direction: column;
-        }
-
-        .cosmic-loader {
-            width: 60px;
-            height: 60px;
-            border: 4px solid rgba(78, 205, 196, 0.3);
-            border-radius: 50%;
-            border-top: 4px solid #4ecdc4;
-            animation: spin 1s linear infinite;
-            margin-bottom: 20px;
-        }
-
-        .loading-posts p {
-            color: #4ecdc4;
-            font-size: 1.1rem;
-        }
-
-        /* Load More Button */
-        .load-more-section {
-            padding: 30px;
-            text-align: center;
-            border-top: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .load-more-btn {
-            background: linear-gradient(45deg, #4ecdc4, #45b7d1);
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 25px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin: 0 auto;
-        }
-
-        .load-more-btn:hover {
-            transform: translateY(-2px);
-        }
-
-        .load-more-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        /* Error Message */
-        .error-message {
-            padding: 50px 30px;
-            text-align: center;
-        }
-
-        .error-content h3 {
-            color: #ff6b6b;
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-        }
-
-        .error-content p {
-            color: #ccc;
-            margin-bottom: 25px;
-            line-height: 1.6;
-        }
-
-        .retry-btn {
-            background: #ff6b6b;
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 20px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background 0.3s ease;
-        }
-
-        .retry-btn:hover {
-            background: #ff5252;
-        }
-
         /* Social Links Section */
         .social-links-section {
             padding: 60px 20px;
@@ -948,21 +719,6 @@
             100% { transform: rotate(360deg); }
         }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .facebook-post {
-            animation: fadeIn 0.5s ease forwards;
-        }
-
         /* Responsive Design */
         @media (max-width: 768px) {
             .page-layout {
@@ -1008,14 +764,6 @@
                 flex-direction: column;
                 text-align: center;
                 gap: 15px;
-            }
-
-            .facebook-posts-container {
-                max-height: 500px;
-            }
-
-            .facebook-post {
-                padding: 20px 20px;
             }
 
             .social-links-grid {

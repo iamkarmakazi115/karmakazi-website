@@ -22,32 +22,28 @@
                     <!-- Home Sphere -->
                     <div class="sphere" data-page="home">
                         <div class="sphere-inner">
-                            <div class="sphere-face front">Home</div>
-                            <div class="sphere-face back">Home</div>
+                            <div class="sphere-face front" data-title="Home"></div>
                         </div>
                     </div>
 
                     <!-- About Me Sphere -->
                     <div class="sphere" data-page="about">
                         <div class="sphere-inner">
-                            <div class="sphere-face front">About Me</div>
-                            <div class="sphere-face back">About Me</div>
+                            <div class="sphere-face front" data-title="About Me"></div>
                         </div>
                     </div>
 
                     <!-- Blog/Social Media Sphere -->
                     <div class="sphere" data-page="blog">
                         <div class="sphere-inner">
-                            <div class="sphere-face front">Blog/Social</div>
-                            <div class="sphere-face back">Blog/Social</div>
+                            <div class="sphere-face front" data-title="Blog/Social"></div>
                         </div>
                     </div>
 
-                    <!-- Current Page Indicator -->
-                    <div class="sphere current-page">
+                    <!-- Chat Live Sphere (NEW) -->
+                    <div class="sphere" data-page="chat">
                         <div class="sphere-inner">
-                            <div class="sphere-face front">My Works</div>
-                            <div class="sphere-face back">My Works</div>
+                            <div class="sphere-face front" data-title="Chat Live"></div>
                         </div>
                     </div>
                 </div>
@@ -243,7 +239,7 @@
     <!-- Scripts -->
     <script src="../js/main.js"></script>
     <script src="../js/sphere.js"></script>
-    <script src="../js/contact.js"></script>
+    <script src="../js/enhanced-contact.js"></script>
 
     <style>
         /* Image Background Styles */
@@ -309,33 +305,6 @@
             height: 160px;
             margin: 0;
         }
-
-        /* Ensure pentagon titles show in sidebar */
-        .sidebar-nav .sphere-face::after {
-            content: attr(data-title);
-            position: absolute;
-            bottom: 15px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: linear-gradient(transparent, rgba(0,0,0,0.9));
-            padding: 10px 15px 5px;
-            color: white;
-            font-size: 12px;
-            font-weight: bold;
-            text-align: center;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.2);
-            white-space: nowrap;
-            z-index: 10;
-        }
-
-        /* Pentagon titles for sidebar spheres */
-        .sidebar-nav .sphere[data-page="home"] .sphere-face::after { content: "Home"; }
-        .sidebar-nav .sphere[data-page="about"] .sphere-face::after { content: "About Me"; }
-        .sidebar-nav .sphere[data-page="works"] .sphere-face::after { content: "My Works"; }
-        .sidebar-nav .sphere[data-page="blog"] .sphere-face::after { content: "Blog/Social"; }
 
         /* Main Content Layout */
         .main-content {

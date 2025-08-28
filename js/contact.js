@@ -1,348 +1,315 @@
-// Contact Form Handler
-class ContactForm {
+// Enhanced Contact Form with Email Threading - Save as js/enhanced-contact.js
+class EnhancedContactForm {
     constructor() {
-        this.form = document.getElementById('contact-form');
-        this.messageField = document.getElementById('contact-message');
-        this.wordCountDisplay = document.getElementById('word-count');
-        this.maxWords = 200;
+        // You can set up these services later for professional email handling
+        this.formspreeEndpoint = 'https://formspree.io/f/YOUR_FORM_ID'; // Get from formspree.io
+        this.emailjsServiceId = 'YOUR_EMAILJS_SERVICE_ID'; // Get from emailjs.com
+        this.emailjsTemplateId = 'YOUR_EMAILJS_TEMPLATE_ID';
+        this.emailjsPublicKey = 'YOUR_EMAILJS_PUBLIC_KEY';
         
-        if (this.form) {
-            this.init();
-        }
+        this.init();
     }
 
     init() {
-        this.setupEventListeners();
-        this.setupWordCounter();
-        this.setupFormValidation();
+        // Load EmailJS if not already loaded
+        this.loadEmailJS();
+        this.setupContactForms();
     }
 
-    setupEventListeners() {
-        this.form.addEventListener('submit', (e) => {
+    loadEmailJS() {
+        if (typeof emailjs === 'undefined') {
+            const script = document.createElement('script');
+            script.src = 'https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js';
+            script.onload = () => {
+                emailjs.init(this.emailjsPublicKey);
+            };
+            document.head.appendChild(script);
+        }
+    }
+
+    setupContactForms() {
+        // Handle all contact forms on the site
+        const forms = document.querySelectorAll('#contact-form, #contactForm');
+        
+        forms.forEach(form => {
+            this.setupForm(form);
+        });
+    }
+
+    setupForm(form) {
+        if (!form) return;
+
+        const messageTextarea = form.querySelector('#contact-message, #contactMessage');
+        const wordCountSpan = form.querySelector('#word-count, #wordCount');
+
+        // Word counting
+        if (messageTextarea && wordCountSpan) {
+            messageTextarea.addEventListener('input', () => {
+                this.updateWordCount(messageTextarea, wordCountSpan);
+            });
+        }
+
+        // Form submission
+        form.addEventListener('submit', (e) => {
             e.preventDefault();
-            this.handleSubmit();
-        });
-
-        // Real-time word counting
-        this.messageField.addEventListener('input', () => {
-            this.updateWordCount();
-            this.validateWordLimit();
-        });
-
-        // Prevent typing beyond word limit
-        this.messageField.addEventListener('keydown', (e) => {
-            const currentWords = this.countWords(this.messageField.value);
-            const isTyping = e.key.length === 1 || e.key === 'Enter';
-            
-            if (currentWords >= this.maxWords && isTyping && !e.ctrlKey && !e.metaKey) {
-                e.preventDefault();
-                this.showWordLimitWarning();
-            }
-        });
-
-        // Auto-resize textarea
-        this.messageField.addEventListener('input', () => {
-            this.autoResize(this.messageField);
+            this.handleFormSubmission(form);
         });
     }
 
-    setupWordCounter() {
-        this.updateWordCount();
-    }
-
-    setupFormValidation() {
-        const inputs = this.form.querySelectorAll('input, textarea');
-        inputs.forEach(input => {
-            input.addEventListener('blur', () => {
-                this.validateField(input);
-            });
-
-            input.addEventListener('input', () => {
-                this.clearFieldError(input);
-            });
-        });
-    }
-
-    countWords(text) {
-        if (!text.trim()) return 0;
-        return text.trim().split(/\s+/).length;
-    }
-
-    updateWordCount() {
-        const currentWords = this.countWords(this.messageField.value);
-        this.wordCountDisplay.textContent = currentWords;
+    updateWordCount(textarea, countSpan) {
+        const words = textarea.value.trim().split(/\s+/).filter(word => word.length > 0);
+        const wordCount = textarea.value.trim() === '' ? 0 : words.length;
+        countSpan.textContent = wordCount;
         
-        // Change color based on word count
-        if (currentWords > this.maxWords * 0.9) {
-            this.wordCountDisplay.style.color = '#ff6b6b';
-        } else if (currentWords > this.maxWords * 0.7) {
-            this.wordCountDisplay.style.color = '#feca57';
+        if (wordCount > 200) {
+            countSpan.style.color = '#ff4444';
+        } else if (wordCount > 180) {
+            countSpan.style.color = '#ffaa00';
         } else {
-            this.wordCountDisplay.style.color = '#999';
+            countSpan.style.color = 'rgba(255, 255, 255, 0.8)';
         }
     }
 
-    validateWordLimit() {
-        const currentWords = this.countWords(this.messageField.value);
-        if (currentWords > this.maxWords) {
-            // Trim to word limit
-            const words = this.messageField.value.trim().split(/\s+/);
-            const trimmedText = words.slice(0, this.maxWords).join(' ');
-            this.messageField.value = trimmedText;
-            this.updateWordCount();
-        }
-    }
+    async handleFormSubmission(form) {
+        const formData = new FormData(form);
+        const email = formData.get('email');
+        const subject = formData.get('subject');
+        const message = formData.get('message');
 
-    showWordLimitWarning() {
-        const warning = document.createElement('div');
-        warning.className = 'word-limit-warning';
-        warning.textContent = `Maximum ${this.maxWords} words reached!`;
-        warning.style.cssText = `
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: #ff6b6b;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
-            z-index: 1000;
-            animation: slideIn 0.3s ease;
-        `;
+        // Validate word count
+        const words = message.trim().split(/\s+/).filter(word => word.length > 0);
+        const wordCount = message.trim() === '' ? 0 : words.length;
         
-        document.body.appendChild(warning);
-        
-        setTimeout(() => {
-            warning.remove();
-        }, 3000);
-    }
-
-    autoResize(textarea) {
-        textarea.style.height = 'auto';
-        textarea.style.height = Math.min(textarea.scrollHeight, 200) + 'px';
-    }
-
-    validateField(field) {
-        const value = field.value.trim();
-        const fieldName = field.getAttribute('name');
-        
-        // Clear previous errors
-        this.clearFieldError(field);
-        
-        // Validate based on field type
-        switch(fieldName) {
-            case 'email':
-                if (!this.isValidEmail(value)) {
-                    this.showFieldError(field, 'Please enter a valid email address');
-                    return false;
-                }
-                break;
-            case 'subject':
-                if (value.length < 3) {
-                    this.showFieldError(field, 'Subject must be at least 3 characters');
-                    return false;
-                }
-                break;
-            case 'message':
-                if (value.length < 10) {
-                    this.showFieldError(field, 'Message must be at least 10 characters');
-                    return false;
-                }
-                if (this.countWords(value) > this.maxWords) {
-                    this.showFieldError(field, `Message exceeds ${this.maxWords} word limit`);
-                    return false;
-                }
-                break;
-        }
-        
-        return true;
-    }
-
-    isValidEmail(email) {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(email);
-    }
-
-    showFieldError(field, message) {
-        const errorDiv = document.createElement('div');
-        errorDiv.className = 'field-error';
-        errorDiv.textContent = message;
-        errorDiv.style.cssText = `
-            color: #ff6b6b;
-            font-size: 12px;
-            margin-top: 5px;
-        `;
-        
-        field.style.borderColor = '#ff6b6b';
-        field.parentNode.appendChild(errorDiv);
-    }
-
-    clearFieldError(field) {
-        field.style.borderColor = 'rgba(255,255,255,0.2)';
-        const errorDiv = field.parentNode.querySelector('.field-error');
-        if (errorDiv) {
-            errorDiv.remove();
-        }
-    }
-
-    async handleSubmit() {
-        const submitBtn = this.form.querySelector('.submit-btn');
-        const originalText = submitBtn.textContent;
-        
-        // Validate all fields
-        const fields = this.form.querySelectorAll('input, textarea');
-        let isValid = true;
-        
-        fields.forEach(field => {
-            if (!this.validateField(field)) {
-                isValid = false;
-            }
-        });
-
-        if (!isValid) {
-            this.showNotification('Please fix the errors above', 'error');
+        if (wordCount > 200) {
+            this.showMessage('Message must be 200 words or less. Current count: ' + wordCount, 'error');
             return;
         }
 
         // Show loading state
-        submitBtn.innerHTML = '<div class="loading"></div> Sending...';
-        submitBtn.disabled = true;
+        this.showLoading(form);
 
         try {
-            const formData = this.getFormData();
-            await this.submitForm(formData);
+            // Method 1: Try EmailJS (recommended for your use case)
+            await this.sendViaEmailJS(email, subject, message);
             
-            this.showNotification('Message sent successfully!', 'success');
-            this.form.reset();
-            this.updateWordCount();
+        } catch (emailjsError) {
+            console.warn('EmailJS failed, trying Formspree:', emailjsError);
             
-        } catch (error) {
-            console.error('Form submission error:', error);
-            this.showNotification('Failed to send message. Please try again.', 'error');
-        } finally {
-            submitBtn.textContent = originalText;
-            submitBtn.disabled = false;
+            try {
+                // Method 2: Fallback to Formspree
+                await this.sendViaFormspree(email, subject, message);
+                
+            } catch (formspreeError) {
+                console.warn('Formspree failed, using mailto:', formspreeError);
+                
+                // Method 3: Final fallback to mailto
+                this.sendViaMailto(email, subject, message);
+            }
         }
     }
 
-    getFormData() {
-        return {
-            email: document.getElementById('contact-email').value.trim(),
-            subject: document.getElementById('contact-subject').value.trim(),
-            message: document.getElementById('contact-message').value.trim(),
-            timestamp: new Date().toISOString(),
-            page: window.location.pathname
+    async sendViaEmailJS(userEmail, subject, message) {
+        if (typeof emailjs === 'undefined') {
+            throw new Error('EmailJS not loaded');
+        }
+
+        const timestamp = new Date().toLocaleString();
+        
+        // Send email to Paul Castro
+        const emailToAuthor = {
+            to_email: 'iamkarmakazi115@gmail.com',
+            from_email: userEmail,
+            from_name: userEmail.split('@')[0],
+            subject: subject,
+            message: message,
+            timestamp: timestamp,
+            reply_to: userEmail
         };
+
+        // Send copy to user
+        const emailToUser = {
+            to_email: userEmail,
+            from_email: 'noreply@karmakazi.org',
+            from_name: 'Paul Castro - Karmakazi',
+            subject: `Re: ${subject}`,
+            message: `Thank you for contacting me! I've received your message and will respond soon.\n\n---\nYour original message:\nSubject: ${subject}\nMessage: ${message}\n\nSent: ${timestamp}`,
+            timestamp: timestamp
+        };
+
+        // Send both emails
+        await emailjs.send(this.emailjsServiceId, this.emailjsTemplateId, emailToAuthor);
+        await emailjs.send(this.emailjsServiceId, 'user_copy_template', emailToUser);
+        
+        this.showMessage('Message sent successfully! Check your email for a copy.', 'success');
+        this.resetForm(form);
     }
 
-    async submitForm(formData) {
-        // For now, we'll use a mailto link since we don't have a backend
-        // In production, you would send this to your email service
+    async sendViaFormspree(userEmail, subject, message) {
+        const response = await fetch(this.formspreeEndpoint, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                email: userEmail,
+                subject: subject,
+                message: message,
+                _replyto: userEmail,
+                _cc: userEmail,
+                _subject: `Contact from ${userEmail}: ${subject}`
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error(`Formspree error: ${response.status}`);
+        }
+
+        this.showMessage('Message sent successfully! You should receive a copy via email.', 'success');
+        this.resetForm(form);
+    }
+
+    sendViaMailto(userEmail, subject, message) {
+        const timestamp = new Date().toLocaleString();
+        const emailBody = `From: ${userEmail}
+Sent: ${timestamp}
+
+${message}
+
+---
+Note: Please reply to this email to continue the conversation thread.`;
+
+        const mailtoLink = `mailto:iamkarmakazi115@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}&cc=${encodeURIComponent(userEmail)}`;
         
-        const mailtoLink = this.createMailtoLink(formData);
-        
-        // Try to open email client
+        // Open email client
         window.location.href = mailtoLink;
         
-        // Also log the data for debugging
-        console.log('Contact form submission:', formData);
-        
-        return Promise.resolve();
+        this.showMessage('Opening your email client... Your email address has been added as CC for thread continuation.', 'info');
+        this.resetForm(form);
     }
 
-    createMailtoLink(formData) {
-        const recipient = 'iamkarmakazi115@gmail.com';
-        const subject = encodeURIComponent(`Website Contact: ${formData.subject}`);
-        const body = encodeURIComponent(
-            `From: ${formData.email}\n` +
-            `Subject: ${formData.subject}\n` +
-            `Sent: ${new Date().toLocaleString()}\n` +
-            `Page: ${formData.page}\n\n` +
-            `Message:\n${formData.message}`
-        );
-        
-        return `mailto:${recipient}?subject=${subject}&body=${body}`;
+    showLoading(form) {
+        const submitBtn = form.querySelector('.submit-btn');
+        if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<div class="loading"></div> Sending...';
+        }
     }
 
-    showNotification(message, type = 'info') {
-        const notification = document.createElement('div');
-        notification.className = `notification notification-${type}`;
-        notification.textContent = message;
+    showMessage(text, type) {
+        // Remove existing messages
+        const existingMessages = document.querySelectorAll('.form-message');
+        existingMessages.forEach(msg => msg.remove());
+
+        // Create new message
+        const message = document.createElement('div');
+        message.className = `form-message ${type}`;
+        message.textContent = text;
         
-        const colors = {
-            success: '#4ecdc4',
-            error: '#ff6b6b',
-            info: '#45b7d1'
-        };
-        
-        notification.style.cssText = `
+        // Style the message
+        message.style.cssText = `
             position: fixed;
             top: 20px;
             right: 20px;
-            background: ${colors[type]};
-            color: white;
             padding: 15px 20px;
             border-radius: 8px;
             z-index: 1000;
+            max-width: 400px;
+            font-weight: 600;
             box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-            animation: slideInRight 0.3s ease;
-            max-width: 300px;
+            backdrop-filter: blur(10px);
+            animation: slideIn 0.3s ease;
         `;
-        
-        document.body.appendChild(notification);
-        
+
+        // Type-specific styling
+        switch(type) {
+            case 'success':
+                message.style.background = 'rgba(0, 255, 0, 0.2)';
+                message.style.color = '#00ff00';
+                message.style.border = '1px solid #00ff00';
+                break;
+            case 'error':
+                message.style.background = 'rgba(255, 0, 0, 0.2)';
+                message.style.color = '#ff4444';
+                message.style.border = '1px solid #ff4444';
+                break;
+            case 'info':
+                message.style.background = 'rgba(0, 255, 255, 0.2)';
+                message.style.color = '#00ffff';
+                message.style.border = '1px solid #00ffff';
+                break;
+        }
+
+        document.body.appendChild(message);
+
+        // Auto remove after 5 seconds
         setTimeout(() => {
-            notification.style.animation = 'slideOutRight 0.3s ease';
-            setTimeout(() => {
-                notification.remove();
-            }, 300);
-        }, 4000);
+            if (message.parentNode) {
+                message.remove();
+            }
+        }, 5000);
+    }
+
+    resetForm(form) {
+        const submitBtn = form.querySelector('.submit-btn');
+        if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
+        }
+        
+        form.reset();
+        
+        // Reset word count
+        const wordCount = form.querySelector('#word-count, #wordCount');
+        if (wordCount) {
+            wordCount.textContent = '0';
+            wordCount.style.color = 'rgba(255, 255, 255, 0.8)';
+        }
     }
 }
 
-// Add notification animations
-const notificationStyle = document.createElement('style');
-notificationStyle.textContent = `
-    @keyframes slideInRight {
-        from {
-            transform: translateX(100%);
-            opacity: 0;
-        }
-        to {
-            transform: translateX(0);
-            opacity: 1;
-        }
-    }
-    
-    @keyframes slideOutRight {
-        from {
-            transform: translateX(0);
-            opacity: 1;
-        }
-        to {
-            transform: translateX(100%);
-            opacity: 0;
-        }
-    }
-    
+// CSS for animations and messages
+const contactStyles = document.createElement('style');
+contactStyles.textContent = `
     @keyframes slideIn {
         from {
-            transform: translateY(-100%);
+            transform: translateX(100%);
             opacity: 0;
         }
         to {
-            transform: translateY(0);
+            transform: translateX(0);
             opacity: 1;
         }
     }
-`;
-document.head.appendChild(notificationStyle);
 
-// Initialize when DOM is loaded
+    .form-message {
+        animation: slideIn 0.3s ease;
+    }
+
+    .loading {
+        width: 16px;
+        height: 16px;
+        border: 2px solid rgba(255,255,255,0.3);
+        border-top: 2px solid #4ecdc4;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        display: inline-block;
+        margin-right: 8px;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+`;
+document.head.appendChild(contactStyles);
+
+// Initialize when DOM loads
 document.addEventListener('DOMContentLoaded', () => {
-    new ContactForm();
+    new EnhancedContactForm();
 });
 
 // Export for use in other files
 if (typeof module !== 'undefined' && module.exports) {
-    module.exports = ContactForm;
+    module.exports = EnhancedContactForm;
 }
