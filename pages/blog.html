@@ -174,15 +174,15 @@
     
     <!-- Console Error Suppression (Load First) -->
     <script>
-        // Console Error Suppression for Facebook SDK
+        // Enhanced Console Error Suppression for Facebook SDK
         (function() {
             'use strict';
             
-            // Store the original console.error function
+            // Store original console functions
             const originalConsoleError = console.error;
             const originalConsoleWarn = console.warn;
             
-            // List of Facebook error patterns to suppress
+            // Comprehensive Facebook error patterns
             const facebookErrorPatterns = [
                 'Could not find element "u_',
                 'DataStore.get: namespace is required',
@@ -190,40 +190,40 @@
                 'Permissions policy violation: unload',
                 'fb-xfbml-parse-ignore',
                 'facebook.net',
-                'fburl.com/debugjs'
+                'fburl.com/debugjs',
+                '__elem_',
+                'Module "__elem',
+                'facebook.com',
+                'staticxx.facebook.com',
+                'connect.facebook.net',
+                'xd_arbiter'
             ];
             
-            // Override console.error to filter Facebook errors
+            // Override console.error
             console.error = function(...args) {
                 const errorMessage = args.join(' ');
-                
-                // Check if this is a Facebook-related error
                 const isFacebookError = facebookErrorPatterns.some(pattern => 
                     errorMessage.includes(pattern)
                 );
                 
-                // Only show non-Facebook errors
                 if (!isFacebookError) {
                     originalConsoleError.apply(console, args);
                 }
             };
             
-            // Override console.warn for Facebook warnings
+            // Override console.warn
             console.warn = function(...args) {
                 const warnMessage = args.join(' ');
-                
-                // Check if this is a Facebook-related warning
                 const isFacebookWarning = facebookErrorPatterns.some(pattern => 
                     warnMessage.includes(pattern)
                 );
                 
-                // Only show non-Facebook warnings
                 if (!isFacebookWarning) {
                     originalConsoleWarn.apply(console, args);
                 }
             };
             
-            // Suppress unhandled promise rejections from Facebook SDK
+            // Suppress Facebook promise rejections
             window.addEventListener('unhandledrejection', function(event) {
                 if (event.reason && typeof event.reason === 'object') {
                     const reasonString = JSON.stringify(event.reason);
@@ -238,7 +238,26 @@
                 }
             });
             
-            console.log('🧹 Console cleaned - Facebook errors suppressed');
+            // Suppress Facebook-related window errors
+            window.addEventListener('error', function(event) {
+                if (event.filename && (
+                    event.filename.includes('facebook.com') ||
+                    event.filename.includes('connect.facebook.net') ||
+                    event.filename.includes('staticxx.facebook.com')
+                )) {
+                    event.preventDefault();
+                    return;
+                }
+                
+                if (event.message && facebookErrorPatterns.some(pattern => 
+                    event.message.includes(pattern)
+                )) {
+                    event.preventDefault();
+                    return;
+                }
+            });
+            
+            console.log('Console cleaned - Facebook errors suppressed');
         })();
     </script>
     
@@ -357,7 +376,7 @@
 
     <script src="../js/main.js"></script>
     <script src="../js/sphere.js"></script>
-    <script src="../js/contact.js"></script>
+    <script src="../js/enhanced-contact.js"></script>
 
     <style>
         /* Blog Page Specific Styles */
