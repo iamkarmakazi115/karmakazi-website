@@ -324,7 +324,7 @@ class KarmakaziSite {
         // Only preload if we're on the home page to avoid path issues
         if (this.currentPage === 'home') {
             const criticalResources = [
-                'assets/images/nebula-texture.jpg',
+                'assets/images/Nebula-texture.jpg',
                 'css/main.css',
                 'css/sphere.css'
             ];

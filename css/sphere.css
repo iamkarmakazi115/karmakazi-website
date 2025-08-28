@@ -119,13 +119,13 @@
     /* Pentagon shape using clip-path */
     clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
     
-    /* Multiple fallback backgrounds for nebula texture */
+    /* Multiple fallback backgrounds for Nebula texture */
     background-image: 
         url('assets/images/Nebula-texture.jpg'),
         url('./assets/images/Nebula-texture.jpg'),
         url('/assets/images/Nebula-texture.jpg'),
-        url('assets/images/nebula-texture.jpg'),
-        url('./assets/images/nebula-texture.jpg'),
+        url('assets/images/Nebula-texture.jpg'),
+        url('./assets/images/Nebula-texture.jpg'),
         linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
     background-size: cover;
     background-position: center;
