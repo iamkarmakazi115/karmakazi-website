@@ -145,36 +145,38 @@
     transform: translateZ(0px);
 }
 
-/* Pentagon Title Overlay */
-.sphere-face::after {
+/* Pentagon Title Overlay - FIXED VERSION */
+.sphere-face[data-title]::after {
     content: attr(data-title);
     position: absolute;
-    bottom: 20px;
+    bottom: 15px;
     left: 50%;
     transform: translateX(-50%);
-    background: linear-gradient(transparent, rgba(0,0,0,0.9));
-    padding: 15px 25px 10px;
-    color: white;
-    font-size: 16px;
-    font-weight: bold;
-    text-align: center;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
-    border-radius: 20px;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255,255,255,0.2);
+    background: rgba(0, 0, 0, 0.9);
+    color: #00ffff;
+    padding: 8px 16px;
+    border-radius: 15px;
+    font-size: 14px;
+    font-weight: 600;
     white-space: nowrap;
-    z-index: 10;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(0, 255, 255, 0.5);
+    z-index: 20;
+    pointer-events: none;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
 }
 
-/* Page titles */
-.sphere[data-page="home"] .sphere-face::after { content: "Home"; }
-.sphere[data-page="about"] .sphere-face::after { content: "About Me"; }
-.sphere[data-page="works"] .sphere-face::after { content: "My Works"; }
-.sphere[data-page="blog"] .sphere-face::after { content: "Blog/Social"; }
-
-/* Remove the old text content */
-.sphere-face {
-    font-size: 0; /* Hide any text content in the face itself */
+/* Enhanced hover effects for pentagon text */
+.sphere:hover .sphere-face[data-title]::after {
+    background: rgba(0, 255, 255, 0.95);
+    color: #000000;
+    transform: translateX(-50%) scale(1.1);
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
+    text-shadow: none;
 }
 
 /* Enhanced hover effects for pentagon */
@@ -199,6 +201,34 @@
     background: linear-gradient(45deg, rgba(78, 205, 196, 0.3), rgba(69, 183, 209, 0.3));
     z-index: -1;
     filter: blur(8px);
+}
+
+/* Chat Live pentagon special indicator */
+.sphere[data-page="chat"] .sphere-face::before {
+    content: '';
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 10px;
+    height: 10px;
+    background: #00ff00;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+    box-shadow: 0 0 10px #00ff00;
+    z-index: 15;
+}
+
+@keyframes pulse {
+    0%, 100% { 
+        opacity: 1; 
+        transform: scale(1);
+        box-shadow: 0 0 10px #00ff00;
+    }
+    50% { 
+        opacity: 0.6; 
+        transform: scale(1.3);
+        box-shadow: 0 0 20px #00ff00;
+    }
 }
 
 /* Gentle floating animation */
@@ -238,9 +268,9 @@
         height: 230px;
     }
     
-    .sphere-face::after {
-        font-size: 14px;
-        padding: 10px 15px 8px;
+    .sphere-face[data-title]::after {
+        font-size: 12px;
+        padding: 6px 12px;
     }
     
     .carousel-nav {
@@ -281,6 +311,14 @@
     width: 180px;
     height: 250px;
     margin: 20px;
+}
+
+/* Ensure text visibility on all layouts */
+.four-sphere-layout .sphere-face[data-title]::after,
+.sphere-carousel .sphere-face[data-title]::after {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
 }
 
 @media (max-width: 768px) {
