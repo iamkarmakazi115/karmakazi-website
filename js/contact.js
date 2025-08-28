@@ -1,4 +1,4 @@
-// Working Contact Form - Replace js/enhanced-contact.js with this
+// Working Contact Form - Replace js/contact.js with this
 class ContactForm {
     constructor() {
         this.init();
