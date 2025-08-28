@@ -31,6 +31,286 @@
                     #0f3460 0%, #533483 25%, #1a1a2e 50%, #16213e 75%, #0f3460 100%); 
             }
         }
+
+        .works-content {
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .works-intro {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .works-intro h2 {
+            font-size: 3rem;
+            color: #4ecdc4;
+            margin-bottom: 20px;
+            text-shadow: 0 0 30px rgba(78, 205, 196, 0.6);
+        }
+
+        .works-intro p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Centered Novels Grid */
+        .novels-grid {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 50px;
+            margin-bottom: 80px;
+        }
+
+        .novel-card {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 20px;
+            overflow: hidden;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(78, 205, 196, 0.3);
+            transition: all 0.4s ease;
+            cursor: pointer;
+            max-width: 900px;
+            width: 100%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .novel-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 
+                0 20px 50px rgba(78, 205, 196, 0.3),
+                0 0 60px rgba(78, 205, 196, 0.2);
+            border-color: rgba(78, 205, 196, 0.6);
+        }
+
+        .novel-header {
+            background: linear-gradient(135deg, 
+                rgba(78, 205, 196, 0.2) 0%, 
+                rgba(69, 183, 209, 0.2) 50%,
+                rgba(150, 206, 180, 0.2) 100%);
+            padding: 30px;
+            text-align: center;
+            border-bottom: 1px solid rgba(78, 205, 196, 0.3);
+        }
+
+        .novel-title {
+            font-size: 2.2rem;
+            color: #4ecdc4;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-shadow: 0 0 20px rgba(78, 205, 196, 0.5);
+        }
+
+        .novel-tagline {
+            font-size: 1.1rem;
+            color: #ffffff;
+            font-style: italic;
+            font-weight: 500;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .novel-content {
+            padding: 40px;
+        }
+
+        .novel-blurb {
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.8;
+            font-size: 1rem;
+            text-align: justify;
+        }
+
+        .novel-blurb p {
+            margin-bottom: 20px;
+        }
+
+        .novel-blurb p:last-child {
+            margin-bottom: 0;
+            font-weight: 600;
+            color: #4ecdc4;
+            font-style: italic;
+            text-align: center;
+            margin-top: 30px;
+            font-size: 1.1rem;
+        }
+
+        /* Genre-specific styling */
+        .novel-card[data-genre="horror"] .novel-header {
+            background: linear-gradient(135deg, 
+                rgba(255, 107, 107, 0.2) 0%, 
+                rgba(139, 69, 19, 0.2) 100%);
+        }
+
+        .novel-card[data-genre="horror"] .novel-title {
+            color: #ff6b6b;
+            text-shadow: 0 0 20px rgba(255, 107, 107, 0.5);
+        }
+
+        .novel-card[data-genre="urban-fantasy"] .novel-header {
+            background: linear-gradient(135deg, 
+                rgba(150, 206, 180, 0.2) 0%, 
+                rgba(106, 90, 205, 0.2) 100%);
+        }
+
+        .novel-card[data-genre="urban-fantasy"] .novel-title {
+            color: #96ceb4;
+            text-shadow: 0 0 20px rgba(150, 206, 180, 0.5);
+        }
+
+        .novel-card[data-genre="fae-fantasy"] .novel-header {
+            background: linear-gradient(135deg, 
+                rgba(147, 112, 219, 0.2) 0%, 
+                rgba(65, 105, 225, 0.2) 100%);
+        }
+
+        .novel-card[data-genre="fae-fantasy"] .novel-title {
+            color: #9370db;
+            text-shadow: 0 0 20px rgba(147, 112, 219, 0.5);
+        }
+
+        .novel-card[data-genre="dark-fantasy"] .novel-header {
+            background: linear-gradient(135deg, 
+                rgba(220, 20, 60, 0.2) 0%, 
+                rgba(75, 0, 130, 0.2) 100%);
+        }
+
+        .novel-card[data-genre="dark-fantasy"] .novel-title {
+            color: #dc143c;
+            text-shadow: 0 0 20px rgba(220, 20, 60, 0.5);
+        }
+
+        /* Author's Note Section - Updated */
+        .authors-note {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 50px;
+            border-radius: 20px;
+            margin-bottom: 60px;
+            border-left: 5px solid #4ecdc4;
+            text-align: center;
+        }
+
+        .authors-note h3 {
+            color: #4ecdc4;
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+            text-shadow: 0 0 20px rgba(78, 205, 196, 0.4);
+        }
+
+        .authors-note p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.2rem;
+            line-height: 1.8;
+            font-style: italic;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Writing Process Section */
+        .writing-process {
+            text-align: center;
+        }
+
+        .writing-process h3 {
+            color: #4ecdc4;
+            font-size: 2.2rem;
+            margin-bottom: 40px;
+            text-shadow: 0 0 20px rgba(78, 205, 196, 0.4);
+        }
+
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .process-item {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 35px;
+            border-radius: 15px;
+            border: 1px solid rgba(78, 205, 196, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .process-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(78, 205, 196, 0.2);
+            border-color: rgba(78, 205, 196, 0.5);
+        }
+
+        .process-item h4 {
+            color: #4ecdc4;
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(78, 205, 196, 0.3);
+        }
+
+        .process-item p {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.7;
+            font-size: 1rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .works-intro h2 {
+                font-size: 2.2rem;
+            }
+
+            .novel-card {
+                margin: 0 10px;
+            }
+
+            .novel-header {
+                padding: 25px 20px;
+            }
+
+            .novel-title {
+                font-size: 1.8rem;
+            }
+
+            .novel-tagline {
+                font-size: 1rem;
+            }
+
+            .novel-content {
+                padding: 30px 25px;
+            }
+
+            .authors-note {
+                padding: 30px 25px;
+            }
+
+            .authors-note h3 {
+                font-size: 1.8rem;
+            }
+
+            .authors-note p {
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .works-intro h2 {
+                font-size: 2rem;
+            }
+
+            .novel-title {
+                font-size: 1.6rem;
+            }
+
+            .novel-content {
+                padding: 25px 20px;
+            }
+
+            .novel-blurb {
+                font-size: 0.95rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -64,145 +344,165 @@
 
         <!-- Works Content -->
         <section class="works-content">
-            <div class="content-wrapper">
-                <div class="works-intro">
-                    <h2>Published Works</h2>
-                    <p>Explore the literary universes I've created - each book a portal to new dimensions of storytelling, where reality bends and imagination knows no bounds.</p>
-                </div>
+            <div class="works-intro">
+                <h2>Works in Progress</h2>
+                <p>Explore the literary universes currently taking shape - each story a portal to new dimensions of storytelling, where reality bends and imagination knows no bounds.</p>
+            </div>
 
-                <!-- Books Grid -->
-                <div class="books-grid">
-                    <!-- Blood Howls -->
-                    <div class="book-card" data-book="blood-howls">
-                        <div class="book-cover">
-                            <div class="book-placeholder">
-                                <h3>Blood Howls</h3>
-                                <div class="genre-tag">Horror/Thriller</div>
-                            </div>
-                        </div>
-                        <div class="book-info">
-                            <h4>Blood Howls</h4>
-                            <p class="book-description">A haunting tale that delves into the darkness within, where primal instincts clash with human nature in an unforgettable narrative.</p>
-                            <div class="book-actions">
-                                <button class="btn-primary">Read More</button>
-                                <button class="btn-secondary">Purchase</button>
-                            </div>
-                        </div>
+            <!-- Centered Novels Grid -->
+            <div class="novels-grid">
+                <!-- Blood Howls -->
+                <div class="novel-card" data-genre="horror">
+                    <div class="novel-header">
+                        <h3 class="novel-title">Blood Howls</h3>
+                        <p class="novel-tagline">When ancient blood awakens, the hunt begins.</p>
                     </div>
-
-                    <!-- Out of Time -->
-                    <div class="book-card" data-book="out-of-time">
-                        <div class="book-cover">
-                            <div class="book-placeholder">
-                                <h3>Out of Time</h3>
-                                <div class="genre-tag">Sci-Fi/Thriller</div>
-                            </div>
-                        </div>
-                        <div class="book-info">
-                            <h4>Out of Time</h4>
-                            <p class="book-description">When time becomes the enemy, every second counts in this gripping science fiction thriller that bends reality and challenges perception.</p>
-                            <div class="book-actions">
-                                <button class="btn-primary">Read More</button>
-                                <button class="btn-secondary">Purchase</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- The Descent -->
-                    <div class="book-card" data-book="the-descent">
-                        <div class="book-cover">
-                            <div class="book-placeholder">
-                                <h3>The Descent</h3>
-                                <div class="genre-tag">Dark Fiction</div>
-                            </div>
-                        </div>
-                        <div class="book-info">
-                            <h4>The Descent</h4>
-                            <p class="book-description">The beginning of an epic journey into the depths of human consciousness, where heroes are forged in the crucible of adversity.</p>
-                            <div class="book-actions">
-                                <button class="btn-primary">Read More</button>
-                                <button class="btn-secondary">Purchase</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- The Descent: Deeper Book 2 -->
-                    <div class="book-card" data-book="the-descent-deeper">
-                        <div class="book-cover">
-                            <div class="book-placeholder">
-                                <h3>The Descent: Deeper</h3>
-                                <div class="genre-tag">Dark Fiction Series</div>
-                            </div>
-                        </div>
-                        <div class="book-info">
-                            <h4>The Descent: Deeper (Book 2)</h4>
-                            <p class="book-description">The saga continues with even greater intensity, plunging readers further into a world where light and darkness wage eternal war.</p>
-                            <div class="book-actions">
-                                <button class="btn-primary">Read More</button>
-                                <button class="btn-secondary">Purchase</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Forgotten Son -->
-                    <div class="book-card" data-book="forgotten-son">
-                        <div class="book-cover">
-                            <div class="book-placeholder">
-                                <h3>Forgotten Son</h3>
-                                <div class="genre-tag">Drama/Mystery</div>
-                            </div>
-                        </div>
-                        <div class="book-info">
-                            <h4>Forgotten Son</h4>
-                            <p class="book-description">A powerful story of identity and belonging, exploring the bonds that define us and the secrets that can tear families apart.</p>
-                            <div class="book-actions">
-                                <button class="btn-primary">Read More</button>
-                                <button class="btn-secondary">Purchase</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Which Way The Wind Blows -->
-                    <div class="book-card" data-book="which-way-wind-blows">
-                        <div class="book-cover">
-                            <div class="book-placeholder">
-                                <h3>Which Way The Wind Blows</h3>
-                                <div class="genre-tag">Literary Fiction</div>
-                            </div>
-                        </div>
-                        <div class="book-info">
-                            <h4>Which Way The Wind Blows</h4>
-                            <p class="book-description">A contemplative journey through life's uncertainties, where characters navigate the changing winds of fate and fortune.</p>
-                            <div class="book-actions">
-                                <button class="btn-primary">Read More</button>
-                                <button class="btn-secondary">Purchase</button>
-                            </div>
+                    <div class="novel-content">
+                        <div class="novel-blurb">
+                            <p>Kael Thorne's twenty-fifth birthday was supposed to be ordinary—dinner with family, maybe a call from his sister. Instead, it becomes the night his parents die and a supernatural assassin called the Hunter comes to claim what flows in his veins.</p>
+                            
+                            <p>Kael is the last descendant of the Progenitor, the first werewolf, and his blood is the key to an ancient relic that could either save the world or destroy it. Thrust into a war between supernatural races, he must forge unlikely alliances with exiled Fae warriors, battle-scarred trolls, storm-wielding djinn, and vengeful banshees—all while learning to master the beast within.</p>
+                            
+                            <p>As genetically twisted monstrosities ravage cities and the mad tyrant Valek Dorne builds an army of horrors, Kael faces an impossible choice: embrace the very power that makes him a target, or watch everything he loves burn.</p>
+                            
+                            <p>From underground troll monasteries to floating djinn cities, from spectral banshee realms to his sister's final sacrifice, Kael must become what the world fears most—and what it desperately needs.</p>
+                            
+                            <p>Alpha. Warrior. Legend.</p>
+                            
+                            <p>Blood Howls is a dark urban fantasy that blends supernatural politics, visceral action, and the timeless struggle between vengeance and justice. In a world where ancient bloodlines determine fate, one man must choose between the monster he could become and the hero he was meant to be.</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Author's Note Section -->
-                <div class="authors-note">
-                    <h3>From the Author</h3>
-                    <p>Each story I write is a universe waiting to be discovered. Through these works, I invite you to explore the boundaries between reality and imagination, where every page turn reveals new possibilities and every chapter opens doors to worlds unknown.</p>
+                <!-- Forgotten Son -->
+                <div class="novel-card" data-genre="urban-fantasy">
+                    <div class="novel-header">
+                        <h3 class="novel-title">Forgotten Son</h3>
+                        <p class="novel-tagline">When the dead whisper warnings, a god's son must choose between love and cosmic order.</p>
+                    </div>
+                    <div class="novel-content">
+                        <div class="novel-blurb">
+                            <p>Christos Thanatos has spent twenty-six years hiding in plain sight—working security jobs, living in a Chicago high-rise, and pretending the voices of the dead are just background noise. The son of Hades should be ruling the underworld, but he's chosen the mortal world instead, finding peace in the arms of Elena Martinez, an art history student who sees past his supernatural nature.</p>
+                            
+                            <p>Then Elena is kidnapped.</p>
+                            
+                            <p>The ransom isn't money—it's blood. Five divine bloodlines must die to fuel an ancient ritual that will birth a god without conscience, without love, without the weaknesses that make divinity worth worshipping. Each kill brings Christos closer to saving the woman he loves, but further from the man he wants to be.</p>
+                            
+                            <p>As Chicago burns with divine fire and Titans descend from storm-torn skies, Christos discovers his father's true plan: not just to create the perfect god, but to tear down the masquerade that has kept supernatural and human worlds separate for centuries. The age of hiding is ending. The age of gods is beginning again.</p>
+                            
+                            <p>But gods, Christos learns, are made by the choices they make—not the power they inherit.</p>
+                            
+                            <p>Forgotten Son is an urban fantasy that explores what happens when ancient powers clash with modern love, when family loyalty wars with moral conviction, and when the greatest divine act might be choosing to serve rather than rule. In a world where gods walk among mortals and the dead demand justice, one man must decide what kind of god he's willing to become.</p>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Writing Process Section -->
-                <div class="writing-process">
-                    <h3>Behind the Stories</h3>
-                    <div class="process-grid">
-                        <div class="process-item">
-                            <h4>Inspiration</h4>
-                            <p>Drawing from the cosmos of human experience and the infinite possibilities of imagination.</p>
+                <!-- Out of Time -->
+                <div class="novel-card" data-genre="fae-fantasy">
+                    <div class="novel-header">
+                        <h3 class="novel-title">Out of Time</h3>
+                        <p class="novel-tagline">When a prince is murdered and hung like a scarecrow, the killer leaves behind more than a corpse—they leave a name that shouldn't exist.</p>
+                    </div>
+                    <div class="novel-content">
+                        <div class="novel-blurb">
+                            <p>Cael Ward Corbin has spent years hiding what he is: a memory-binder caught between the Seelie and Unseelie Courts, hunting rogues in the shadows of the Interworld Accord. When Prince Alarion is found crucified in a human town square, carved with the forbidden sigil of the long-dead Outriders, Cael's investigation unearths a conspiracy that reaches into the heart of his own buried past.</p>
+                            
+                            <p>Partnered with Vaelira Elaren, a Court agent whose loyalties run deeper than her blade, Cael follows a trail of royal blood and stolen names across the Feywild's most dangerous territories. Each murder reveals another piece of an ancient ritual designed to birth a god without conscience—and each clue points toward a truth the Courts erased from history.</p>
+                            
+                            <p>But the killer isn't just rewriting the future. They're unmaking the past, using forbidden shadowglass magic to steal identities and forge Mirrorborn assassins. And when Cael discovers his own name carved in blood at a crime scene, he realizes he's not hunting the conspiracy—he's part of it.</p>
+                            
+                            <p>In a world where names have power and memory can be rewritten, Cael must confront the identity he lost, the woman he loves, and the father who tried to unmake him. Because the Mirrorwild is rising, the Treaty between realms is cracking, and only a name that was forbidden to exist can prevent a war that would shatter three worlds.</p>
+                            
+                            <p>Out of Time is an urban fantasy that weaves Fae politics with identity horror, where the greatest magic is choosing who you are when the world insists you're someone else.</p>
                         </div>
-                        <div class="process-item">
-                            <h4>Craft</h4>
-                            <p>Each word carefully chosen, each sentence meticulously crafted to create immersive experiences.</p>
+                    </div>
+                </div>
+
+                <!-- Which Way the Wind Blows -->
+                <div class="novel-card" data-genre="fae-fantasy">
+                    <div class="novel-header">
+                        <h3 class="novel-title">Which Way the Wind Blows</h3>
+                        <p class="novel-tagline">In the shadows between light and darkness, a bastard prince must choose his crown.</p>
+                    </div>
+                    <div class="novel-content">
+                        <div class="novel-blurb">
+                            <p>When Veraden—son of the ruthless Queen Mab—rescues the tortured Lord Calendreth from an Unseelie dungeon, he triggers a war that will shatter the ancient balance between the Seelie and Unseelie courts. Raised in secret by a shapeshifting Glamourling, Veraden has spent decades infiltrating his mother's forces, but his rescue mission sets in motion a chain of betrayals, bloodshed, and broken oaths that will consume both realms.</p>
+                            
+                            <p>As Queen Titania of the Seelie Court watches her kingdom burn and her beloved King Oberon fall to Mab's devastating magic, she must forge an unlikely alliance with the shadow-born warrior who carries her enemy's blood. Alongside the fierce commander Elanai Vire, Veraden leads a desperate resistance from the ashes of the fallen court, striking at the heart of his mother's empire.</p>
+                            
+                            <p>But Queen Mab's hunger for vengeance runs deeper than mere conquest. Haunted by ancient betrayals and the sister who once stole her crown, she will stop at nothing to reclaim what was taken—even if it means destroying the son she abandoned and the world itself.</p>
+                            
+                            <p>Which Way the Wind Blows is a dark fantasy epic of family, betrayal, and the terrible price of power, where love blooms in the ruins of war and the greatest enemy may be the blood that runs in your veins.</p>
                         </div>
-                        <div class="process-item">
-                            <h4>Vision</h4>
-                            <p>Creating stories that resonate across dimensions, touching hearts and expanding minds.</p>
+                    </div>
+                </div>
+
+                <!-- The Descent Book 1 -->
+                <div class="novel-card" data-genre="dark-fantasy">
+                    <div class="novel-header">
+                        <h3 class="novel-title">The Descent Book 1</h3>
+                        <p class="novel-tagline">Born from fire and hidden in shadow, Lucien Graves never knew he was heir to a throne built on blood and betrayal.</p>
+                    </div>
+                    <div class="novel-content">
+                        <div class="novel-blurb">
+                            <p>Bartending in the vampire-owned clubs of Kharvas, Lucien lives quietly among the supernatural elite—until ancient relics begin awakening in his presence and demons start hunting him through the neon-lit streets. When he discovers his true identity as the son of murdered vampire royalty, he's thrust into a war that has been brewing since the fall of the old kingdom.</p>
+                            
+                            <p>With the primordial demon Az'kaar stirring from his prison and vampire covens fracturing under the weight of corruption, Lucien must master elemental powers he never wanted while navigating deadly alliances with exiled nobles, assassins, and the mysterious Amaris—who has been protecting him from the shadows for years. But as he collects the six ancient relics tied to his bloodline, Lucien realizes he's not just a weapon in someone else's war.</p>
+                            
+                            <p>He's the key to a door that should never be opened.</p>
+                            
+                            <p>From underground fight clubs to burning sanctums, from forgotten crypts to demon citadels carved from living stone, The Descent weaves a dark tapestry of urban fantasy and epic mythology. Paul Castro delivers a blood-soaked tale where memory is power, prophecy is a cage, and sometimes the greatest enemy is the legacy written in your bones.</p>
+                            
+                            <p>The fire remembers. The wolves are waking. And the descent into power comes at the price of everything you thought you knew about yourself.</p>
                         </div>
+                    </div>
+                </div>
+
+                <!-- The Descent: Ash Reborn Book 2 -->
+                <div class="novel-card" data-genre="dark-fantasy">
+                    <div class="novel-header">
+                        <h3 class="novel-title">The Descent: Ash Reborn Book 2</h3>
+                        <p class="novel-tagline">The fire within him was never meant to be carried by the living.</p>
+                    </div>
+                    <div class="novel-content">
+                        <div class="novel-blurb">
+                            <p>Lucien Thorne awakens to a terrible truth—he died, and the Sixth Relic brought him back. Now, as the Council's final weapons emerge from shadow, he must confront not only their Hollow Ascendant and reality-warping Choir, but the growing realization that he is no longer merely a relic-bearer.</p>
+                            
+                            <p>He is a living artifact himself.</p>
+                            
+                            <p>Haunted by visions of a burning cradle and guided by fragments of his fallen sister Seraphine's memories, Lucien leads the Ash Rebellion through a landscape where time fractures and gods bleed into tomorrow. Alongside the fierce Amaris, the dreamwalker Ciryel, and the stalwart Kaemul, he must gather the scattered remnants of resistance before the Council's song of erasure silences every name that ever mattered.</p>
+                            
+                            <p>From the Bone Archive's buried confessions to the mountain where the First Flame was born, from the city that was never supposed to exist to the choir that sang the sun to sleep, Lucien will discover that some victories require not the wielding of power, but the wisdom to let it go.</p>
+                            
+                            <p>The Council believes they have won by breaking the rebellion's voice. But fire remembers what silence tries to forget—and in the ashes of the old world, something new is ready to be born.</p>
+                            
+                            <p>Ash Reborn is the explosive conclusion to The Descent duology, where the cost of memory meets the price of freedom, and a man who died for the flame must choose whether to burn as a weapon or shine as a light.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Author's Note Section -->
+            <div class="authors-note">
+                <h3>From the Author</h3>
+                <p>Each story I write is a universe waiting to be discovered. Through these works in progress, I invite you to explore the boundaries between reality and imagination, where every page turn reveals new possibilities and every chapter opens doors to worlds unknown. These tales are still growing, evolving, and finding their final forms—much like the characters within them who must discover who they're meant to become.</p>
+            </div>
+
+            <!-- Writing Process Section -->
+            <div class="writing-process">
+                <h3>Behind the Stories</h3>
+                <div class="process-grid">
+                    <div class="process-item">
+                        <h4>Inspiration</h4>
+                        <p>Drawing from the cosmos of human experience and the infinite possibilities of imagination, where every dream becomes a potential reality.</p>
+                    </div>
+                    <div class="process-item">
+                        <h4>Craft</h4>
+                        <p>Each word carefully chosen, each sentence meticulously crafted to create immersive experiences that resonate with readers long after the final page.</p>
+                    </div>
+                    <div class="process-item">
+                        <h4>Vision</h4>
+                        <p>Creating stories that transcend dimensions, touching hearts and expanding minds while exploring the depths of what it means to be human.</p>
                     </div>
                 </div>
             </div>
