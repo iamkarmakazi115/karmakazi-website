@@ -387,13 +387,21 @@ class ChatLive {
         });
 
         form.addEventListener('submit', function(e) {
-            const words = messageTextarea.value.trim().split(/\s+/).filter(word => word.length > 0);
-            const wordCount = messageTextarea.value.trim() === '' ? 0 : words.length;
+            e.preventDefault();
             
-            if (wordCount > 200) {
-                e.preventDefault();
-                alert('Message must be 200 words or less. Current count: ' + wordCount);
-            }
+            const formData = new FormData(form);
+            const email = formData.get('email');
+            const subject = formData.get('subject');
+            const message = formData.get('message');
+            
+            // Create mailto link
+            const mailtoLink = `mailto:iamkarmakazi115@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(`From: ${email}\n\n${message}`)}`;
+            
+            // Open email client
+            window.location.href = mailtoLink;
+            
+            // Show confirmation
+            alert('Opening your email client...');
         });
     }
 }
