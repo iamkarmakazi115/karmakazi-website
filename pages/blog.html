@@ -44,7 +44,7 @@
         }
 
         .main-content {
-            padding-top: 120px;
+            padding-top: 50px;
             max-width: 1200px;
             margin: 0 auto;
             padding-left: 20px;
@@ -362,34 +362,34 @@
     </style>
 </head>
 <body>
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <span class="logo-text">KARMAKAZI</span>
+    <!-- 4 Sphere Navigation matching other pages -->
+    <div class="sphere-container four-sphere-layout">
+        <div class="sphere-carousel">
+            <!-- Home Sphere -->
+            <div class="sphere" data-page="home">
+                <div class="sphere-inner">
+                    <div class="sphere-face front" data-title="Home"></div>
+                </div>
             </div>
-        </div>
-    </nav>
 
-    <div class="sphere-container">
-        <div class="sphere-scene" id="sphereScene">
-            <div class="sphere" id="sphere1" data-target="/">
-                <div class="sphere-content">
-                    <span class="sphere-text">Home</span>
+            <!-- About Me Sphere -->
+            <div class="sphere" data-page="about">
+                <div class="sphere-inner">
+                    <div class="sphere-face front" data-title="About Me"></div>
                 </div>
             </div>
-            <div class="sphere" id="sphere2" data-target="/pages/about.html">
-                <div class="sphere-content">
-                    <span class="sphere-text">About Me</span>
+
+            <!-- My Works Sphere -->
+            <div class="sphere" data-page="works">
+                <div class="sphere-inner">
+                    <div class="sphere-face front" data-title="My Works"></div>
                 </div>
             </div>
-            <div class="sphere" id="sphere3" data-target="/pages/works.html">
-                <div class="sphere-content">
-                    <span class="sphere-text">My Works</span>
-                </div>
-            </div>
-            <div class="sphere current-page" id="sphere4" data-target="/pages/blog.html">
-                <div class="sphere-content">
-                    <span class="sphere-text">Blog & Social</span>
+
+            <!-- Chat Live Sphere -->
+            <div class="sphere" data-page="chat">
+                <div class="sphere-inner">
+                    <div class="sphere-face front" data-title="Chat Live"></div>
                 </div>
             </div>
         </div>
