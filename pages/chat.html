@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat Live - Karmakazi</title>
     <link rel="stylesheet" href="../css/main.css">
-    <link rel="stylesheet" href="../css/sphere.css">
+    <link rel="stylesheet" href="../css/floating-nav.css">
     <link rel="stylesheet" href="../css/chat-live.css">
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     
@@ -19,35 +19,32 @@
         <div class="background-overlay"></div>
     </div>
 
-    <!-- Navigation Spheres -->
-    <div class="sphere-container">
-        <div class="sphere" data-page="home">
-            <div class="sphere-inner">
-                <div class="sphere-face front" data-title="Home"></div>
-            </div>
-        </div>
-        <div class="sphere" data-page="about">
-            <div class="sphere-inner">
-                <div class="sphere-face front" data-title="About Me"></div>
-            </div>
-        </div>
-        <div class="sphere" data-page="works">
-            <div class="sphere-inner">
-                <div class="sphere-face front" data-title="My Works"></div>
-            </div>
-        </div>
-        <div class="sphere" data-page="blog">
-            <div class="sphere-inner">
-                <div class="sphere-face front" data-title="Blog"></div>
-            </div>
-        </div>
-    </div>
-
     <!-- Main Content -->
     <main class="chat-main">
         <div class="chat-header">
             <h1>Chat Live</h1>
             <p>Connect with others in real-time video chat and messaging</p>
+        </div>
+
+        <!-- Floating Navigation -->
+        <div class="floating-nav-container">
+            <nav class="floating-nav">
+                <a href="#" class="nav-item" data-page="home">
+                    <div class="nav-text">Home</div>
+                </a>
+                <a href="#" class="nav-item" data-page="about">
+                    <div class="nav-text">About Me</div>
+                </a>
+                <a href="#" class="nav-item" data-page="works">
+                    <div class="nav-text">My Works</div>
+                </a>
+                <a href="#" class="nav-item" data-page="blog">
+                    <div class="nav-text">Blog</div>
+                </a>
+                <a href="#" class="nav-item current-page" data-page="chat">
+                    <div class="nav-text">Chat Live</div>
+                </a>
+            </nav>
         </div>
 
         <!-- Room Management -->
@@ -201,7 +198,7 @@
     </div>
 
     <!-- Scripts -->
-    <script src="../js/sphere.js"></script>
+    <script src="../js/floating-nav.js"></script>
     <script src="../js/chat-live.js"></script>
     <script src="../js/webrtc-handler.js"></script>
 </body>

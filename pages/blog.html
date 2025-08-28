@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog & Social - Karmakazi</title>
     <link rel="stylesheet" href="../css/main.css">
-    <link rel="stylesheet" href="../css/sphere.css">
+    <link rel="stylesheet" href="../css/floating-nav.css">
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     
     <!-- Font Awesome for icons -->
@@ -42,551 +42,225 @@
                     #4a1a6b 0%, #0c0c2e 25%, #1a1a4a 50%, #2a0845 75%, #4a1a6b 100%); 
             }
         }
-
-        .main-content {
-            padding-top: 50px;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding-left: 20px;
-            padding-right: 20px;
-        }
-
-        .page-header {
-            text-align: center;
-            margin-bottom: 60px;
-        }
-
-        .page-title {
-            font-size: 3.5rem;
-            color: #4ecdc4;
-            margin-bottom: 20px;
-            text-shadow: 0 0 20px rgba(78, 205, 196, 0.5);
-        }
-
-        .page-subtitle {
-            font-size: 1.2rem;
-            color: rgba(255, 255, 255, 0.8);
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .content-grid {
-            display: grid;
-            grid-template-columns: 1fr 350px;
-            gap: 40px;
-            margin-bottom: 60px;
-        }
-
-        .blog-posts {
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 20px;
-            padding: 40px;
-            border: 1px solid rgba(78, 205, 196, 0.2);
-        }
-
-        .posts-header {
-            margin-bottom: 30px;
-        }
-
-        .posts-title {
-            font-size: 2rem;
-            color: #4ecdc4;
-            margin-bottom: 10px;
-        }
-
-        .posts-subtitle {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 1rem;
-        }
-
-        .post-item {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 15px;
-            padding: 25px;
-            margin-bottom: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
-        }
-
-        .post-item:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(78, 205, 196, 0.2);
-            border-color: rgba(78, 205, 196, 0.3);
-        }
-
-        .post-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .post-avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: linear-gradient(45deg, #4ecdc4, #45b7d1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            font-size: 1.2rem;
-            margin-right: 15px;
-        }
-
-        .post-info h4 {
-            color: #4ecdc4;
-            margin: 0;
-            font-size: 1.1rem;
-        }
-
-        .post-date {
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 0.9rem;
-        }
-
-        .post-content {
-            color: white;
-            line-height: 1.6;
-            margin-bottom: 15px;
-        }
-
-        .post-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.6);
-        }
-
-        .post-actions {
-            display: flex;
-            gap: 15px;
-        }
-
-        .action-btn {
-            background: none;
-            border: 1px solid rgba(78, 205, 196, 0.3);
-            color: #4ecdc4;
-            padding: 8px 16px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 0.8rem;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            transition: all 0.3s ease;
-        }
-
-        .action-btn:hover {
-            background: rgba(78, 205, 196, 0.1);
-            border-color: #4ecdc4;
-        }
-
-        .sidebar {
-            display: flex;
-            flex-direction: column;
-            gap: 30px;
-        }
-
-        .social-links {
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 20px;
-            padding: 30px;
-            border: 1px solid rgba(78, 205, 196, 0.2);
-        }
-
-        .social-title {
-            font-size: 1.5rem;
-            color: #4ecdc4;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .social-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 15px;
-        }
-
-        .social-card {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 20px;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 15px;
-            text-decoration: none;
-            color: white;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .social-card:hover {
-            transform: translateX(5px);
-            box-shadow: 0 5px 20px rgba(78, 205, 196, 0.3);
-            background: rgba(0, 0, 0, 0.4);
-        }
-
-        .social-icon {
-            font-size: 1.5rem;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .social-card.facebook .social-icon {
-            background: #1877F2;
-        }
-
-        .social-card.instagram .social-icon {
-            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
-        }
-
-        .social-card.twitter .social-icon {
-            background: #1DA1F2;
-        }
-
-        .social-card.chat-live .social-icon {
-            background: linear-gradient(45deg, #00ff00, #00cc00);
-        }
-
-        .social-text {
-            flex: 1;
-        }
-
-        .social-name {
-            font-weight: 600;
-            font-size: 1rem;
-            margin-bottom: 5px;
-        }
-
-        .social-desc {
-            font-size: 0.85rem;
-            color: rgba(255, 255, 255, 0.6);
-        }
-
-        .recent-activity {
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 20px;
-            padding: 30px;
-            border: 1px solid rgba(78, 205, 196, 0.2);
-        }
-
-        .activity-title {
-            font-size: 1.5rem;
-            color: #4ecdc4;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .activity-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 15px;
-            margin-bottom: 15px;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .activity-icon {
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            background: linear-gradient(45deg, #4ecdc4, #45b7d1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 0.9rem;
-        }
-
-        .activity-text {
-            flex: 1;
-            color: white;
-            font-size: 0.9rem;
-        }
-
-        .activity-time {
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.6);
-        }
-
-        /* Mobile Responsiveness */
-        @media (max-width: 768px) {
-            .content-grid {
-                grid-template-columns: 1fr;
-                gap: 30px;
-            }
-
-            .page-title {
-                font-size: 2.5rem;
-            }
-
-            .blog-posts,
-            .social-links,
-            .recent-activity {
-                padding: 25px;
-            }
-
-            .social-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* Load More Button */
-        .load-more {
-            background: linear-gradient(45deg, #4ecdc4, #45b7d1);
-            border: none;
-            color: white;
-            padding: 15px 30px;
-            border-radius: 25px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            margin: 30px auto;
-            display: block;
-            transition: all 0.3s ease;
-        }
-
-        .load-more:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(78, 205, 196, 0.4);
-        }
     </style>
 </head>
 <body>
-    <!-- 4 Sphere Navigation matching other pages -->
-    <div class="sphere-container four-sphere-layout">
-    <div class="sphere-carousel">
-        <!-- Home Sphere -->
-        <div class="sphere" data-page="home">
-            <div class="sphere-inner">
-                <div class="sphere-face front" data-title="Home"></div>
-            </div>
-        </div>
-
-        <!-- About Me Sphere -->
-        <div class="sphere" data-page="about">
-            <div class="sphere-inner">
-                <div class="sphere-face front" data-title="About Me"></div>
-            </div>
-        </div>
-
-        <!-- My Works Sphere -->
-        <div class="sphere" data-page="works">
-            <div class="sphere-inner">
-                <div class="sphere-face front" data-title="My Works"></div>
-            </div>
-        </div>
-
-        <!-- Chat Live Sphere -->
-        <div class="sphere" data-page="chat">
-            <div class="sphere-inner">
-                <div class="sphere-face front" data-title="Chat Live"></div>
-            </div>
-        </div>
-    </div>
-</div>
-
+    <!-- Main Content -->
     <main class="main-content">
-        <header class="page-header">
-            <h1 class="page-title">Blog & Social</h1>
-            <p class="page-subtitle">
-                Welcome to my digital cosmos! Here you'll find my latest thoughts, creative projects, and social updates. Join me on this journey through the infinite possibilities of imagination and storytelling.
-            </p>
+        <header class="site-header">
+            <h1>Blog & Social</h1>
+            <p>Welcome to my digital cosmos! Here you'll find my latest thoughts, creative projects, and social updates. Join me on this journey through the infinite possibilities of imagination and storytelling.</p>
         </header>
 
-        <div class="content-grid">
-            <section class="blog-posts">
-                <div class="posts-header">
-                    <h2 class="posts-title">Latest Posts</h2>
-                    <p class="posts-subtitle">Recent updates and creative thoughts</p>
-                </div>
-
-                <article class="post-item">
-                    <div class="post-header">
-                        <div class="post-avatar">K</div>
-                        <div class="post-info">
-                            <h4>Paul Castro</h4>
-                            <span class="post-date">Just now</span>
-                        </div>
-                    </div>
-                    <div class="post-content">
-                        <p>Welcome to the cosmic realm of creativity! I'm excited to share my journey through writing, imagination, and the infinite possibilities of storytelling. This space will be filled with updates about my latest projects, thoughts on the creative process, and glimpses into the worlds I'm building.</p>
-                    </div>
-                    <div class="post-meta">
-                        <div class="post-actions">
-                            <a href="#" class="action-btn">
-                                <i class="fas fa-heart"></i> Like
-                            </a>
-                            <a href="#" class="action-btn">
-                                <i class="fas fa-comment"></i> Comment
-                            </a>
-                            <a href="#" class="action-btn">
-                                <i class="fas fa-share"></i> Share
-                            </a>
-                        </div>
-                        <span>0 comments</span>
-                    </div>
-                </article>
-
-                <article class="post-item">
-                    <div class="post-header">
-                        <div class="post-avatar">K</div>
-                        <div class="post-info">
-                            <h4>Paul Castro</h4>
-                            <span class="post-date">Earlier today</span>
-                        </div>
-                    </div>
-                    <div class="post-content">
-                        <p>New literary projects are brewing in the creative laboratory! Stay tuned for updates on upcoming releases and behind-the-scenes glimpses into the writing process. The universe is vast, and there are so many stories waiting to be told.</p>
-                    </div>
-                    <div class="post-meta">
-                        <div class="post-actions">
-                            <a href="#" class="action-btn">
-                                <i class="fas fa-heart"></i> Like
-                            </a>
-                            <a href="#" class="action-btn">
-                                <i class="fas fa-comment"></i> Comment
-                            </a>
-                            <a href="#" class="action-btn">
-                                <i class="fas fa-share"></i> Share
-                            </a>
-                        </div>
-                        <span>0 comments</span>
-                    </div>
-                </article>
-
-                <article class="post-item">
-                    <div class="post-header">
-                        <div class="post-avatar">K</div>
-                        <div class="post-info">
-                            <h4>Paul Castro</h4>
-                            <span class="post-date">Yesterday</span>
-                        </div>
-                    </div>
-                    <div class="post-content">
-                        <p>Inspiration can strike at any moment - whether you're gazing at the stars, exploring new worlds through books, or simply letting your imagination wander. Today I'm reflecting on the power of curiosity and how it fuels the creative spirit.</p>
-                    </div>
-                    <div class="post-meta">
-                        <div class="post-actions">
-                            <a href="#" class="action-btn">
-                                <i class="fas fa-heart"></i> Like
-                            </a>
-                            <a href="#" class="action-btn">
-                                <i class="fas fa-comment"></i> Comment
-                            </a>
-                            <a href="#" class="action-btn">
-                                <i class="fas fa-share"></i> Share
-                            </a>
-                        </div>
-                        <span>0 comments</span>
-                    </div>
-                </article>
-
-                <button class="load-more">Load More Posts</button>
-            </section>
-
-            <aside class="sidebar">
-                <div class="social-links">
-                    <h3 class="social-title">Connect With Me</h3>
-                    <div class="social-grid">
-                        <a href="https://www.facebook.com/profile.php?id=742275432308734" target="_blank" class="social-card facebook">
-                            <div class="social-icon">
-                                <i class="fab fa-facebook-f"></i>
-                            </div>
-                            <div class="social-text">
-                                <div class="social-name">Facebook</div>
-                                <div class="social-desc">Follow for updates</div>
-                            </div>
-                        </a>
-
-                        <a href="#" target="_blank" class="social-card instagram">
-                            <div class="social-icon">
-                                <i class="fab fa-instagram"></i>
-                            </div>
-                            <div class="social-text">
-                                <div class="social-name">Instagram</div>
-                                <div class="social-desc">Visual stories</div>
-                            </div>
-                        </a>
-
-                        <a href="#" target="_blank" class="social-card twitter">
-                            <div class="social-icon">
-                                <i class="fab fa-twitter"></i>
-                            </div>
-                            <div class="social-text">
-                                <div class="social-name">Twitter</div>
-                                <div class="social-desc">Quick thoughts</div>
-                            </div>
-                        </a>
-
-                        <a href="/pages/chat.html" class="social-card chat-live">
-                            <div class="social-icon">
-                                <i class="fas fa-comments"></i>
-                            </div>
-                            <div class="social-text">
-                                <div class="social-name">Chat Live</div>
-                                <div class="social-desc">Real-time chat</div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="recent-activity">
-                    <h3 class="activity-title">Recent Activity</h3>
-                    
-                    <div class="activity-item">
-                        <div class="activity-icon">
-                            <i class="fas fa-pen"></i>
-                        </div>
-                        <div class="activity-text">
-                            New blog post published
-                        </div>
-                        <div class="activity-time">2h ago</div>
-                    </div>
-
-                    <div class="activity-item">
-                        <div class="activity-icon">
-                            <i class="fas fa-share"></i>
-                        </div>
-                        <div class="activity-text">
-                            Shared creative inspiration
-                        </div>
-                        <div class="activity-time">1d ago</div>
-                    </div>
-
-                    <div class="activity-item">
-                        <div class="activity-icon">
-                            <i class="fas fa-heart"></i>
-                        </div>
-                        <div class="activity-text">
-                            Appreciated community feedback
-                        </div>
-                        <div class="activity-time">2d ago</div>
-                    </div>
-
-                    <div class="activity-item">
-                        <div class="activity-icon">
-                            <i class="fas fa-book"></i>
-                        </div>
-                        <div class="activity-text">
-                            Working on new project
-                        </div>
-                        <div class="activity-time">3d ago</div>
-                    </div>
-                </div>
-            </aside>
+        <!-- Floating Navigation -->
+        <div class="floating-nav-container">
+            <nav class="floating-nav">
+                <a href="#" class="nav-item" data-page="home">
+                    <div class="nav-text">Home</div>
+                </a>
+                <a href="#" class="nav-item" data-page="about">
+                    <div class="nav-text">About Me</div>
+                </a>
+                <a href="#" class="nav-item" data-page="works">
+                    <div class="nav-text">My Works</div>
+                </a>
+                <a href="#" class="nav-item current-page" data-page="blog">
+                    <div class="nav-text">Blog</div>
+                </a>
+                <a href="#" class="nav-item" data-page="chat">
+                    <div class="nav-text">Chat Live</div>
+                </a>
+            </nav>
         </div>
+
+        <!-- Blog Content -->
+        <section class="blog-content">
+            <div class="content-grid">
+                <div class="blog-posts">
+                    <div class="posts-header">
+                        <h2 class="posts-title">Latest Posts</h2>
+                        <p class="posts-subtitle">Recent updates and creative thoughts</p>
+                    </div>
+
+                    <article class="post-item">
+                        <div class="post-header">
+                            <div class="post-avatar">K</div>
+                            <div class="post-info">
+                                <h4>Paul Castro</h4>
+                                <span class="post-date">Just now</span>
+                            </div>
+                        </div>
+                        <div class="post-content">
+                            <p>Welcome to the cosmic realm of creativity! I'm excited to share my journey through writing, imagination, and the infinite possibilities of storytelling. This space will be filled with updates about my latest projects, thoughts on the creative process, and glimpses into the worlds I'm building.</p>
+                        </div>
+                        <div class="post-meta">
+                            <div class="post-actions">
+                                <a href="#" class="action-btn">
+                                    <i class="fas fa-heart"></i> Like
+                                </a>
+                                <a href="#" class="action-btn">
+                                    <i class="fas fa-comment"></i> Comment
+                                </a>
+                                <a href="#" class="action-btn">
+                                    <i class="fas fa-share"></i> Share
+                                </a>
+                            </div>
+                            <span>0 comments</span>
+                        </div>
+                    </article>
+
+                    <article class="post-item">
+                        <div class="post-header">
+                            <div class="post-avatar">K</div>
+                            <div class="post-info">
+                                <h4>Paul Castro</h4>
+                                <span class="post-date">Earlier today</span>
+                            </div>
+                        </div>
+                        <div class="post-content">
+                            <p>New literary projects are brewing in the creative laboratory! Stay tuned for updates on upcoming releases and behind-the-scenes glimpses into the writing process. The universe is vast, and there are so many stories waiting to be told.</p>
+                        </div>
+                        <div class="post-meta">
+                            <div class="post-actions">
+                                <a href="#" class="action-btn">
+                                    <i class="fas fa-heart"></i> Like
+                                </a>
+                                <a href="#" class="action-btn">
+                                    <i class="fas fa-comment"></i> Comment
+                                </a>
+                                <a href="#" class="action-btn">
+                                    <i class="fas fa-share"></i> Share
+                                </a>
+                            </div>
+                            <span>0 comments</span>
+                        </div>
+                    </article>
+
+                    <article class="post-item">
+                        <div class="post-header">
+                            <div class="post-avatar">K</div>
+                            <div class="post-info">
+                                <h4>Paul Castro</h4>
+                                <span class="post-date">Yesterday</span>
+                            </div>
+                        </div>
+                        <div class="post-content">
+                            <p>Inspiration can strike at any moment - whether you're gazing at the stars, exploring new worlds through books, or simply letting your imagination wander. Today I'm reflecting on the power of curiosity and how it fuels the creative spirit.</p>
+                        </div>
+                        <div class="post-meta">
+                            <div class="post-actions">
+                                <a href="#" class="action-btn">
+                                    <i class="fas fa-heart"></i> Like
+                                </a>
+                                <a href="#" class="action-btn">
+                                    <i class="fas fa-comment"></i> Comment
+                                </a>
+                                <a href="#" class="action-btn">
+                                    <i class="fas fa-share"></i> Share
+                                </a>
+                            </div>
+                            <span>0 comments</span>
+                        </div>
+                    </article>
+
+                    <button class="load-more">Load More Posts</button>
+                </div>
+
+                <aside class="sidebar">
+                    <div class="social-links">
+                        <h3 class="social-title">Connect With Me</h3>
+                        <div class="social-grid">
+                            <a href="https://www.facebook.com/profile.php?id=742275432308734" target="_blank" class="social-card facebook">
+                                <div class="social-icon">
+                                    <i class="fab fa-facebook-f"></i>
+                                </div>
+                                <div class="social-text">
+                                    <div class="social-name">Facebook</div>
+                                    <div class="social-desc">Follow for updates</div>
+                                </div>
+                            </a>
+
+                            <a href="#" target="_blank" class="social-card instagram">
+                                <div class="social-icon">
+                                    <i class="fab fa-instagram"></i>
+                                </div>
+                                <div class="social-text">
+                                    <div class="social-name">Instagram</div>
+                                    <div class="social-desc">Visual stories</div>
+                                </div>
+                            </a>
+
+                            <a href="#" target="_blank" class="social-card twitter">
+                                <div class="social-icon">
+                                    <i class="fab fa-twitter"></i>
+                                </div>
+                                <div class="social-text">
+                                    <div class="social-name">Twitter</div>
+                                    <div class="social-desc">Quick thoughts</div>
+                                </div>
+                            </a>
+
+                            <a href="chat.html" class="social-card chat-live">
+                                <div class="social-icon">
+                                    <i class="fas fa-comments"></i>
+                                </div>
+                                <div class="social-text">
+                                    <div class="social-name">Chat Live</div>
+                                    <div class="social-desc">Real-time chat</div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="recent-activity">
+                        <h3 class="activity-title">Recent Activity</h3>
+                        
+                        <div class="activity-item">
+                            <div class="activity-icon">
+                                <i class="fas fa-pen"></i>
+                            </div>
+                            <div class="activity-text">
+                                New blog post published
+                            </div>
+                            <div class="activity-time">2h ago</div>
+                        </div>
+
+                        <div class="activity-item">
+                            <div class="activity-icon">
+                                <i class="fas fa-share"></i>
+                            </div>
+                            <div class="activity-text">
+                                Shared creative inspiration
+                            </div>
+                            <div class="activity-time">1d ago</div>
+                        </div>
+
+                        <div class="activity-item">
+                            <div class="activity-icon">
+                                <i class="fas fa-heart"></i>
+                            </div>
+                            <div class="activity-text">
+                                Appreciated community feedback
+                            </div>
+                            <div class="activity-time">2d ago</div>
+                        </div>
+
+                        <div class="activity-item">
+                            <div class="activity-icon">
+                                <i class="fas fa-book"></i>
+                            </div>
+                            <div class="activity-text">
+                                Working on new project
+                            </div>
+                            <div class="activity-time">3d ago</div>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </section>
     </main>
 
+    <!-- Contact Footer -->
     <footer class="contact-footer">
         <div class="contact-container">
             <div class="contact-info">
@@ -616,7 +290,7 @@
 
     <!-- Scripts -->
     <script src="../js/main.js"></script>
-    <script src="../js/sphere.js"></script>
+    <script src="../js/floating-nav.js"></script>
     <script src="../js/contact.js"></script>
 
     <script>
