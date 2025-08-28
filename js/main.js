@@ -1,4 +1,4 @@
-// Main Site JavaScript
+// Main Site JavaScript - Updated for Floating Navigation
 class KarmakaziSite {
     constructor() {
         this.currentPage = this.getCurrentPage();
@@ -19,6 +19,7 @@ class KarmakaziSite {
         if (path.includes('about')) return 'about';
         if (path.includes('works')) return 'works';
         if (path.includes('blog')) return 'blog';
+        if (path.includes('chat')) return 'chat';
         return 'home';
     }
 
@@ -115,43 +116,47 @@ class KarmakaziSite {
         `;
 
         const videoContainer = document.querySelector('.video-background');
-        videoContainer.appendChild(playOverlay);
+        if (videoContainer) {
+            videoContainer.appendChild(playOverlay);
 
-        playOverlay.addEventListener('click', () => {
-            this.backgroundVideo.play().then(() => {
-                playOverlay.remove();
+            playOverlay.addEventListener('click', () => {
+                this.backgroundVideo.play().then(() => {
+                    playOverlay.remove();
+                });
             });
-        });
+        }
     }
 
     handleVideoError() {
         console.log('Setting up fallback background due to video error');
         const videoContainer = document.querySelector('.video-background');
         
-        // Create fallback background
-        const fallbackBg = document.createElement('div');
-        fallbackBg.className = 'video-fallback';
-        fallbackBg.style.cssText = `
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, #1a1a2e, #16213e, #0f3460);
-            background-size: 400% 400%;
-            animation: gradientShift 15s ease infinite;
-            opacity: 0.8;
-            z-index: 1;
-        `;
-        
-        // Only add fallback if it doesn't already exist
-        if (!videoContainer.querySelector('.video-fallback')) {
-            videoContainer.appendChild(fallbackBg);
-        }
-        
-        // Hide the video element
-        if (this.backgroundVideo) {
-            this.backgroundVideo.style.display = 'none';
+        if (videoContainer) {
+            // Create fallback background
+            const fallbackBg = document.createElement('div');
+            fallbackBg.className = 'video-fallback';
+            fallbackBg.style.cssText = `
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(45deg, #1a1a2e, #16213e, #0f3460);
+                background-size: 400% 400%;
+                animation: gradientShift 15s ease infinite;
+                opacity: 0.8;
+                z-index: 1;
+            `;
+            
+            // Only add fallback if it doesn't already exist
+            if (!videoContainer.querySelector('.video-fallback')) {
+                videoContainer.appendChild(fallbackBg);
+            }
+            
+            // Hide the video element
+            if (this.backgroundVideo) {
+                this.backgroundVideo.style.display = 'none';
+            }
         }
     }
 
@@ -177,7 +182,9 @@ class KarmakaziSite {
         // Handle page exits
         document.addEventListener('click', (e) => {
             const link = e.target.closest('a[href]');
-            if (link && link.hostname === window.location.hostname) {
+            if (link && 
+                link.hostname === window.location.hostname &&
+                !link.classList.contains('nav-item')) { // Don't handle floating nav clicks
                 e.preventDefault();
                 this.transitionToPage(link.href);
             }
@@ -204,13 +211,6 @@ class KarmakaziSite {
     }
 
     handleResize() {
-        // Recalculate sphere positions if needed
-        const sphereContainer = document.querySelector('.sphere-container');
-        if (sphereContainer) {
-            // Trigger reflow for sphere positioning
-            sphereContainer.style.height = window.innerWidth < 768 ? 'auto' : '400px';
-        }
-
         // Adjust video for mobile orientation changes
         if (this.backgroundVideo && this.isMobileDevice()) {
             this.optimizeForMobile();
@@ -218,21 +218,6 @@ class KarmakaziSite {
     }
 
     setupAccessibility() {
-        // Add keyboard navigation for spheres
-        const spheres = document.querySelectorAll('.sphere');
-        spheres.forEach((sphere, index) => {
-            sphere.setAttribute('tabindex', '0');
-            sphere.setAttribute('role', 'button');
-            sphere.setAttribute('aria-label', `Navigate to ${sphere.textContent.trim()}`);
-            
-            sphere.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    sphere.click();
-                }
-            });
-        });
-
         // Add skip link
         this.addSkipLink();
         
@@ -311,7 +296,7 @@ class KarmakaziSite {
             observer.observe(this.backgroundVideo);
         }
 
-        // Preload critical resources
+        // Preload critical resources - UPDATED to remove sphere references
         this.preloadCriticalResources();
 
         // Setup service worker for caching (if available)
@@ -324,16 +309,15 @@ class KarmakaziSite {
         // Only preload if we're on the home page to avoid path issues
         if (this.currentPage === 'home') {
             const criticalResources = [
-                'assets/images/Nebula-texture.jpg',
                 'css/main.css',
-                'css/sphere.css'
+                'css/floating-nav.css' // Updated: use floating-nav.css instead of sphere.css
             ];
 
             criticalResources.forEach(resource => {
                 const link = document.createElement('link');
                 link.rel = 'preload';
                 link.href = resource;
-                link.as = resource.endsWith('.css') ? 'style' : 'image';
+                link.as = 'style';
                 document.head.appendChild(link);
             });
         }
