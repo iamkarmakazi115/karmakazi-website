@@ -23,9 +23,11 @@
             background: linear-gradient(135deg, #000000 0%, #1a0033 50%, #000000 100%);
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
+            padding-top: 15vh;
             z-index: 9999;
             backdrop-filter: blur(10px);
+            overflow-y: auto;
         }
 
         .password-container {
@@ -38,6 +40,8 @@
             backdrop-filter: blur(20px);
             max-width: 400px;
             width: 90%;
+            margin: 0 auto;
+            position: relative;
         }
 
         .password-container h2 {
@@ -306,23 +310,15 @@
     </div>
 
     <script>
-        // Password Protection System
+        // Password Protection System - Requires password on every page load
         const CHAT_PASSWORD = "karmakazi2025"; // ⚠️ CHANGE THIS TO YOUR DESIRED PASSWORD
-        const SESSION_TIMEOUT = 24 * 60 * 60 * 1000; // 24 hours
 
         function checkPassword() {
             const inputPassword = document.getElementById('passwordInput').value;
             const errorMessage = document.getElementById('errorMessage');
             
             if (inputPassword === CHAT_PASSWORD) {
-                // Store authentication with timestamp
-                const authData = {
-                    authenticated: true,
-                    timestamp: Date.now()
-                };
-                localStorage.setItem('chatAuth', JSON.stringify(authData));
-                
-                // Hide password overlay
+                // Hide password overlay (no session storage)
                 document.getElementById('passwordOverlay').classList.add('hidden');
                 errorMessage.textContent = '';
             } else {
@@ -338,21 +334,6 @@
             }
         }
 
-        function checkExistingAuth() {
-            const authData = localStorage.getItem('chatAuth');
-            if (authData) {
-                const parsed = JSON.parse(authData);
-                const now = Date.now();
-                
-                // Check if session is still valid (24 hours)
-                if (parsed.authenticated && (now - parsed.timestamp) < SESSION_TIMEOUT) {
-                    document.getElementById('passwordOverlay').classList.add('hidden');
-                    return true;
-                }
-            }
-            return false;
-        }
-
         // Allow Enter key on password input
         document.getElementById('passwordInput').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
@@ -360,13 +341,14 @@
             }
         });
 
-        // Check for existing authentication on page load
+        // Always show password overlay and focus input on page load
         document.addEventListener('DOMContentLoaded', function() {
-            if (!checkExistingAuth()) {
-                // Focus on password input
-                document.getElementById('passwordInput').focus();
-            }
+            // Always focus on password input since overlay is always shown
+            document.getElementById('passwordInput').focus();
         });
+
+        // Clear any existing authentication data (optional cleanup)
+        localStorage.removeItem('chatAuth');
     </script>
 
     <!-- Scripts -->
