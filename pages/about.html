@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Paul Castro - About Me</title>
     <link rel="stylesheet" href="../css/main.css">
-    <link rel="stylesheet" href="../css/sphere.css">
+    <link rel="stylesheet" href="../css/floating-nav.css">
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
 </head>
 <body>
@@ -24,49 +24,37 @@
             <p>Discover the story behind the creative universe</p>
         </header>
 
-        <!-- 4 Sphere Navigation with Chat Live -->
-        <div class="sphere-container four-sphere-layout">
-            <div class="sphere-carousel">
-                <!-- Home Sphere -->
-                <div class="sphere" data-page="home">
-                    <div class="sphere-inner">
-                        <div class="sphere-face front" data-title="Home"></div>
-                    </div>
-                </div>
-        
-                <!-- About Me Sphere -->
-                <div class="sphere" data-page="about">
-                    <div class="sphere-inner">
-                        <div class="sphere-face front" data-title="About Me"></div>
-                    </div>
-                </div>
-        
-                <!-- My Works Sphere -->
-                <div class="sphere" data-page="works">
-                    <div class="sphere-inner">
-                        <div class="sphere-face front" data-title="My Works"></div>
-                    </div>
-                </div>
-        
-                <!-- Blog Sphere -->
-                <div class="sphere" data-page="blog">
-                    <div class="sphere-inner">
-                        <div class="sphere-face front" data-title="Blog"></div>
-                    </div>
-                </div>
-        
-                <!-- Chat Live Sphere -->
-                <div class="sphere" data-page="chat">
-                    <div class="sphere-inner">
-                        <div class="sphere-face front" data-title="Chat Live"></div>
-                    </div>
-                </div>
-            </div>
+        <!-- Floating Navigation -->
+        <div class="floating-nav-container">
+            <nav class="floating-nav">
+                <a href="#" class="nav-item" data-page="home">
+                    <div class="nav-text">Home</div>
+                </a>
+                <a href="#" class="nav-item current-page" data-page="about">
+                    <div class="nav-text">About Me</div>
+                </a>
+                <a href="#" class="nav-item" data-page="works">
+                    <div class="nav-text">My Works</div>
+                </a>
+                <a href="#" class="nav-item" data-page="blog">
+                    <div class="nav-text">Blog</div>
+                </a>
+                <a href="#" class="nav-item" data-page="chat">
+                    <div class="nav-text">Chat Live</div>
+                </a>
+            </nav>
         </div>
 
         <!-- About Content -->
         <section class="about-content">
-            <!-- Your existing about content here -->
+            <div class="content-wrapper">
+                <h2>About Me</h2>
+                <p>Welcome to my creative universe. I'm Paul Castro, a writer and storyteller who believes in the power of imagination to transcend boundaries and create new realities. My journey through the world of literature has been one of constant exploration, where each story becomes a portal to understanding the deeper mysteries of human existence.</p>
+                
+                <p>Through my works, I invite readers to step beyond the familiar and embrace the unknown. Whether it's the dark psychological depths of "Blood Howls," the time-bending narrative of "Out of Time," or the epic journey through "The Descent" series, each book represents a different facet of the human experience.</p>
+                
+                <p>My writing philosophy centers on the belief that stories have the power to heal, transform, and inspire. Every character I create, every world I build, serves as a mirror reflecting our own struggles, hopes, and dreams.</p>
+            </div>
         </section>
     </main>
 
@@ -103,7 +91,7 @@
 
     <!-- Scripts -->
     <script src="../js/main.js"></script>
-    <script src="../js/sphere.js"></script>
+    <script src="../js/floating-nav.js"></script>
     <script src="../js/contact.js"></script>
 </body>
 </html>
