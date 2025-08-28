@@ -11,8 +11,116 @@
     
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        /* Password Protection Overlay */
+        .password-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #000000 0%, #1a0033 50%, #000000 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            backdrop-filter: blur(10px);
+        }
+
+        .password-container {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(0, 255, 0, 0.3);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(20px);
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .password-container h2 {
+            color: #00ff00;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+        }
+
+        .password-input {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.1rem;
+            border: 2px solid rgba(0, 255, 0, 0.3);
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            color: #00ff00;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .password-input:focus {
+            outline: none;
+            border-color: #00ff00;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+        }
+
+        .password-button {
+            background: linear-gradient(45deg, #00ff00, #00cc00);
+            color: #000;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .password-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 255, 0, 0.3);
+        }
+
+        .error-message {
+            color: #ff4444;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+    </style>
 </head>
 <body class="chat-live-page">
+    <!-- Password Protection Overlay -->
+    <div class="password-overlay" id="passwordOverlay">
+        <div class="password-container">
+            <h2>🔒 Access Required</h2>
+            <p style="color: rgba(255,255,255,0.8); margin-bottom: 20px;">
+                Enter password to access Chat Live
+            </p>
+            <input 
+                type="password" 
+                class="password-input" 
+                id="passwordInput" 
+                placeholder="Enter password..."
+                autocomplete="off"
+            >
+            <button class="password-button" onclick="checkPassword()">
+                Enter Chat
+            </button>
+            <div class="error-message" id="errorMessage"></div>
+        </div>
+    </div>
+
     <!-- Background with about-background.jpg -->
     <div class="background-container">
         <div class="background-image"></div>
@@ -196,6 +304,70 @@
             </div>
         </div>
     </div>
+
+    <script>
+        // Password Protection System
+        const CHAT_PASSWORD = "karmakazi2025"; // ⚠️ CHANGE THIS TO YOUR DESIRED PASSWORD
+        const SESSION_TIMEOUT = 24 * 60 * 60 * 1000; // 24 hours
+
+        function checkPassword() {
+            const inputPassword = document.getElementById('passwordInput').value;
+            const errorMessage = document.getElementById('errorMessage');
+            
+            if (inputPassword === CHAT_PASSWORD) {
+                // Store authentication with timestamp
+                const authData = {
+                    authenticated: true,
+                    timestamp: Date.now()
+                };
+                localStorage.setItem('chatAuth', JSON.stringify(authData));
+                
+                // Hide password overlay
+                document.getElementById('passwordOverlay').classList.add('hidden');
+                errorMessage.textContent = '';
+            } else {
+                errorMessage.textContent = '❌ Incorrect password. Please try again.';
+                document.getElementById('passwordInput').value = '';
+                
+                // Add shake animation
+                const container = document.querySelector('.password-container');
+                container.style.animation = 'shake 0.5s ease-in-out';
+                setTimeout(() => {
+                    container.style.animation = '';
+                }, 500);
+            }
+        }
+
+        function checkExistingAuth() {
+            const authData = localStorage.getItem('chatAuth');
+            if (authData) {
+                const parsed = JSON.parse(authData);
+                const now = Date.now();
+                
+                // Check if session is still valid (24 hours)
+                if (parsed.authenticated && (now - parsed.timestamp) < SESSION_TIMEOUT) {
+                    document.getElementById('passwordOverlay').classList.add('hidden');
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        // Allow Enter key on password input
+        document.getElementById('passwordInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkPassword();
+            }
+        });
+
+        // Check for existing authentication on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!checkExistingAuth()) {
+                // Focus on password input
+                document.getElementById('passwordInput').focus();
+            }
+        });
+    </script>
 
     <!-- Scripts -->
     <script src="../js/floating-nav.js"></script>
