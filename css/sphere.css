@@ -203,8 +203,8 @@
     filter: blur(8px);
 }
 
-/* Chat Live pentagon special indicator */
-.sphere[data-page="chat"] .sphere-face::before {
+/* Chat Live pentagon special indicator - FIXED */
+.sphere[data-page="chat"] .sphere-face[data-title]::before {
     content: '';
     position: absolute;
     top: 15px;
@@ -215,7 +215,7 @@
     border-radius: 50%;
     animation: pulse 2s infinite;
     box-shadow: 0 0 10px #00ff00;
-    z-index: 15;
+    z-index: 25;
 }
 
 @keyframes pulse {
