@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Paul Castro - Home</title>
     <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/sphere.css">
+    <link rel="stylesheet" href="css/floating-nav.css">
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
 </head>
 <body>
@@ -24,48 +24,32 @@
             <p>Welcome to my digital universe</p>
         </header>
 
-        <!-- Horizontal Carousel Navigation -->
-        <div class="sphere-container" id="sphere-container">
-            <!-- Navigation Arrows -->
-            <button class="carousel-nav prev" id="carousel-prev">‹</button>
-            <button class="carousel-nav next" id="carousel-next">›</button>
-            
-            <div class="sphere-carousel" id="sphere-carousel">
-                <!-- About Me Card -->
-                <div class="sphere center" data-page="about">
-                    <div class="sphere-inner">
-                        <div class="sphere-face front" data-title="About Me"></div>
-                    </div>
-                </div>
-
-                <!-- My Works Card -->
-                <div class="sphere side" data-page="works">
-                    <div class="sphere-inner">
-                        <div class="sphere-face front" data-title="My Works"></div>
-                    </div>
-                </div>
-
-                <!-- Blog/Social Media Card -->
-                <div class="sphere side" data-page="blog">
-                    <div class="sphere-inner">
-                        <div class="sphere-face front" data-title="Blog/Social"></div>
-                    </div>
-                </div>
-
-                <!-- Chat Live Card (NEW) -->
-                <div class="sphere side" data-page="chat">
-                    <div class="sphere-inner">
-                        <div class="sphere-face front" data-title="Chat Live"></div>
-                    </div>
-                </div>
-            </div>
+        <!-- Floating Navigation -->
+        <div class="floating-nav-container">
+            <nav class="floating-nav">
+                <a href="#" class="nav-item current-page" data-page="home">
+                    <div class="nav-text">Home</div>
+                </a>
+                <a href="#" class="nav-item" data-page="about">
+                    <div class="nav-text">About Me</div>
+                </a>
+                <a href="#" class="nav-item" data-page="works">
+                    <div class="nav-text">My Works</div>
+                </a>
+                <a href="#" class="nav-item" data-page="blog">
+                    <div class="nav-text">Blog</div>
+                </a>
+                <a href="#" class="nav-item" data-page="chat">
+                    <div class="nav-text">Chat Live</div>
+                </a>
+            </nav>
         </div>
 
         <!-- Welcome Content -->
         <section class="welcome-section">
             <div class="content-wrapper">
                 <h2>Explore My Universe</h2>
-                <p>Navigate through my world using the rotating spheres above. Each sphere will transport you to a different dimension of my work and personality. Connect with me in real-time using Chat Live!</p>
+                <p>Navigate through my world using the floating text above. Each link will transport you to a different dimension of my work and personality. Connect with me in real-time using Chat Live!</p>
             </div>
         </section>
     </main>
@@ -103,7 +87,7 @@
 
     <!-- Scripts -->
     <script src="js/main.js"></script>
-    <script src="js/sphere.js"></script>
+    <script src="js/floating-nav.js"></script>
     <script src="js/contact.js"></script>
 </body>
 </html>
